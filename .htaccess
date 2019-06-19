@@ -1,0 +1,534 @@
+<filesMatch "\.(html|htm|js|css)$">
+  FileETag None
+  <ifModule mod_headers.c>
+     Header unset ETag
+     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+     Header set Pragma "no-cache"
+     Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+  </ifModule>
+</filesMatch>
+
+#For performance and security reasons, this file will have no effect, it's just meant for use in development environments
+############################################
+## overrides deployment configuration mode value
+## use command bin/magento deploy:mode:set to switch modes
+
+#   SetEnv MAGE_MODE developer
+
+############################################
+## uncomment these lines for CGI mode
+## make sure to specify the correct cgi php binary file name
+## it might be /cgi-bin/php-cgi
+
+#    Action php5-cgi /cgi-bin/php5-cgi
+#    AddHandler php5-cgi .php
+
+############################################
+## GoDaddy specific options
+
+#   Options -MultiViews
+
+## you might also need to add this line to php.ini
+##     cgi.fix_pathinfo = 1
+## if it still doesn't work, rename php.ini to php5.ini
+
+############################################
+## this line is specific for 1and1 hosting
+
+    #AddType x-mapp-php5 .php
+    #AddHandler x-mapp-php5 .php
+
+############################################
+## default index file
+
+    DirectoryIndex index.php
+
+<IfModule mod_php5.c>
+############################################
+## adjust memory limit
+
+    php_value memory_limit 756M
+    php_value max_execution_time 18000
+
+############################################
+## disable automatic session start
+## before autoload was initialized
+
+    php_flag session.auto_start off
+
+############################################
+## enable resulting html compression
+
+    #php_flag zlib.output_compression on
+
+###########################################
+## disable user agent verification to not break multiple image upload
+
+    php_flag suhosin.session.cryptua off
+</IfModule>
+<IfModule mod_php7.c>
+############################################
+## adjust memory limit
+
+    php_value memory_limit 756M
+    php_value max_execution_time 18000
+
+############################################
+## disable automatic session start
+## before autoload was initialized
+
+    php_flag session.auto_start off
+
+############################################
+## enable resulting html compression
+
+    #php_flag zlib.output_compression on
+
+###########################################
+## disable user agent verification to not break multiple image upload
+
+    php_flag suhosin.session.cryptua off
+</IfModule>
+<IfModule mod_security.c>
+###########################################
+## disable POST processing to not break multiple image upload
+
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+</IfModule>
+
+<IfModule mod_deflate.c>
+
+############################################
+## enable apache served files compression
+## http://developer.yahoo.com/performance/rules.html#gzip
+
+    # Insert filter on all content
+    ###SetOutputFilter DEFLATE
+    # Insert filter on selected content types only
+    #AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json image/svg+xml
+
+    # Netscape 4.x has some problems...
+    #BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+    # Netscape 4.06-4.08 have some more problems
+    #BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+    # MSIE masquerades as Netscape, but it is fine
+    #BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # Don't compress images
+    #SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+    # Make sure proxies don't deliver the wrong content
+    #Header append Vary User-Agent env=!dont-vary
+
+</IfModule>
+
+<IfModule mod_ssl.c>
+
+############################################
+## make HTTPS env vars available for CGI mode
+
+    SSLOptions StdEnvVars
+
+</IfModule>
+
+############################################
+## workaround for Apache 2.4.6 CentOS build when working via ProxyPassMatch with HHVM (or any other)
+## Please, set it on virtual host configuration level
+
+##    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+############################################
+
+<IfModule mod_rewrite.c>
+
+############################################
+## enable rewrites
+
+    Options +FollowSymLinks
+    RewriteEngine on
+
+############################################
+## you can put here your magento root folder
+## path relative to web root
+
+    ##RewriteBase /magento/
+
+############################################
+## workaround for HTTP authorization
+## in CGI environment
+
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+############################################
+## TRACE and TRACK HTTP methods disabled to prevent XSS attacks
+
+    RewriteCond %{REQUEST_METHOD} ^TRAC[EK]
+    RewriteRule .* - [L,R=405]
+
+############################################
+## redirect for mobile user agents
+
+    #RewriteCond %{REQUEST_URI} !^/mobiledirectoryhere/.*$
+    #RewriteCond %{HTTP_USER_AGENT} "android|blackberry|ipad|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile" [NC]
+    #RewriteRule ^(.*)$ /mobiledirectoryhere/ [L,R=302]
+
+############################################
+## never rewrite for existing files, directories and links
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+
+    Redirect 301 /PRODUCTOS&INDEX=1 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=7&OFFSET=9&ACT=2 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=25&OFFSET=45&ACT=6 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=25&OFFSET=45&ACT=6 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=0&ACT=1&SEARCH=0 https://kalea.com.gt
+    Redirect 301 /SEARCH/315/36/0 https://kalea.com.gt
+    Redirect 301 /SEARCH&OFFSET=288&ACT=33&SEARCH=0 https://kalea.com.gt
+    Redirect 301 /PRODUCTOS/ALFOMBRAS/1&OFFSET=0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=25&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS/SILLAS-PARA-ESCRITORIOS/6&OFFSET=45 https://kalea.com.gt/productos.html?cat=71
+    Redirect 301 /PRODUCTOS&INDEX=21&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=34&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=252&ACT=29&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=1&OFFSET=81&ACT=10 https://kalea.com.gt/productos.html
+    Redirect 301 /TEMPORADA-ACTUAL/DORMITORIOS/5&OFFSET=24 https://kalea.com.gt/productos/ofertas.html
+    Redirect 301 /PRODUCTOS&INDEX=15&OFFSET=18&ACT=3 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS/CLOSETS/1&OFFSET=0 https://kalea.com.gt/productos.html?cat=76
+    Redirect 301 /PRODUCTO-DETALLE/BG0478 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTO-DETALLE/CD0031 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=18&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=28&OFFSET=9&ACT=2 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=24&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=35&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /TE-INSPIRAMOS&CATEGORY=SALAS https://kalea.com.gt/te-inspiramos
+    Redirect 301 /PRODUCTOS/SOFAS-ESQUINEROS-Y-CHAISELOUNGES/2&OFFSET=9 https://kalea.com.gt/productos.html?cat=51
+    Redirect 301 /TE-INSPIRAMOS&CATEGORY=POPULARES https://kalea.com.gt/te-inspiramos
+    Redirect 301 /PRODUCTOS&INDEX=32&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=279&ACT=32&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS/SOFACAMAS/4&OFFSET=27 https://kalea.com.gt/productos.html?cat=50
+    Redirect 301 /PRODUCTOS/SOFACAMAS/4&OFFSET=27 https://kalea.com.gt/productos.html?cat=50
+    Redirect 301 /SEARCH/171/20/0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=225&ACT=26&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=243&ACT=28&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=22&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/225/26/0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=126&ACT=15&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/306/35/0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=216&ACT=25&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /TE-INSPIRAMOS-DETALLE/48 https://kalea.com.gt/te-inspiramos
+    Redirect 301 /PRODUCTOS/MUEBLES-DE-TELEVISION/2&OFFSET=9 https://kalea.com.gt/productos.html?cat=56
+    Redirect 301 /PRODUCTOS&INDEX=15&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=297&ACT=34&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=108&ACT=13&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=99&ACT=12&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=234&ACT=27&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/180/21/0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=198&ACT=23&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTO-DETALLE/AA0778 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/189/22/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTO-DETALLE/AA0758 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=28&OFFSET=45&ACT=6 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/144/17/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=7&OFFSET=18&ACT=3 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=8&OFFSET=18&ACT=3 https://kalea.com.gt/productos.html
+    Redirect 301 /TE-INSPIRAMOS-DETALLE&INDEX=5 https://kalea.com.gt/te-inspiramos
+    Redirect 301 /PRODUCTOS&INDEX=8&OFFSET=45&ACT=6 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTO-DETALLE/BI0027 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=14&OFFSET=36&ACT=5 https://kalea.com.gt/productos.html
+    Redirect 301 /TE-INSPIRAMOS-DETALLE&INDEX=7 https://kalea.com.gt/te-inspiramos
+    Redirect 301 /PRODUCTOS&INDEX=16&OFFSET=9&ACT=2 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=8&OFFSET=36&ACT=5 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=13&OFFSET=18&ACT=3 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTO-DETALLE/JB0911 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/108/13/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=6&OFFSET=18&ACT=3 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=45&ACT=6&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/36/5/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=7&OFFSET=45&ACT=6 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/162/19/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTO-DETALLE/BC0300 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH&OFFSET=153&ACT=18&SEARCH=0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=16&OFFSET=0&ACT=1 https://kalea.com.gt/productos.html
+    Redirect 301 /TEMPORADA-ACTUAL/OFICINAS/6&OFFSET=30 https://kalea.com.gt/productos/ofertas.html
+    Redirect 301 /PRODUCTOS&INDEX=1&OFFSET=54&ACT=7 https://kalea.com.gt/productos.html
+    Redirect 301 /TE-INSPIRAMOS-DETALLE&INDEX=16 https://kalea.com.gt/te-inspiramos
+    Redirect 301 /PRODUCTOS&INDEX=3&OFFSET=9&ACT=2 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/288/33/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=10&OFFSET=27&ACT=4 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=15&OFFSET=45&ACT=6 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS&INDEX=21&OFFSET=18&ACT=3 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/63/8/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTOS/COLCHONES/2&OFFSET=9 https://kalea.com.gt/productos.html
+    Redirect 301 /SEARCH/27/4/0 https://kalea.com.gt/productos.html
+    Redirect 301 /PRODUCTO-DETALLE/CE0169 https://kalea.com.gt/productos.html
+
+
+    Redirect 301 /PRODUCTOS/SILLAS-CON-RODOS/3&OFFSET=18/ https://kalea.com.gt/productos.html
+    Redirect 301 /TEMPORADA-ACTUAL/SALAS/1/ https://kalea.com.gt/productos/ofertas.html
+    Redirect 301 /TE-INSPIRAMOS-DETALLE/38 https://kalea.com.gt/te-inspiramos
+    Redirect 301 /QUIENES-SOMOS/ https://kalea.com.gt/servicios#quienes-somos
+
+############################################
+## rewrite everything else to index.php
+
+    RewriteRule .* index.php [L]
+
+</IfModule>
+
+
+############################################
+## Prevent character encoding issues from server overrides
+## If you still have problems, use the second line instead
+
+    AddDefaultCharset Off
+    #AddDefaultCharset UTF-8
+    AddType 'text/html; charset=UTF-8' html
+
+<IfModule mod_expires.c>
+
+############################################
+## Add default Expires header
+## http://developer.yahoo.com/performance/rules.html#expires
+
+    ExpiresDefault "access plus 1 year"
+    ExpiresByType text/html A0
+    ExpiresByType text/plain A0
+
+</IfModule>
+
+###########################################
+## Deny access to root files to hide sensitive application information
+    RedirectMatch 403 /\.git
+
+    <Files composer.json>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files composer.lock>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files .gitignore>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files .htaccess>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files .htaccess.sample>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files .php_cs.dist>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files .travis.yml>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files CHANGELOG.md>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files COPYING.txt>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files Gruntfile.js>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files LICENSE.txt>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files LICENSE_AFL.txt>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files nginx.conf.sample>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files package.json>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files php.ini.sample>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files README.md>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files auth.json>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+    <Files magento_umask>
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
+    </Files>
+
+# For 404s and 403s that aren't handled by the application, show plain 404 response
+ErrorDocument 404 /pub/errors/404.php
+ErrorDocument 403 /pub/errors/404.php
+
+################################
+## If running in cluster environment, uncomment this
+## http://developer.yahoo.com/performance/rules.html#etags
+
+    #FileETag none
+
+# ######################################################################
+# # INTERNET EXPLORER                                                  #
+# ######################################################################
+
+# ----------------------------------------------------------------------
+# | Document modes                                                     |
+# ----------------------------------------------------------------------
+
+# Force Internet Explorer 8/9/10 to render pages in the highest mode
+# available in the various cases when it may not.
+#
+# https://hsivonen.fi/doctype/#ie8
+#
+# (!) Starting with Internet Explorer 11, document modes are deprecated.
+# If your business still relies on older web apps and services that were
+# designed for older versions of Internet Explorer, you might want to
+# consider enabling `Enterprise Mode` throughout your company.
+#
+# https://msdn.microsoft.com/en-us/library/ie/bg182625.aspx#docmode
+# http://blogs.msdn.com/b/ie/archive/2014/04/02/stay-up-to-date-with-enterprise-mode-for-internet-explorer-11.aspx
+
+<IfModule mod_headers.c>
+
+    Header set X-UA-Compatible "IE=edge"
+
+    # `mod_headers` cannot match based on the content-type, however,
+    # the `X-UA-Compatible` response header should be send only for
+    # HTML documents and not for the other resources.
+
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+        Header unset X-UA-Compatible
+    </FilesMatch>
+
+</IfModule>
+
+#RewriteBase /magento/
+
+#
+#order deny,allow
+#deny from all
+#julian
+#allow from 181.49.90.103
+#pamela
+#allow from 186.31.175.64
+#mario
+#allow from 186.29.56.110
+#james
+#allow from 190.67.186.135
+#Natalia
+#allow from 181.55.155.238
+#gmail
+#allow from ci3.googleusercontent.com
+#allow from ci4.googleusercontent.com 
+#allow from ci5.googleusercontent.com
+#allow from ci6.googleusercontent.com

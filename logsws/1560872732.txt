@@ -1,0 +1,70 @@
+BF0849 Actualizado 
+CE0136 Actualizado 
+CE0158 Actualizado 
+CE0183 Actualizado 
+JA0919 Actualizado 
+JA0775 Actualizado 
+JA0851 Actualizado 
+JB1058 Actualizado 
+JB1059 Actualizado 
+JB0763 Actualizado 
+JB0960 Actualizado 
+JB0967 Actualizado 
+JC0634 Actualizado 
+JC0669 Actualizado 
+AC0286 Actualizado 
+AC0322 Actualizado 
+AB0336 Actualizado 
+AB0342 Actualizado 
+AB0384 Actualizado 
+AB0388 Actualizado 
+AB0324 Actualizado 
+AB0373 Actualizado 
+JB0968 Eliminado 
+AA0874 Eliminado 
+BA1347 Eliminado 
+JB0986 Eliminado 
+JC0778 Eliminado 
+BB0590 Eliminado 
+BA1467 Eliminado 
+IA0322 Eliminado 
+JA0884 Eliminado 
+JB0971 Eliminado 
+BE1063 Eliminado 
+AB0417 Eliminado 
+BF0887 Eliminado 
+BE1059 Eliminado 
+BA1346 Eliminado 
+BE1001 Eliminado 
+CC0551 Eliminado 
+CA0824 Eliminado 
+JA0888 Eliminado 
+JA0784 Eliminado 
+BE1031 Eliminado 
+BE1058 Eliminado 
+BE1081 Eliminado 
+IA0314 Eliminado 
+AA0884 Eliminado 
+CA0915 Eliminado 
+CA0896 Eliminado 
+BA1397 Eliminado 
+BE1066 Eliminado 
+AA0886 Eliminado 
+Error validación producto  Alto 91cm</li></ul><p>Este producto es un cl&aacute;sico del dise&ntilde;o industrial El sku que va eliminar no se encuentra registrado  Alto 91cm</li></ul><p>Este producto es un cl&aacute;sico del dise&ntilde;o industrial
+Error validación producto  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad El sku que va eliminar no se encuentra registrado  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad
+Error validación producto  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad El sku que va eliminar no se encuentra registrado  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad
+Error validación producto  Prof 95 cm El sku que va eliminar no se encuentra registrado  Prof 95 cm
+Error validación producto  Prof 95 cm El sku que va eliminar no se encuentra registrado  Prof 95 cm
+Error validación producto  Prof 95 cm El sku que va eliminar no se encuentra registrado  Prof 95 cm
+Error validación producto  Alto 92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable El sku que va eliminar no se encuentra registrado  Alto 92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable
+Error validación producto  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados El sku que va eliminar no se encuentra registrado  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados
+Error validación producto  Alto 43-92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable El sku que va eliminar no se encuentra registrado  Alto 43-92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable
+Error validación producto  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados El sku que va eliminar no se encuentra registrado  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados
+Error validación producto  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado El sku que va eliminar no se encuentra registrado  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado
+Error validación producto  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado El sku que va eliminar no se encuentra registrado  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado
+Error validación producto  Alto 82cm</li></ul><p>Un sofacama de l&iacute;neas sencillas El sku que va eliminar no se encuentra registrado  Alto 82cm</li></ul><p>Un sofacama de l&iacute;neas sencillas
+Error validación producto  Prof 94cm El sku que va eliminar no se encuentra registrado  Prof 94cm
+Error validación producto  Alto 72cm</li></ul><p>Un sofacama compacto ideal para ambientes casuales y dormitorios peque&ntilde;os donde exista una necesidad de complementar con color El sku que va eliminar no se encuentra registrado  Alto 72cm</li></ul><p>Un sofacama compacto ideal para ambientes casuales y dormitorios peque&ntilde;os donde exista una necesidad de complementar con color
+Se procesaron 67 Productos 
+Ejecutados correctamente : 52
+Fallidos : 15

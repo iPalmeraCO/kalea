@@ -1,0 +1,60 @@
+BF0833 Actualizado 
+BE1091 Actualizado 
+BE1092 Actualizado 
+BB0600 Actualizado 
+Error validación producto CA0840 El sku ya se encuentra registrado CA0840
+CA0566 Actualizado 
+JB1058 Actualizado 
+JB1059 Actualizado 
+AA0508 Actualizado 
+AA0778 Actualizado 
+AA0670 Actualizado 
+AA0671 Actualizado 
+AA0758 Actualizado 
+AA0874 Eliminado 
+BA1347 Eliminado 
+JB0986 Eliminado 
+JC0778 Eliminado 
+BB0590 Eliminado 
+BA1467 Eliminado 
+IA0322 Eliminado 
+JA0884 Eliminado 
+JB0971 Eliminado 
+BE1063 Eliminado 
+AB0417 Eliminado 
+BF0887 Eliminado 
+BE1059 Eliminado 
+BA1346 Eliminado 
+BE1001 Eliminado 
+CC0551 Eliminado 
+CA0824 Eliminado 
+JA0888 Eliminado 
+JA0784 Eliminado 
+BE1031 Eliminado 
+BE1058 Eliminado 
+BE1081 Eliminado 
+IA0314 Eliminado 
+AA0884 Eliminado 
+CA0915 Eliminado 
+CA0896 Eliminado 
+BA1397 Eliminado 
+BE1066 Eliminado 
+AA0886 Eliminado 
+Error validación producto  Alto 91cm</li></ul><p>Este producto es un cl&aacute;sico del dise&ntilde;o industrial El sku que va eliminar no se encuentra registrado  Alto 91cm</li></ul><p>Este producto es un cl&aacute;sico del dise&ntilde;o industrial
+Error validación producto  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad El sku que va eliminar no se encuentra registrado  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad
+Error validación producto  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad El sku que va eliminar no se encuentra registrado  Alto 88cm</li></ul><p>Cuando la prioridad n&uacute;mero uno es la comodidad
+Error validación producto  Prof 95 cm El sku que va eliminar no se encuentra registrado  Prof 95 cm
+Error validación producto  Prof 95 cm El sku que va eliminar no se encuentra registrado  Prof 95 cm
+Error validación producto  Prof 95 cm El sku que va eliminar no se encuentra registrado  Prof 95 cm
+Error validación producto  Alto 92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable El sku que va eliminar no se encuentra registrado  Alto 92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable
+Error validación producto  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados El sku que va eliminar no se encuentra registrado  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados
+Error validación producto  Alto 43-92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable El sku que va eliminar no se encuentra registrado  Alto 43-92cm</li></ul><p>Algunos adjetivos que definen de manera justa a este sofacama podr&iacute;an ser: confortable
+Error validación producto  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados El sku que va eliminar no se encuentra registrado  Alto 89cm</li><li>Sistema click</li></ul><p>Los motivos redondeados
+Error validación producto  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado El sku que va eliminar no se encuentra registrado  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado
+Error validación producto  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado El sku que va eliminar no se encuentra registrado  Alto 83cm</li></ul><p>Un modelo en acolchado en dise&ntilde;o cuadriculado
+Error validación producto  Alto 82cm</li></ul><p>Un sofacama de l&iacute;neas sencillas El sku que va eliminar no se encuentra registrado  Alto 82cm</li></ul><p>Un sofacama de l&iacute;neas sencillas
+Error validación producto  Prof 94cm El sku que va eliminar no se encuentra registrado  Prof 94cm
+Error validación producto  Alto 72cm</li></ul><p>Un sofacama compacto ideal para ambientes casuales y dormitorios peque&ntilde;os donde exista una necesidad de complementar con color El sku que va eliminar no se encuentra registrado  Alto 72cm</li></ul><p>Un sofacama compacto ideal para ambientes casuales y dormitorios peque&ntilde;os donde exista una necesidad de complementar con color
+Se procesaron 57 Productos 
+Ejecutados correctamente : 41
+Fallidos : 16

@@ -1,0 +1,4 @@
+ Error al insertar AB0342 -1
+Se procesaron 1 Productos 
+Insertados correctamente 0
+Fallidos 1

@@ -1,0 +1,5 @@
+BF0859 Actualizado 
+JA0686 Eliminado 
+Se procesaron 2 Productos 
+Ejecutados correctamente : 2
+Fallidos : 0

@@ -1,0 +1,5 @@
+ OK AA0859
+ Error al Actualizar AA0843
+Se procesaron 2 Productos 
+Ejecutados correctamente : 1
+Fallidos : 1

@@ -1,0 +1,52 @@
+BF0861 Insertado 
+BA1345 Insertado 
+BA1443 Insertado 
+BE1053 Insertado 
+BA1445 Insertado 
+BA1426 Insertado 
+BD0265 Insertado 
+Error validación producto BB0586 Subcategoría no encontrada
+Error validación producto BC0320 Subcategoría no encontrada
+Error validación producto BG0519 Subcategoría no encontrada
+Error validación producto BI0083 Subcategoría no encontrada
+CC0607 Insertado 
+CC0525 Insertado 
+CA0871 Insertado 
+CE0159 Insertado 
+IA0287 Insertado 
+IB0065 Insertado 
+JA0801 Insertado 
+JA0775 Insertado 
+JD0094 Insertado 
+JB0980 Insertado 
+JB0962 Insertado 
+JB0967 Insertado 
+JB0292 Insertado 
+Error validación producto JC0655 Subcategoría no encontrada
+AA0859 Insertado 
+AA0873 Insertado 
+AA0871 Insertado 
+AA0828 Insertado 
+AA0843 Insertado 
+AA0693 Insertado 
+AA0874 Insertado 
+AA0872 Insertado 
+AA0868 Insertado 
+AA0869 Insertado 
+AA0838 Insertado 
+AC0293 Insertado 
+AB0404 Insertado 
+AB0426 Insertado 
+AB0335 Insertado 
+AB0336 Insertado 
+AB0340 Insertado 
+AB0342 Insertado 
+AB0417 Insertado 
+AB0384 Insertado 
+AB0387 Insertado 
+AB0388 Insertado 
+AB0324 Insertado 
+AB0373 Insertado 
+Se procesaron 49 Productos 
+Ejecutados correctamente : 44
+Fallidos : 5

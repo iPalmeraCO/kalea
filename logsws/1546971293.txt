@@ -1,0 +1,4 @@
+ OK asc2223
+Error validación producto AC0272 El sku ya se encuentra registrado AC0272
+Error validación producto AC0274 El sku ya se encuentra registrado AC0274
+Error validación producto AC0290 El sku ya se encuentra registrado AC0290

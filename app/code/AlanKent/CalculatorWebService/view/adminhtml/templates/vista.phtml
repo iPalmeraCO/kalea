@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="col">
+		N° del Proceso
+	</div>
+	<div class="col">
+		Estado del Proceso
+	</div>
+	<div class="col">
+		Fecha de Proceso
+	</div>
+	<div class="col">
+		Descargar Log
+	</div>
+</div>
+<?php 
+foreach ($this->getservicios() as $servicio) { ?>
+	<div class="row">		
+		<div class="col"> 
+			<?= $servicio["id"]; ?>
+		</div>
+		<div class="col"> 
+			<?= $this->getestado($servicio["estado"]); ?>
+		</div>
+		<div class="col"> 
+			<?= $servicio["fechainicio"]; ?>
+		</div>
+		<!--<div class="col"> 
+			<?= $servicio["fechafin"]; ?>
+		</div>-->
+		<div class="col">
+			<a href="<?= $block->getBaseUrl(); ?>">Descargar </a>
+		</div>
+		
+	</div>	
+<?php } ?>

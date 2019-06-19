@@ -1,0 +1,9 @@
+BF0878 Actualizado 
+ Error al Actualizar BA1442 El producto con el SKU 'BE1074' no está enlazado al producto con el SKU 'BA1442'
+BE1084 Actualizado 
+BD0265 Actualizado 
+ Error al Actualizar BB0525 El producto con el SKU 'BE1074' no está enlazado al producto con el SKU 'BB0525'
+ Error al Actualizar CC0514 El producto con el SKU 'BE1074' no está enlazado al producto con el SKU 'CC0514'
+Se procesaron 6 Productos 
+Ejecutados correctamente : 3
+Fallidos : 3

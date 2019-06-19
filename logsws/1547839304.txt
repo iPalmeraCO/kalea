@@ -1,0 +1,4 @@
+Error validación producto BF0861 El sku ya se encuentra registrado BF0861
+Se procesaron 1 Productos 
+Insertados correctamente 0
+Fallidos 1

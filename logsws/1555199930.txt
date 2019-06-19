@@ -1,0 +1,52 @@
+Error validación producto AA0868 El sku ya se encuentra registrado AA0868
+Error validación producto AA0869 El sku ya se encuentra registrado AA0869
+Error validación producto AA0838 El sku ya se encuentra registrado AA0838
+Error validación producto AC0293 El sku ya se encuentra registrado AC0293
+Error validación producto AB0404 Subcategoría no encontrada
+Error validación producto AB0426 Subcategoría no encontrada
+Error validación producto AB0335 Subcategoría no encontrada
+Error validación producto AB0336 Subcategoría no encontrada
+Error validación producto AB0340 Subcategoría no encontrada
+Error validación producto JC0655 El sku ya se encuentra registrado JC0655
+Error validación producto AA0859 El sku ya se encuentra registrado AA0859
+Error validación producto AA0873 El sku ya se encuentra registrado AA0873
+Error validación producto AA0871 El sku ya se encuentra registrado AA0871
+Error validación producto AA0828 El sku ya se encuentra registrado AA0828
+Error validación producto AA0843 El sku ya se encuentra registrado AA0843
+Error validación producto AA0693 El sku ya se encuentra registrado AA0693
+Error validación producto AA0874 El sku ya se encuentra registrado AA0874
+Error validación producto AA0872 El sku ya se encuentra registrado AA0872
+Error validación producto JA0801 El sku ya se encuentra registrado JA0801
+Error validación producto JA0775 El sku ya se encuentra registrado JA0775
+Error validación producto JD0094 El sku ya se encuentra registrado JD0094
+Error validación producto JB0980 El sku ya se encuentra registrado JB0980
+Error validación producto JB0962 El sku ya se encuentra registrado JB0962
+Error validación producto JB0967 El sku ya se encuentra registrado JB0967
+Error validación producto JB0292 El sku ya se encuentra registrado JB0292
+Error validación producto BG0519 El sku ya se encuentra registrado BG0519
+Error validación producto BI0083 El sku ya se encuentra registrado BI0083
+Error validación producto CC0607 El sku ya se encuentra registrado CC0607
+Error validación producto CC0525 El sku ya se encuentra registrado CC0525
+Error validación producto CA0871 El sku ya se encuentra registrado CA0871
+Error validación producto CE0159 El sku ya se encuentra registrado CE0159
+Error validación producto IA0287 Categoría no encontrada
+Error validación producto IB0065 Subcategoría no encontrada
+Error validación producto BA1345 El sku ya se encuentra registrado BA1345
+Error validación producto BA1443 El sku ya se encuentra registrado BA1443
+Error validación producto BE1053 El sku ya se encuentra registrado BE1053
+Error validación producto BA1445 El sku ya se encuentra registrado BA1445
+Error validación producto BA1426 El sku ya se encuentra registrado BA1426
+Error validación producto BD0265 El sku ya se encuentra registrado BD0265
+Error validación producto BB0586 El sku ya se encuentra registrado BB0586
+Error validación producto BF0861 El sku ya se encuentra registrado BF0861
+Error validación producto BC0320 El sku ya se encuentra registrado BC0320
+Error validación producto AB0342 Subcategoría no encontrada
+Error validación producto AB0417 Subcategoría no encontrada
+Error validación producto AB0384 Subcategoría no encontrada
+Error validación producto AB0387 Subcategoría no encontrada
+Error validación producto AB0388 Subcategoría no encontrada
+Error validación producto AB0324 Subcategoría no encontrada
+Error validación producto AB0373 Subcategoría no encontrada
+Se procesaron 49 Productos 
+Ejecutados correctamente : 0
+Fallidos : 49

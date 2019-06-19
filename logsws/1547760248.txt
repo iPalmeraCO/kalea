@@ -1,0 +1,7 @@
+Error validación producto 1wscod El sku ya se encuentra registrado 1wscod
+Error validación producto 2wscod El sku ya se encuentra registrado 2wscod
+Error validación producto 3wscod El sku ya se encuentra registrado 3wscod
+Error validación producto 4wscod El sku ya se encuentra registrado 4wscod
+Se procesaron 4 Productos 
+Insertados correctamente 0
+Fallidos 4

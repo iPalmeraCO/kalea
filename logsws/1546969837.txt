@@ -1,0 +1,4 @@
+Error validación producto sku982423 El sku ya se encuentra registrado sku982423
+ OK AC0272
+ OK AC0274
+ OK AC0290

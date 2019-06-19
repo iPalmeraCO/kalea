@@ -1,0 +1,31 @@
+AB0324 Insertado 
+AB0373 Insertado 
+AB0404 Insertado 
+AB0426 Insertado 
+AB0336 Insertado 
+AB0340 Insertado 
+AB0342 Insertado 
+AB0417 Insertado 
+AB0384 Insertado 
+AB0387 Insertado 
+AB0388 Insertado 
+AA0828 Insertado 
+AA0843 Insertado 
+AA0693 Insertado 
+AA0874 Insertado 
+AA0872 Insertado 
+AA0868 Insertado 
+AA0869 Insertado 
+AA0838 Insertado 
+AB0335 Insertado 
+AA0870 Insertado 
+AA0839 Insertado 
+AA0829 Insertado 
+AA0692 Insertado 
+AA0670 Insertado 
+AA0859 Insertado 
+AA0873 Insertado 
+AA0871 Insertado 
+Se procesaron 28 Productos 
+Ejecutados correctamente : 28
+Fallidos : 0

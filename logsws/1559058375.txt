@@ -1,0 +1,6 @@
+BD0265 Actualizado 
+BB0525 Actualizado 
+ Error al Actualizar CC0514 El producto con el SKU 'BB0591' no está enlazado al producto con el SKU 'CC0514'BB0526||BC0300||CD0068
+Se procesaron 3 Productos 
+Ejecutados correctamente : 2
+Fallidos : 1

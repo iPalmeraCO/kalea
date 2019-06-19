@@ -1,0 +1,4 @@
+Error validación producto AB0324 El sku ya se encuentra registrado AB0324
+Se procesaron 1 Productos 
+Ejecutados correctamente : 0
+Fallidos : 1

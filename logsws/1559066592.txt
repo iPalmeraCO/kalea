@@ -1,0 +1,13 @@
+Error validación producto BF0878 El sku que va actualizar no se encuentra registrado BF0878
+Error validación producto BA1442 El sku que va actualizar no se encuentra registrado BA1442
+Error validación producto BE1084 El sku que va actualizar no se encuentra registrado BE1084
+Error validación producto BD0265 El sku que va actualizar no se encuentra registrado BD0265
+Error validación producto BB0525 El sku que va actualizar no se encuentra registrado BB0525
+Error validación producto CC0514 El sku que va actualizar no se encuentra registrado CC0514
+Error validación producto JG0003 El sku que va actualizar no se encuentra registrado JG0003
+Error validación producto JB1059 El sku que va actualizar no se encuentra registrado JB1059
+Error validación producto JB1060 El sku que va actualizar no se encuentra registrado JB1060
+Error validación producto JG0002 El sku que va eliminar no se encuentra registrado JG0002
+Se procesaron 10 Productos 
+Ejecutados correctamente : 0
+Fallidos : 10

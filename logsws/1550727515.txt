@@ -1,0 +1,33 @@
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Nórdico Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Contemporáneo Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Contemporáneo Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Escandinavo Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Escandinavo Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Error validación producto Moderno Subcategoría no encontrada
+Se procesaron 30 Productos 
+Ejecutados correctamente : 0
+Fallidos : 30

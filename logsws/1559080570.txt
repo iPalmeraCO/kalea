@@ -1,0 +1,27 @@
+Error validación producto BF0878 El sku que va actualizar no se encuentra registrado BF0878
+Error validación producto BF0860 El sku que va actualizar no se encuentra registrado BF0860
+Error validación producto BF0881 El sku que va actualizar no se encuentra registrado BF0881
+Error validación producto BF0886 El sku que va actualizar no se encuentra registrado BF0886
+Error validación producto BF0887 El sku que va actualizar no se encuentra registrado BF0887
+Error validación producto BF0876 El sku que va actualizar no se encuentra registrado BF0876
+Error validación producto BA1423 El sku que va actualizar no se encuentra registrado BA1423
+Error validación producto BA1428 El sku que va actualizar no se encuentra registrado BA1428
+Error validación producto BA1441 El sku que va actualizar no se encuentra registrado BA1441
+Error validación producto BA1442 El sku que va actualizar no se encuentra registrado BA1442
+Error validación producto BA1397 El sku que va actualizar no se encuentra registrado BA1397
+Error validación producto BE1084 El sku que va actualizar no se encuentra registrado BE1084
+Error validación producto BE1040 El sku que va actualizar no se encuentra registrado BE1040
+Error validación producto BE0923 El sku que va actualizar no se encuentra registrado BE0923
+Error validación producto BE1066 El sku que va actualizar no se encuentra registrado BE1066
+Error validación producto BE1081 El sku que va actualizar no se encuentra registrado BE1081
+Error validación producto JC0720 El sku que va eliminar no se encuentra registrado JC0720
+Error validación producto BE1061 El sku que va eliminar no se encuentra registrado BE1061
+Error validación producto BA1450 El sku que va eliminar no se encuentra registrado BA1450
+Error validación producto CC0603 El sku que va eliminar no se encuentra registrado CC0603
+Error validación producto JB1026 El sku que va eliminar no se encuentra registrado JB1026
+Error validación producto JB1062 El sku que va eliminar no se encuentra registrado JB1062
+Error validación producto AA0693 El sku que va eliminar no se encuentra registrado AA0693
+Error validación producto JG0002 El sku que va eliminar no se encuentra registrado JG0002
+Se procesaron 24 Productos 
+Ejecutados correctamente : 0
+Fallidos : 24

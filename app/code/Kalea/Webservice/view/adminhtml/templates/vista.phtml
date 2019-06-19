@@ -1,0 +1,156 @@
+<style>
+	.proceso-title{
+		    font-family: 'Roboto Condensed', sans-serif;
+    position: relative;
+    font-weight: 300;
+    font-size: 18px;
+	}
+.line-colors {
+	margin-top: 15px
+}
+.line-colors div:nth-child(1) {
+	background-color: #e3001b
+}
+
+.line-colors div:nth-child(2) {
+	background-color: #b9cd22
+}
+
+.line-colors div:nth-child(3) {
+	background-color: #751e7f
+}
+
+.line-colors div:nth-child(4) {
+	background-color: #f9af00
+}
+
+.line-colors div:nth-child(5) {
+	background-color: #018cd1
+}
+.row.linea-inferior div:nth-of-type(1) {
+    font-weight: 600;
+}
+.line-colors div {
+    width: 20%;
+    float: left;
+    height: 3px;
+}
+.line-colors {
+   
+    width: 100%;
+    height: 3px;
+    background-color: red;
+    left: 0;
+    bottom: 0;
+}
+.row.linea-inferior div:nth-of-type(2) {
+    background: #fafafa;
+    padding: 10px 32px;
+    
+}
+.col.proceso-txt.terminado {
+    position: relative;
+}
+.col.proceso-txt.terminado:before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #b9cd22;
+    position: absolute;
+    border-radius: 50%;
+    top: 14px;
+    left: 15px;
+}
+
+
+.col.proceso-txt.enproceso {
+    position: relative;
+}
+.col.proceso-txt.enproceso:before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #018cd1;
+    position: absolute;
+    border-radius: 50%;
+    top: 14px;
+    left: 15px;
+}
+	.linea-inferior{
+		border-bottom: #cad6dd solid 0.7px;
+	
+	}
+
+	.proceso-txt{
+		font-size: 14px;
+		font-family: 'heebo', sans-serif;
+		margin: 1px 0 1px 0;
+		color: #494b50;
+		    padding: 10px 20px;
+	}
+
+	.txt-descargas a{
+		color: #751e7f;
+		font-weight: 400;
+		text-decoration: underline;
+		
+		/* text-align: end;
+		margin-right: 14%; */
+	}
+
+	.txt-descargas a:hover{
+        color: #b5c831;
+	}
+	.row.linea-inferior div:nth-of-type(4) {
+    color: #95a2aa;
+    /* text-align: right; */
+    text-transform: uppercase;
+    font-size: 13px;
+}
+</style>
+
+<div class="row" style="margin-left: 0; margin-right: 0;">
+	<div class="col proceso-title">
+		N° del Proceso
+	</div>
+	<div class="col proceso-title">
+		Estado del Proceso
+	</div>
+	<div class="col proceso-title">
+		Descargar Log
+	</div>
+	<div class="col proceso-title">
+		Fecha de Proceso
+	</div>
+	
+</div>
+ <div class="line-colors statico">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+<?php 
+foreach ($this->getservicios() as $servicio) { ?>
+	<div class="row linea-inferior"  style="margin-left: 0; margin-right: 0;">		
+		<div class="col proceso-txt"> 
+			<?= $servicio["id"]; ?>
+		</div>
+
+		<div class="col proceso-txt <?= str_replace(' ','',strtolower($this->getestado($servicio["estado"]))); ?>"> 
+			<?= $this->getestado($servicio["estado"]); ?>
+		</div>
+		<div class="col proceso-txt txt-descargas">
+			<a target="_blank" href="<?= $block->getBaseUrl()."logsws/".$servicio["id"];  ?>.txt" download="Estado del Proceso">Descargar <i style="margin-left: 10px;" class="fas fa-download"></i></a>
+		</div>
+		<div class="col proceso-txt"> 
+			<?= $servicio["fechainicio"]; ?>
+		</div>
+		<!--<div class="col"> 
+			<?= $servicio["fechafin"]; ?>
+		</div>-->
+		
+		
+	</div>	
+<?php } ?>

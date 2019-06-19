@@ -1,0 +1,4 @@
+BB0606 Actualizado 
+Se procesaron 1 Productos 
+Ejecutados correctamente : 1
+Fallidos : 0

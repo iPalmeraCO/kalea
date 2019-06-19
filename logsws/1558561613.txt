@@ -1,0 +1,11 @@
+AB0336 Insertado 
+Error validación producto AB0340 El sku ya se encuentra registrado AB0340
+AB0342 Insertado 
+Error validación producto AB0417 El sku ya se encuentra registrado AB0417
+AB0384 Insertado 
+Error validación producto AB0388 El sku ya se encuentra registrado AB0388
+Error validación producto AB0324 El sku ya se encuentra registrado AB0324
+AB0373 Insertado 
+Se procesaron 8 Productos 
+Ejecutados correctamente : 4
+Fallidos : 4

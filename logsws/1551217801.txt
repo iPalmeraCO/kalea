@@ -1,0 +1,52 @@
+Error validación producto AB0342 El sku ya se encuentra registrado AB0342
+Error validación producto AB0417 El sku ya se encuentra registrado AB0417
+Error validación producto AB0384 El sku ya se encuentra registrado AB0384
+Error validación producto AB0387 El sku ya se encuentra registrado AB0387
+Error validación producto AB0388 El sku ya se encuentra registrado AB0388
+Error validación producto AB0324 El sku ya se encuentra registrado AB0324
+Error validación producto AB0373 El sku ya se encuentra registrado AB0373
+Error validación producto AA0868 El sku ya se encuentra registrado AA0868
+Error validación producto AA0869 El sku ya se encuentra registrado AA0869
+Error validación producto AA0838 El sku ya se encuentra registrado AA0838
+AC0293 Insertado 
+Error validación producto AB0404 El sku ya se encuentra registrado AB0404
+Error validación producto AB0426 El sku ya se encuentra registrado AB0426
+Error validación producto AB0335 El sku ya se encuentra registrado AB0335
+Error validación producto AB0336 El sku ya se encuentra registrado AB0336
+Error validación producto AB0340 El sku ya se encuentra registrado AB0340
+Error validación producto JC0655 Subcategoría no encontrada
+Error validación producto AA0859 El sku ya se encuentra registrado AA0859
+Error validación producto AA0873 El sku ya se encuentra registrado AA0873
+Error validación producto AA0871 El sku ya se encuentra registrado AA0871
+Error validación producto AA0828 El sku ya se encuentra registrado AA0828
+Error validación producto AA0843 El sku ya se encuentra registrado AA0843
+Error validación producto AA0693 El sku ya se encuentra registrado AA0693
+Error validación producto AA0874 El sku ya se encuentra registrado AA0874
+Error validación producto AA0872 El sku ya se encuentra registrado AA0872
+JA0801 Insertado 
+JA0775 Insertado 
+JD0094 Insertado 
+JB0980 Insertado 
+JB0962 Insertado 
+JB0967 Insertado 
+JB0292 Insertado 
+Error validación producto BG0519 Subcategoría no encontrada
+Error validación producto BI0083 Subcategoría no encontrada
+CC0607 Insertado 
+CC0525 Insertado 
+CA0871 Insertado 
+CE0159 Insertado 
+IA0287 Insertado 
+IB0065 Insertado 
+BF0861 Insertado 
+BA1345 Insertado 
+BA1443 Insertado 
+BE1053 Insertado 
+BA1445 Insertado 
+BA1426 Insertado 
+BD0265 Insertado 
+Error validación producto BB0586 Subcategoría no encontrada
+Error validación producto BC0320 Subcategoría no encontrada
+Se procesaron 49 Productos 
+Ejecutados correctamente : 21
+Fallidos : 28

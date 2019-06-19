@@ -1,0 +1,5 @@
+ OK AA0859
+ OK AA0843
+Se procesaron 2 Productos 
+Ejecutados correctamente : 2
+Fallidos : 0

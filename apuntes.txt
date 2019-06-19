@@ -1,0 +1,184 @@
+Ver estado de modulos 
+php bin/magento module:status
+php bin/magento setup:static-content:deploy
+Activar modulos
+php bin/magento module:enable Inchoo_Helloworld
+php bin/magento module:disable Magestore_Bannerslider
+sudo -u daemon php bin/magento setup:upgrade
+sudo -u daemon php bin/magento indexer:reindex 
+sudo -u daemon php magento setup:upgrade
+sudo -u apache php magento setup:di:compile
+
+sudo -u magento php bin/magento cache:clean
+sudo -u daemon php bin/magento cache:clean
+ setup:di:compile
+udo -u daemon php bin/magento deploy:mode:show
+sudo -u daemon php bin/magento module:disable Magestore_Bannerslider
+sudo -u daemon php bin/magento deploy:mode:set developer
+sudo -u daemon php bin/magento info:adminuri
+sudo -u daemon php bin/magento setup:static-content:deploy -f
+sudo -u daemon php bin/magento setup:static-content:deploy es_MX -f
+
+deshabilitar version en url 
+update core_config_data set value = 0 where path ='dev/static/sign'
+
+php bin/magento setup:upgrade
+php bin/magento cache:clean
+php bin/magento cache:flush
+php bin/magento setup:upgrade
+sudo -u daemon php bin/magento  catalog:images:resize
+
+copia servidor 
+ sudo tar -zcvf magentooct11_2018.tar.gz htdocs/
+
+sudo mysqldump -u bn_magento -p bitnami_magento > /tmp/kaleaenero9_2019.sql
+password 24831a824d
+
+
+Backup nuevo servidor
+sudo mysqldump -u root -p kalea > /tmp/kaleaenero23_2019.sql
+password Kalea2121 
+
+ver errores magento 
+/var/www/html/pub/errors
+cambiar nombre archivo local-sample.xml por local.xml 
+es yaya y password qFXdzxjcAgR2
+cambiar permisos 
+l# chmod -R -v 777 var
+
+
+Tabla para cambiar la base de datos 
+core_config_data
+
+Ruta js añadir carrito 
+/opt/bitnami/apps/magento/htdocs/vendor/magento/module-catalog/view/frontend/web/js/catalog-add-to-cart.js
+
+quitar lineas bin/magento para windows
+
+Ruta ofertas lo ultimo, ofertas 
+/var/www/html/vendor/magento/module-catalog-widget/view/frontend/templates/product/widget/content
+
+Productos relacionados 
+/var/www/html/vendor/magento/module-catalog/view/frontend/templates/product/list/items.php 
+
+Listado productos carrito de compras
+/var/www/html/vendor/magento/module-checkout/view/frontend/templates/cart/form.phtml
+/var/www/html/vendor/magento/module-checkout/view/frontend/templates/cart/item/default.phtml
+
+Listado de productos por categoria
+/var/www/html/vendor/magento/module-catalog/view/frontend/templates/product/list.phtml
+
+Configuracion base de datos ruta
+/app/etc/env.php
+
+Detalle de producto cantidad
+/var/www/html/vendor/magento/module-catalog/view/frontend/templates/product/view/addtocart.phtml
+
+Modificacion breadcrumb blog 
+/var/www/html/vendor/mageplaza/magento-2-blog-extension/Block/Listpost.phtml
+
+
+Proceso de pago pasos
+/var/www/html/pub/static/frontend/Magento/luma/es_MX/Magento_Checkout/js/view/shipping.js
+
+Editar lineas
+
+Edit vendor/magento/framework/Acl/etc/acl_merged.xsd
+
+Find the line
+
+<xs:attribute name="title" type="typeTitle" use="required" />
+replace with
+
+<xs:attribute name="title" type="typeTitle" use="optional" />
+re-run magento setup:upgrade
+
+
+The issue is that one of your modules doesn't have a title defined in the acl.xml file. The easiest way to fix this is to update in src/vendor/magento/module-integration/Helper/Data.php to have:
+
+$item['data'] = isset($resource['title']) ? $resource['title'] : '';
+
+Access token prueba local
+Consumer key 4ucemhki99x02sil82aoq6fatpl5ktr4
+Consumer secret 6kvrhxx7v6xksesffojln8jvhcl3bf8v
+Access Token bcc77wlerof89mdl1al2999mcyuofc5x
+Access Token Secret e1r8txanwabjo1dxgga3l6atk6o9omfw
+
+Access token produción 
+Consumer key r14vxknjrtyr9rpoq1692fhihta3nd9j
+Consumer Secret fymey435ufh9vwel7k225q6boqdcdqu3
+Access Token 7e0o4fv63id9t7njdghlgb0vgh5ecgvh
+Access Token Secret tw1s0qsle5a3j81do1g8bab0t3crwxg5
+tar -czvf kaleenero182019.tar.gz /var/www/html
+
+
+compilar
+sudo -u daemon php bin/magento setup:upgrade
+sudo chmod 777 generated/ -R
+sudo chmod 777 pub/ -R
+sudo chmod 777 var/ -R
+sudo -u daemon php bin/magento setup:static-content:deploy es_MX -f
+
+Problema xml products 
+magento/module-catalog/view/frontend/layout/catalog_product_view.xml
+
+Ruta static
+/var/www/html/pub/static/frontend/Magento/luma/es_MX/
+
+
+cambiar imagenes json 
+/var/www/html/vendor/magento/module-catalog/view/frontend/templates/product/view/gallery.phtml
+
+Ruta paso 2 
+volver y siguiente 
+
+Ruta modificación imagen carrito de compras 
+/var/www/html/vendor/magento/module-checkout/CustomerData/Defaultitem.php
+
+
+Custom class for filter category
+/var/www/html/vendor/magento/module-catalog-search/Model/Layer/Filter/Category.php
+/var/www/html/vendor/magento/module-layered-navigation/view/frontend/templates/layer/filter.php
+
+Habilitar zoom galeria imagenes 
+/var/www/html/vendor/magento/theme-frontend-luma/etc
+
+
+Numero de orden aleatorio
+/var/www/html/vendor/magento/module-sales-sequence/Model
+
+Permitir 5 direcciones en checkout
+/var/www/html/pub/static/frontend/Magento/luma/es_MX/Magento_Checkout/js/view/shipping.js 
+
+show error magento payment
+
+/var/www/html/vendor/magento/module-checkout/Model/GuestPaymentInformationManagement.php
+
+add to cart product 
+/var/www/html/vendor/magento/module-checkout/Model/Cart 
+add product
+
+Carpetas a copiar despues de compilar
+\var\www\html\pub\static\frontend\Magento\luma\es_MX
+
+css
+images
+jsjuns
+
+Quitar decimales 
+/var/www/html/vendor/magento/framework/Pricing/PriceCurrencyInterface.php
+constan presision= 2 to 0
+/var/www/html/vendor/magento/module-sales/Model
+
+Definir plantilla email de acuerdo al tipo de pago
+/var/www/html/vendor/magento/module-sales/Model/Order/Email/Sender.php
+
+
+Plantilla emails items
+/var/www/html/vendor/magento/module-sales/view/frontend/templates/email/items.phtml
+
+Modificacion para ciudad en checkout 
+/var/www/html/pub/static/frontend/Magento/luma/es_MX/Magento_Checkout/js/action/create-shipping-address.js
+
+Filtro para lo ultimo 
+/var/www/html/vendor/magento/theme-frontend-luma/Magento_LayeredNavigation/templates/layer/view.html

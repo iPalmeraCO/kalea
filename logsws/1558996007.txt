@@ -1,0 +1,12 @@
+BB0580 Eliminado 
+BA1443 Eliminado 
+BE1070 Eliminado 
+BA1451 Eliminado 
+ Error al Eliminar BE0709
+CA0908 Eliminado 
+ Error al Eliminar JA0826
+ Error al Eliminar JC0743
+AA0692 Eliminado 
+Se procesaron 9 Productos 
+Ejecutados correctamente : 6
+Fallidos : 3

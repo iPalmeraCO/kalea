@@ -1,0 +1,10 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd" layout="1column">
+    <body>
+        <referenceContainer name="content">
+            <block class="Inchoo\Helloworld\Block\Helloworld" name="pruebaurl_index" template="helloworld.phtml" />
+        </referenceContainer>
+          <!--<referenceContainer name="content">
+            <block class="Inchoo\Helloworld\Block\Helloworld" name="pruebawebservice" template="helloworld.phtml" />
+        </referenceContainer>-->
+    </body>
+</page>

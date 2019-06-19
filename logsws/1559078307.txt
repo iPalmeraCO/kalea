@@ -1,0 +1,10 @@
+BC0299 Actualizado 
+CC0371 Actualizado 
+CA0848 Actualizado 
+CA0864 Actualizado 
+CD0031 Actualizado 
+JA0901 Actualizado 
+JG0002 Eliminado 
+Se procesaron 7 Productos 
+Ejecutados correctamente : 7
+Fallidos : 0

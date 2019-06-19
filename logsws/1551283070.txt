@@ -1,0 +1,4 @@
+Error validación producto BC0320 Subcategoría no encontrada
+Se procesaron 1 Productos 
+Ejecutados correctamente : 0
+Fallidos : 1

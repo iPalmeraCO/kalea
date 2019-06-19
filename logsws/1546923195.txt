@@ -1,0 +1,5 @@
+Error validación producto AA0870 Categoría no encontrada
+Error validación producto AA0692 Categoría no encontrada
+Error validación producto AA0670 Categoría no encontrada
+Error validación producto AA0839 Categoría no encontrada
+Error validación producto AA0829 Categoría no encontrada

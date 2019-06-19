@@ -1,0 +1,5 @@
+Error validación producto 001 El sku ya se encuentra registrado 001
+Error validación producto 002 El sku ya se encuentra registrado 002
+Se procesaron 2 Productos 
+Ejecutados correctamente : 0
+Fallidos : 2

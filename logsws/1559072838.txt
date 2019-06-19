@@ -1,0 +1,9 @@
+BB0606 Actualizado 
+BF0859 Actualizado 
+BF0860 Actualizado 
+BF0881 Actualizado 
+BF0886 Actualizado 
+BF0887 Actualizado 
+Se procesaron 6 Productos 
+Ejecutados correctamente : 6
+Fallidos : 0

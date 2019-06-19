@@ -1,0 +1,10 @@
+Error validación producto sku9824 El sku ya se encuentra registrado sku9824
+Error validación producto AC0272 Categoría no encontrada
+Error validación producto AC0274 Categoría no encontrada
+Error validación producto AC0290 Categoría no encontrada
+Error validación producto AC0286 Categoría no encontrada
+Error validación producto AC0324 Categoría no encontrada
+Error validación producto AC0293 Categoría no encontrada
+Error validación producto AC0297 Categoría no encontrada
+Error validación producto AC0336 Categoría no encontrada
+Error validación producto AB0400 Categoría no encontrada

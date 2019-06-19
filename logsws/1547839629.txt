@@ -1,0 +1,5 @@
+Error validación producto BF0861 El sku ya se encuentra registrado BF0861
+Error validación producto BA1345 El sku ya se encuentra registrado BA1345
+Se procesaron 2 Productos 
+Insertados correctamente 0
+Fallidos 2

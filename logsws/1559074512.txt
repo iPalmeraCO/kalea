@@ -1,0 +1,14 @@
+BB0606 Actualizado 
+BF0859 Actualizado 
+BF0860 Actualizado 
+BF0881 Actualizado 
+BF0886 Actualizado 
+BF0887 Actualizado 
+BE1001 Actualizado 
+BD0259 Actualizado 
+CC0514 Actualizado 
+IA0231 Actualizado 
+JG0002 Eliminado 
+Se procesaron 11 Productos 
+Ejecutados correctamente : 11
+Fallidos : 0

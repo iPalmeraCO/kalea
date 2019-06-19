@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Kalea_Webservice::manager" title="Web Service Kalea" module="Kalea_Webservice" sortOrder="10" resource="Kalea_Webservice::manager"/>
+        <add id="Kalea_Webservice::contws" title="Ver Procesos" module="Kalea_Webservice" sortOrder="0" parent="Kalea_Webservice::manager"
+                action="webservice/contws" resource="Kalea_Webservice::contws"/>
+    </menu>
+</config>

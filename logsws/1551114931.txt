@@ -1,0 +1,31 @@
+Error validación producto AB0387 El sku ya se encuentra registrado AB0387
+Error validación producto AB0324 El sku ya se encuentra registrado AB0324
+Error validación producto AB0373 El sku ya se encuentra registrado AB0373
+Error validación producto AB0426 El sku ya se encuentra registrado AB0426
+Error validación producto AA0843 El sku ya se encuentra registrado AA0843
+Error validación producto AB0404 El sku ya se encuentra registrado AB0404
+Error validación producto AB0335 El sku ya se encuentra registrado AB0335
+Error validación producto AB0336 El sku ya se encuentra registrado AB0336
+Error validación producto AB0340 El sku ya se encuentra registrado AB0340
+Error validación producto AB0342 El sku ya se encuentra registrado AB0342
+Error validación producto AB0417 El sku ya se encuentra registrado AB0417
+Error validación producto AB0384 El sku ya se encuentra registrado AB0384
+Error validación producto AA0839 El sku ya se encuentra registrado AA0839
+Error validación producto AA0692 El sku ya se encuentra registrado AA0692
+Error validación producto AB0388 El sku ya se encuentra registrado AB0388
+Error validación producto AA0873 El sku ya se encuentra registrado AA0873
+Error validación producto AA0871 El sku ya se encuentra registrado AA0871
+Error validación producto AA0828 El sku ya se encuentra registrado AA0828
+Error validación producto AA0693 El sku ya se encuentra registrado AA0693
+Error validación producto AA0874 El sku ya se encuentra registrado AA0874
+Error validación producto AA0872 El sku ya se encuentra registrado AA0872
+Error validación producto AA0868 El sku ya se encuentra registrado AA0868
+Error validación producto AA0869 El sku ya se encuentra registrado AA0869
+Error validación producto AA0838 El sku ya se encuentra registrado AA0838
+Error validación producto AA0829 El sku ya se encuentra registrado AA0829
+Error validación producto AA0670 El sku ya se encuentra registrado AA0670
+Error validación producto AA0859 El sku ya se encuentra registrado AA0859
+Error validación producto AA0870 El sku ya se encuentra registrado AA0870
+Se procesaron 28 Productos 
+Ejecutados correctamente : 0
+Fallidos : 28

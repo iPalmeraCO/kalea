@@ -1,0 +1,4 @@
+JG0002 Eliminado 
+Se procesaron 1 Productos 
+Ejecutados correctamente : 1
+Fallidos : 0

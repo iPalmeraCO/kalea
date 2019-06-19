@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Alankent_CalculatorWebservice::manager" title="Web Service Kalea" module="Alankent_CalculatorWebservice" sortOrder="10" resource="Alankent_CalculatorWebservice::manager"/>
+        <add id="Alankent_CalculatorWebservice::contws" title="Ver Procesos" module="Alankent_CalculatorWebservice" sortOrder="0" parent="Alankent_CalculatorWebservice::manager"
+                action="webservice/contws" resource="Alankent_CalculatorWebservice::contws"/>
+    </menu>
+</config>

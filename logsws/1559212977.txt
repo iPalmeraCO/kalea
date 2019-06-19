@@ -1,0 +1,16 @@
+CC0603 Eliminado 
+BD0259 Eliminado 
+BA1453 Eliminado 
+CA0840 Eliminado 
+BE1061 Eliminado 
+JB1070 Eliminado 
+JC0719 Eliminado 
+JC0720 Eliminado 
+BA1450 Eliminado 
+JB1026 Eliminado 
+JB1062 Eliminado 
+AA0693 Eliminado 
+JG0002 Eliminado 
+Se procesaron 13 Productos 
+Ejecutados correctamente : 13
+Fallidos : 0

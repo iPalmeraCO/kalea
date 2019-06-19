@@ -1,0 +1,27 @@
+BF0878 Actualizado 
+BF0860 Actualizado 
+BF0881 Actualizado 
+BF0886 Actualizado 
+BF0887 Actualizado 
+BF0876 Actualizado 
+BA1423 Actualizado 
+BA1428 Actualizado 
+BA1441 Actualizado 
+BA1442 Actualizado 
+BA1397 Actualizado 
+BE1084 Actualizado 
+BE1040 Actualizado 
+BE0923 Actualizado 
+BE1066 Actualizado 
+BE1081 Actualizado 
+JC0720 Eliminado 
+BE1061 Eliminado 
+BA1450 Eliminado 
+CC0603 Eliminado 
+JB1026 Eliminado 
+JB1062 Eliminado 
+AA0693 Eliminado 
+JG0002 Eliminado 
+Se procesaron 24 Productos 
+Ejecutados correctamente : 24
+Fallidos : 0

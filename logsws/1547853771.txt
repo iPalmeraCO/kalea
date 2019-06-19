@@ -1,0 +1,5 @@
+ OK AA0859
+Error validación producto AA0843 El sku que va actualizar no se encuentra registrado AA0843
+Se procesaron 2 Productos 
+Ejecutados correctamente : 1
+Fallidos : 1

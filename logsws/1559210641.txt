@@ -1,0 +1,46 @@
+BA1443 Insertado 
+BA1468 Actualizado 
+BD0258 Actualizado 
+BD0260 Actualizado 
+BD0261 Actualizado 
+BD0262 Actualizado 
+BD0259 Eliminado 
+BC0364 Insertado 
+BC0365 Insertado 
+CC0592 Actualizado 
+CC0594 Actualizado 
+CA0916 Insertado 
+CA0566 Insertado 
+CE0136 Actualizado 
+CE0198 Insertado 
+CE0205 Actualizado 
+JA0784 Insertado 
+JB0971 Actualizado 
+JB1071 Actualizado 
+JC0675 Actualizado 
+AA0508 Insertado 
+AA0901 Insertado 
+AA0902 Insertado 
+AC0287 Actualizado 
+AC0293 Actualizado 
+AC0297 Actualizado 
+AC0322 Actualizado 
+AC0348 Actualizado 
+AB0340 Actualizado 
+AB0342 Actualizado 
+AB0417 Actualizado 
+BA1453 Eliminado 
+CA0840 Eliminado 
+JB1070 Eliminado 
+JC0719 Eliminado 
+JC0720 Eliminado 
+BE1061 Eliminado 
+BA1450 Eliminado 
+CC0603 Eliminado 
+JB1026 Eliminado 
+JB1062 Eliminado 
+AA0693 Eliminado 
+JG0002 Eliminado 
+Se procesaron 43 Productos 
+Ejecutados correctamente : 43
+Fallidos : 0
