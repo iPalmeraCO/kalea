@@ -1,0 +1,202 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Form\Edit $block */
+
+
+?>
+<form class="form form-edit-account change-edit" action="<?= $block->escapeUrl($block->getUrl('customer/account/editPost')) ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>" autocomplete="off">
+    <fieldset class="fieldset info">
+        <?= $block->getBlockHtml('formkey') ?>
+        <legend class="title-sub"><span><?= $block->escapeHtml(__('Información de cuenta')) ?></span>
+<div class="line-colors-static">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+        </legend>
+
+
+
+        <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getCustomer())->toHtml() ?>
+
+        <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        <?php $_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
+        <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
+        <?php if ($_dob->isEnabled()): ?>
+            <?= $_dob->setDate($block->getCustomer()->getDob())->toHtml() ?>
+        <?php endif ?>
+        <?php if ($_taxvat->isEnabled()): ?>
+            <?= $_taxvat->setTaxvat($block->getCustomer()->getTaxvat())->toHtml() ?>
+        <?php endif ?>
+        <?php if ($_gender->isEnabled()): ?>
+            <?= $_gender->setGender($block->getCustomer()->getGender())->toHtml() ?>
+        <?php endif ?>
+        <?php $objm = \Magento\Framework\App\ObjectManager::getInstance(); ?>
+        <?php $customerSession = $objm->get('Magento\Customer\Model\Session'); ?>
+
+        <!--<div class="control nit-edit">
+            <i class="far fa-address-card"></i>
+            <input type="text" placeholder="Nit" name="nit" id="nit"title="<?= __('Nit') ?>" class="input-text " data-validate="{required:true, 'validate-integer':true}" value="<?= $customerSession->getCustomer()->getnit(); ?>">
+        </div>-->
+
+        <div class="field required">
+                <!-- <label for="telefono" class="label"><span><?//= __('Teléfono') ?></span></label> -->
+                <div class="control">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" name="telefono" id="telefono"title="<?= __('telefono') ?>"  placeholder="<?= __('Telefono') ?>" class="input-text" data-validate="{required:true}" value="<?= $customerSession->getCustomer()->gettelefono(); ?>">
+                </div>               
+            </div>
+        <div class="field">
+              <div class="control">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" name="celular" id="celular"title="<?= __('celular') ?>"  placeholder="<?= __('celular') ?>" class="input-text" data-validate="{required:true}" value="<?= $customerSession->getCustomer()->getcelular(); ?>">
+                </div>
+        </div>
+            <?php $ecivil=$customerSession->getCustomer()->getecivil(); ?>
+        <div class="field required">
+            <div class="control">
+                    <i class="fas fa-user"></i>
+                    <select name="ecivil" id="ecivil">
+                        <?php if ($ecivil == 1){ ?>
+                            <option value="1" selected>Soltero</option>
+                            <option value="2">Casado</option>  
+                        <?php }else { ?>
+                              <option value="1">Soltero</option>
+                              <option value="2" selected>Casado</option> 
+                        <?php } ?>
+
+                                             
+                    </select>
+                   
+                </div>
+        </div>
+        <div class="field fieldshidden" style="display: none;">
+            <input type="text" placeholder="Nit" name="nit" id="nit"title="<?= __('Nit') ?>" class="input-text" value="<?= $customerSession->getCustomer()->getnit(); ?>">
+            <input type="text" placeholder="idkalea" name="idkalea" id="idkalea" title="<?= __('idkalea') ?>" class="input-text" value="<?= $customerSession->getCustomer()->getidkalea(); ?>">
+             <input type="text" placeholder="cotizacion" name="cotizacion" id="cotizacion" title="<?= __('cotizacion') ?>" class="input-text" value="<?= $customerSession->getCustomer()->getcotizacion(); ?>">
+            
+        </div>
+        <div class="field choice">
+            <input type="checkbox" name="change_email" id="change-email" data-role="change-email" value="1" title="<?= $block->escapeHtmlAttr(__('Change email')) ?>" class="checkbox" />
+            <label class="label" for="change-email"><span><?= $block->escapeHtml(__('Cambiar email')) ?></span></label>
+        </div>
+        <div class="field choice">
+            <input type="checkbox" name="change_password" id="change-password" data-role="change-password" value="1" title="<?= $block->escapeHtmlAttr(__('Cambiar contraseña')) ?>"<?php if ($block->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox" />
+            <label class="label" for="change-password"><span><?= $block->escapeHtml(__('Cambiar contraseña')) ?></span></label>
+        </div>
+    </fieldset>
+
+    <fieldset class="fieldset password" data-container="change-email-password">
+        <legend class="title-sub"><span data-title="change-email-password"><?= $block->escapeHtml(__('Cambiar email y contraseña')) ?></span>
+<div class="line-colors-static">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</legend>
+        <div class="field email required" data-container="change-email">
+          <!--   <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label> -->
+            <div class="control">
+                <input placeholder="email*" type="email" name="email" id="email" autocomplete="email" data-input="change-email" value="<?= $block->escapeHtmlAttr($block->getCustomer()->getEmail()) ?>" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
+            </div>
+        </div>
+        <div class="field password current required">
+            <!-- <label class="label" for="current-password"><span><?= $block->escapeHtml(__('Contraseña actual')) ?></span></label> -->
+            <div class="control">
+                <input placeholder="Contraseña Actual*" type="password" class="input-text" name="current_password" id="current-password" data-input="current-password" autocomplete="off" />
+            </div>
+        </div>
+        <div class="field new password required" data-container="new-password">
+            <!-- <label class="label" for="password"><span><?= $block->escapeHtml(__('Nueva contraseña')) ?></span></label> -->
+            <div class="control">
+                <input placeholder="Nueva contraseña*" type="password" class="input-text" name="password" id="password"
+                    data-password-min-length="<?= $block->escapeHtml($block->getMinimumPasswordLength()) ?>"
+                    data-password-min-character-sets="<?= $block->escapeHtml($block->getRequiredCharacterClassesNumber()) ?>"
+                    data-input="new-password"
+                    data-validate="{required:true, 'validate-customer-password':true}"
+                    autocomplete="off" />
+                <div id="password-strength-meter-container" data-role="password-strength-meter" aria-live="polite">
+                    <div id="password-strength-meter" class="password-strength-meter">
+                        <?= $block->escapeHtml(__('Seguridad de la contraseña')) ?>:
+                        <span id="password-strength-meter-label" data-role="password-strength-meter-label">
+                            <?= $block->escapeHtml(__('Sin contraseña')) ?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field confirm password required" data-container="confirm-password">
+            <!-- <label class="label" for="password-confirmation"><span><?= $block->escapeHtml(__('Confirmar nueva contraseña')) ?></span></label> -->
+            <div class="control">
+                <input placeholder="Confirmar nueva contraseña*" type="password" class="input-text" name="password_confirmation" id="password-confirmation"
+                    data-input="confirm-password"
+                    autocomplete="off" />
+            </div>
+        </div>
+    </fieldset>
+    <?= $block->getChildHtml('form_additional_info') ?>
+    <div class="actions-toolbar">
+        <div class="primary no">
+            <button type="submit" class="action save primary" title="<?= $block->escapeHtmlAttr(__('GUARDAR')) ?>"><span><?= $block->escapeHtml(__('GUARDAR')) ?></span>|<span class="icon-correct"></span></button>
+        </div>
+        <div class="secondary">
+            <a class="action back" href="<?= $block->escapeUrl($block->getBackUrl()) ?>"><span><?= $block->escapeHtml(__('Volver')) ?></span></a>
+        </div>
+    </div>
+</form>
+<script>
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        var dataForm = $('#form-validate');
+        var ignore = <?= /* @noEscape */ $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null' ?>;
+        
+        dataForm.mage('validation', {
+        <?php if ($_dob->isEnabled()): ?>
+            errorPlacement: function(error, element) {
+                if (element.prop('id').search('full') !== -1) {
+                    var dobElement = $(element).parents('.customer-dob'),
+                        errorClass = error.prop('class');
+                    error.insertAfter(element.parent());
+                    dobElement.find('.validate-custom').addClass(errorClass)
+                        .after('<div class="' + errorClass + '"></div>');
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
+            ignore: ':hidden:not(' + ignore + ')'
+        <?php else: ?>
+            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+        <?php endif ?>
+        });
+
+    });
+</script>
+<script type="text/x-magento-init">
+    {
+        "[data-role=change-email], [data-role=change-password]": {
+            "changeEmailPassword": {
+                "titleChangeEmail": "<?= $block->escapeJs($block->escapeHtml(__('Cambiar Email'))) ?>",
+                "titleChangePassword": "<?= $block->escapeJs($block->escapeHtml(__('Cambiar Contraseña'))) ?>",
+                "titleChangeEmailAndPassword": "<?= $block->escapeJs($block->escapeHtml(__('Cambiar email y contraseña'))) ?>"
+            }
+        },
+        "[data-container=new-password]": {
+            "passwordStrengthIndicator": {
+                "formSelector": "form.form-edit-account"
+            }
+        }
+    }
+</script>

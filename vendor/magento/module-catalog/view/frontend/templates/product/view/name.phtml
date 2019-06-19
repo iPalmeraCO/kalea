@@ -1,0 +1,31 @@
+
+<?php
+$product = $block->getProduct();
+$product_name = $product->getName();
+$attr_exists = $product->getResource()->getAttribute('attr_code');
+$title = $product_name;
+$cssClass = $block->getCssClass() ? ' ' . $block->getCssClass() : '';
+
+if ($attr_exists){
+    $attr_name = $product->getAttributeText('attr_code');
+    if (!is_array($attr_name)){
+        $title = "$attr_name $product_name";
+    }
+}
+
+?>
+
+<?php if ($title): ?>
+<div class="page-title-wrapper<?= /* @escapeNotVerified */ $cssClass ?>">
+<h2 class="cateproduct"> <?= $product->getcustomnamecategory() ?></h2>	
+<h2 class="page-title-dos"
+    <?php if ($block->getId()): ?> id="<?= /* @escapeNotVerified */ $block->getId() ?>" <?php endif; ?>
+    <?php if ($block->getAddBaseAttributeAria()): ?>
+        aria-labelledby="<?= /* @escapeNotVerified */ $block->getAddBaseAttributeAria() ?>"
+    <?php endif; ?>>
+    <?= /* @escapeNotVerified */ $title ?>
+</h2>
+<br>
+<?= $block->getChildHtml() ?>
+</div>
+<?php endif; ?>

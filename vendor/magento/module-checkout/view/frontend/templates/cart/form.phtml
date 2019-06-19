@@ -1,0 +1,148 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**  @var $block \Magento\Checkout\Block\Cart\Grid */
+?>
+<?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
+<?= $block->getChildHtml('form_before') ?>
+
+<div class="containerbreadcrumbs arriba" style="padding: 0px; margin-top: 15px;">
+    <div class="breadcrumbs-dos container" style="padding: 0px;">
+    <ul class="items">
+            <li class="item home">
+                    <a href="<?php echo $this->getUrl('') ?>" title="Ir a la Página de Inicio">Inicio</a>
+                </li>
+                <li class="item category60">
+                    <span class="clarito-label">Carrito de compras</span>
+                </li>
+            <li class="item category21">
+                    <p class="clarito-label">Paso 1</p>
+                </li>
+    </ul>
+    </div>
+</div>
+<div class="container steps">
+    <div class="row sub-container">
+        <a href="cart">
+        <div class="icon paso1 active">
+            <span class="icon-step-1"></span>
+            <div class="text-line">
+                <p>Paso <b>1</b></p>
+                <div class="line-colors statico width-peque gris">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+            </div>
+        </div>
+        </a>
+        <div class="line-dotted"></div>
+        <a href="/checkout"> <div class="icon paso2 steppaso2">
+            <span class="icon-step-2"></span>
+            <div class="text-line">
+                <p>Paso <b>2</b></p>
+                <div class="line-colors statico width-peque gris">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+            </div>
+        </div></a>
+        <div class="line-dotted"></div>
+        <a href="">
+            <div class="icon paso2 steppaso3">
+                <span class="icon-step-3"></span>
+                <div class="text-line">
+                    <p>Paso <b>3 </b></p>
+                    <div class="line-colors statico width-peque gris">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+<form action="<?= /* @escapeNotVerified */ $block->getUrl('checkout/cart/updatePost') ?>"
+          method="post"
+          id="form-validate"
+          data-mage-init='{"validation":{}}'
+          class="form form-cart">
+    <?= $block->getBlockHtml('formkey') ?>
+    <div class="cart table-wrapper<?= $mergedCells == 2 ? ' detailed' : '' ?>">
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="cart-products-toolbar cart-products-toolbar-top toolbar" data-attribute="cart-products-toolbar-top"><?= $block->getPagerHtml() ?></div>
+        <?php endif ?>
+        <div id="shopping-cart-table"
+               class="cart items data table"
+               data-mage-init='{"shoppingCart":{"emptyCartButton": "action.clear",
+               "updateCartActionContainer": "#update_cart_action_container"}}'>
+           <!--  <caption role="heading" aria-level="2" class="table-caption"><?= /* @escapeNotVerified */ __('Shopping Cart Items') ?></caption> -->
+            <div class="ca-product">
+                <div class="container-cart">
+                    <div class="col item" scope="col"><span><?= /* @escapeNotVerified */ __('Producto') ?></span></div>
+                    <div class="col price" scope="col"><span><?= /* @escapeNotVerified */ __('Precio Unidad') ?></span></div>
+                    <div class="col qty" scope="col"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></div>
+                    <div class="col subtotal" scope="col"><span><?= /* @escapeNotVerified */ __('Subtotal') ?></span></div>
+                    <div class="col subtotal" scope="col"><span><?= /* @escapeNotVerified */ __('Cancelar') ?></span></div>
+                </div>
+                <div class="line-colors statico">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+            </div>
+            
+             <div class="li-item">   
+            <?php foreach ($block->getItems() as $_item): ?>
+                <?= $block->getItemHtml($_item) ?>
+            <?php endforeach ?>
+            </div>  
+        </div>
+
+      
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="cart-products-toolbar cart-products-toolbar-bottom toolbar" data-attribute="cart-products-toolbar-bottom"><?= $block->getPagerHtml() ?></div>
+        <?php endif ?>
+    </div>
+    <div class="cart main actions">        
+        <?php if ($block->getContinueShoppingUrl()): ?>
+            <a class="action continue buy-continue"
+               href="<?= $block->escapeUrl($block->getContinueShoppingUrl()) ?>"
+               title="<?= $block->escapeHtml(__('Continue Shopping')) ?>">
+                <span><?= /* @escapeNotVerified */ __('VER MÁS PRODUCTOS') ?></span><span class="plus-btn">+</span>
+            </a>
+        <?php endif; ?>
+        <button type="submit"
+                name="update_cart_action"
+                data-cart-empty=""
+                value="empty_cart"
+                title="<?= $block->escapeHtml(__('Clear Shopping Cart')) ?>"
+                class="action clear-btn" id="empty_cart_button">
+            <span><?= /* @escapeNotVerified */ __('Clear Shopping Cart') ?></span>
+        </button>
+        <button type="submit"
+                name="update_cart_action"
+                data-cart-item-update=""
+                value="update_qty"
+                title="<?= $block->escapeHtml(__('Update Shopping Cart')) ?>"
+                class="action update-btn">
+            <span><?= /* @escapeNotVerified */ __('Update Shopping Cart') ?></span>
+        </button>
+        <input type="hidden" value="" id="update_cart_action_container" data-cart-item-update=""/>
+    </div>
+</form>

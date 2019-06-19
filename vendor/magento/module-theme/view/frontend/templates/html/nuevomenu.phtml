@@ -1,0 +1,53 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @var $block \Magento\Theme\Block\Html\Topmenu
+ */
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<!-- <?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+ -->	
+<nav class="navigation navresponsive" data-action="navigation" style="display: none">
+    <ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+        <div class="title-menu">
+        <h4>MENU</h4>
+        <a href="#" class="closemenu">x</a>
+        
+        </div>
+        <div class="line-colors statico">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>" class="link_home">Inicio</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>productos/lo-ultimo.html" class="link_home" id="ult" data-text="Lo último">Lo último</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>productos/ofertas.html" class="link_home" id="ofe" data-text="Ofertas">Ofertas</a></li>
+        <li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>productos.html" class="link_home prod" id="prod" data-text="Productos">Productos</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>te-inspiramos" class="link_home">Te inspiramos</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>servicios" class="link_home">Servicios</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>contacto.html" class="link_home">Contacto</a></li>
+       
+    </ul>
+</nav>
+<div class="separador-header">
+<nav class="filter-categoria container" >
+    <ul>    
+        <li><a class="link-amarillo" href="<?php echo $this->getUrl('') ?>productos/salas.html" id="salf" data-text="Salas"><span class="icon-salas"></span><span class="menu-mobile">Salas</span></a></li>
+    	<li><a class="link-morado" href="<?php echo $this->getUrl('') ?>productos/comedor.html" id="com" data-text="Comedor"><span class="icon-comedor"></span><span class="menu-mobile">Comedor</span></a></li>
+    	<li><a class="link-rojo" href="<?php echo $this->getUrl('') ?>productos/oficina.html" id="ofi" data-text="Oficina"><span class="icon-oficina"></span><span class="menu-mobile">Oficina	</span></a></li>
+    	<li><a class="link-verde" href="<?php echo $this->getUrl('') ?>productos/dormitorio.html" id="dorm" data-text="Dormitorio"><span class="icon-dormitorio"></span><span class="menu-mobile">Dormitorio</span></a></li>
+    </ul>
+</nav>
+</div>

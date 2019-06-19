@@ -1,0 +1,69 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/** @var Magento\Customer\Block\Account\Customer $block */
+?>
+<?php if($block->customerLoggedIn()): ?>
+    <div class="masopciones">
+        <a class="masopcionesmobile" style="display: none">Mas opciones <i class="fas fa-angle-down" style="padding-left: 5px;padding-top: 3px;"></i></a>
+    </div>
+    <style type="text/css">
+        @media (max-width: 767px){
+        .customer-welcome{
+            display: none;
+        }
+        .masopcionesmobile {
+            display: block !important; 
+            width: 100%;    
+            height: 20px;
+        }
+        .masopciones {
+            width: 100%;
+            
+            height: 20px;
+        }
+        }
+
+    </style>
+    <li class="customer-welcome">        
+        <img src="<?php echo $block->getBaseUrl(); ?>/pub/static/frontend/Magento/luma/es_MX/images/iconuser.png" alt="" class="foto-parayayiscustomer">
+        <span class="customer-name"
+              role="link"
+              tabindex="0"
+              data-mage-init='{"dropdown":{}}'
+              data-toggle="dropdown"
+              data-trigger-keypress-button="true"
+              data-bind="scope: 'customer'">
+            <span data-bind="text: customer().fullname"></span>
+            <button type="button"
+                    class="action switch"
+                    tabindex="-1"
+                    data-action="customer-menu-toggle">
+                <span><?= $block->escapeHtml(__('Change')) ?></span>
+            </button>
+        </span>
+        
+        <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "customer": {
+                            "component": "Magento_Customer/js/view/customer"
+                        }
+                    }
+                }
+            }
+        }
+        </script>
+        <?php if($block->getChildHtml()):?>
+        <div class="customer-menu" data-target="dropdown">
+            <?= $block->getChildHtml() ?>
+        </div>
+        <?php endif; ?>        
+    </li>
+<?php endif; ?>

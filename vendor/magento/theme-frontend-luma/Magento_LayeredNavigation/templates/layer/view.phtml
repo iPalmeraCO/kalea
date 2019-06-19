@@ -1,0 +1,141 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @var $block \Magento\LayeredNavigation\Block\Navigation
+ */
+?>
+
+<?php if ($block->canShowBlock()): ?>
+    <div class="block filter" id="layered-filter-block" data-mage-init='{"collapsible":{"openedState": "active", "collapsible": true, "active": false, "collateral": { "openedState": "filter-active", "element": "body" } }}'>
+        <?php $filtered = count($block->getLayer()->getState()->getFilters()) ?>
+        <div class="block-title filter-title" data-count="<?= /* @escapeNotVerified */ $filtered ?>">
+            <!--<strong data-role="title"><?= /* @escapeNotVerified */ __('Shop By') ?></strong>-->
+            <strong data-role="title">Filtrar por</strong>
+        </div>
+        <div class="block-content filter-content">            
+            <?= $block->getChildHtml('state') ?>
+
+            <?php if ($block->getLayer()->getState()->getFilters()): ?>
+                <div class="block-actions filter-actions">
+                    <a href="<?= /* @escapeNotVerified */ $block->getClearUrl() ?>" class="action clear filter-clear"><span><?= /* @escapeNotVerified */ __('Clear All') ?></span></a>
+                </div>
+            <?php endif; ?>
+            <?php $wrapOptions = false; ?>
+            <?php foreach ($block->getFilters() as $filter): ?>
+                <?php if ($filter->getItemsCount()): ?>
+                    <?php if (!$wrapOptions): ?>
+                        <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?= /* @escapeNotVerified */ __('Shopping Options') ?></strong>
+                        <?php $range = implode(' ', range(0, $filter->getItemsCount())); ?>
+                        <div class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": "<?php echo $range; ?>", "multipleCollapsible": true}}'>
+
+                        
+                        <?php 
+                            $objectManager   = \Magento\Framework\App\ObjectManager::getInstance();
+                            $categorycurrent = $objectManager->get('Magento\Framework\Registry')->registry('current_category');//get current category
+                            if ($categorycurrent != null){
+                            $currenturl      = $categorycurrent->getUrl();
+
+
+
+                            if  ($categorycurrent->getId() == 40 || $categorycurrent->getId() == 24){ 
+
+
+                        $categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');// Instance of Category Model
+                        $categoryId = 41; // YOUR CATEGORY ID
+                        $category = $categoryFactory->create()->load($categoryId);
+                        $catcurrent  = $categoryFactory->create()->load($categorycurrent->getId());
+                        // Parent Categories                        
+                        $childrenCategories = $category->getChildrenCategories();
+
+                     
+                        function contadorproductos($category, $categories){
+                            
+                    
+
+                            $categoryProducts = $category->getProductCollection()->addAttributeToSelect('*')->addCategoriesFilter(['in' => $categories]);
+                            return count($categoryProducts);
+                            
+                        }
+
+                        
+                        ?>
+                        <div data-role="title" class="filter-options-title" role="tab" aria-selected="false" aria-expanded="true" tabindex="0">Categoría</div>
+                        <div class="containercategories">
+                        <?php
+                        foreach ($childrenCategories as $child) {
+                            //echo  $child->getId();
+                            if ($categorycurrent->getId() != $child->getId()){
+                                $cont = contadorproductos($catcurrent,array($child->getId()));
+
+                                echo "<div class='item' data-count='".$cont."'><a href='".$currenturl."?cat=".$child->getId()."'>".$child->getName()." </a>";
+
+                                $catsub = $categoryFactory->create()->load($child->getId());
+                                $catsub = $catsub->getChildrenCategories();
+                                foreach ($catsub as $cat2) {
+                                    $cont =contadorproductos($catcurrent,array($cat2->getId()));
+
+                                    if ($cont != 0){
+                                        echo "<div class='itemsub'><a href='".$currenturl."?cat=".$cat2->getId()."'>".$cat2->getName()." <span class='count'>(".$cont.")</span></a>";
+                                            $catsub2 = $categoryFactory->create()->load($cat2->getId());
+                                            $catsub2 = $catsub2->getChildrenCategories();
+                                            foreach ($catsub2 as $cat3) {
+                                                $cont = contadorproductos($catcurrent,array($cat3->getId()));
+                                                if ($cont != 0 ){
+                                                echo "<div class='itemsub2'>
+                                                        <a href='".$currenturl."?cat=".$cat3->getId()."'>".$cat3->getName()." <span class='count'>(".$cont.")</span></a></div>";
+                                                }
+                                            }
+                                        echo "</div>";
+                                    }
+                                }
+                                echo "</div>";
+                            }
+                               # code...
+                        }
+                        // Children  Categories
+                        
+                            
+                        ?>
+                        </div>    
+                        <script type="text/javascript">
+                        require(['jquery'],function($){
+                            $( "div[data-count='0']" ).each(function( index ) {
+                              if ($( this ).find("div").length == 0 ){
+                                $(this).remove();
+                              }
+                            });                    
+                        }); 
+                        </script>
+                        <?php } 
+                        }
+                        ?>
+                    <?php  $wrapOptions = true; endif; ?>
+                    <div data-role="collapsible" class="filter-options-item">
+                        <div data-role="title" class="filter-options-title"><?= /* @escapeNotVerified */ __($filter->getName()) ?></div>
+                        <div data-role="content" class="filter-options-content"><?= /* @escapeNotVerified */ $block->getChildBlock('renderer')->render($filter) ?></div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php if ($wrapOptions): ?>
+                </div>
+            <?php else: ?>
+                <script>
+                    require([
+                        'jquery'
+                    ], function ($) {
+                        $('#layered-filter-block').addClass('filter-no-options');
+                    });
+                </script>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

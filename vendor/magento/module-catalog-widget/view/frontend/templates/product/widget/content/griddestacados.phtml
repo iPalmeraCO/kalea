@@ -1,0 +1,416 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
+<?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $description = false;
+    $contador= $block->getProductCollection()->getSize();
+    $prs = $block->getProductCollection();       
+?>
+
+  
+<div class="container" id="destacados" >
+    <?php if ($contador > 0) { ?>
+   <div class="row">
+      <div class="col-sm-12 col-md-3 block-products">       
+        
+         <div class="row">
+            <?php if ($contador >= 1) { ?>
+                <h1 style="color:red"><?php //print_r($productos); ?></h1>
+            <div class="col-sm-12 list_product_pequeno izq-product">
+               <div class="content_list_product_pequeno">
+                  <div class="name__info">
+                     <?php $_item = $prs->getFirstItem(); ?>
+                     <h3><b><?= $block->escapeHtml($_item->getName()); ?></b></h3>
+                     <h4><b></b><?= $block->getProductPriceHtml($_item, $type); ?></h4>
+                     
+                  </div>
+                  <a href="<?= $block->escapeUrl($block->getProductUrl($_item)); ?>">
+                            <?= $_item->getImageKaleaHtml(); ?>
+                    </a>
+
+                   <?php if ($showWishlist || $showCompare): ?>
+                      <div class="actions-secondary" data-role="add-to-links">
+                          <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                              <a href="#"
+                                 data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist favourite" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                  <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                  <i class="far fa-heart"></i>
+                              </a>
+                          <?php endif; ?>                                
+                      </div>
+                    <?php endif; ?>
+                    <div class="franja"> </div>
+                   <?php if ($showCart): ?>
+                          
+                              <?php if ($_item->isSaleable()): ?>
+                                  <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                      <button class="action tocart primary"
+                                              data-mage-init='{"redirectUrl":{"url":"<?= /* @escapeNotVerified */ $block->getAddToCartUrl($_item) ?>"}}'
+                                              type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+                                          <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                      </button>
+                                  <?php else: ?>
+                                      <?php
+                                          $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                          $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()]);
+                                          $widgetdata = json_decode($postData);
+                                      ?>
+                                      <div class="content__cart">  
+                                         <form data-role="tocart-form" data-product-sku="<?= /* @NoEscape */ $_item->getSku() ?>" action="<?= /* @NoEscape */ $widgetdata->action ?>" method="post">
+                                           <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $widgetdata->data->product ?>">
+                                           <!--<input type="hidden" name="<? //= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED   ?>" value="<? //= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]   ?>">-->
+                                          <?= $block->getBlockHtml('formkey') ?>
+                                          <button type="submit" title="<?= $block->escapeHtml(__('Add to Cart')) ?>" class="cart-2 carthome">
+                                              <span class="icon-carrito"></span>
+                                          </button>
+                                        </form>
+                                        
+                                        <a class="arrow buynowloultimo">
+                                        <i class="far fa-credit-card"></i>                                        
+                                        </a>
+
+                                     </div>
+
+                                      
+                                  <?php endif; ?>
+                              <?php else: ?>
+                                  <?php if ($_item->getIsSalable()): ?>
+                                      <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                  <?php else: ?>
+                                      <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                  <?php endif; ?>
+                              <?php endif; ?>
+                          
+                      <?php endif; ?>
+                    <?= $_item->getsocialshare($block->escapeUrl($block->getProductUrl($_item))); ?>
+                    <a  class="plus togglesocialnetworks"><i class="fas fa-share-alt"></i></a>
+               </div>
+            </div>
+            <?php $prs->removeItemByKey($_item->getId()); } ?>
+            <?php if ($contador >= 2) { ?>
+            <div class="col-sm-12  list_product_pequeno izq-product">
+               <div class="content_list_product_pequeno">
+                  <div class="name__info">
+                     <?php $_item = $prs->getFirstItem(); ?>
+                     <h3><b><?= $block->escapeHtml($_item->getName()); ?></b></h3>
+                     <h4><b></b><?= $block->getProductPriceHtml($_item, $type); ?></h4>
+                     
+                  </div>
+                  <a href="<?= $block->escapeUrl($block->getProductUrl($_item)); ?>">
+                            <?= $_item->getImageKaleaHtml(); ?>
+                    </a>
+
+                   <?php if ($showWishlist || $showCompare): ?>
+                      <div class="actions-secondary" data-role="add-to-links">
+                          <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                              <a href="#"
+                                 data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist favourite" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                  <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                  <i class="far fa-heart"></i>
+                              </a>
+                          <?php endif; ?>                                
+                      </div>
+                    <?php endif; ?>
+                    <div class="franja"> </div>
+                   <?php if ($showCart): ?>
+                          
+                              <?php if ($_item->isSaleable()): ?>
+                                  <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                      <button class="action tocart primary"
+                                              data-mage-init='{"redirectUrl":{"url":"<?= /* @escapeNotVerified */ $block->getAddToCartUrl($_item) ?>"}}'
+                                              type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+                                          <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                      </button>
+                                  <?php else: ?>
+                                      <?php
+                                          $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                          $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()]);
+                                          $widgetdata = json_decode($postData);
+                                      ?>
+                                      <div class="content__cart">  
+                                         <form data-role="tocart-form" data-product-sku="<?= /* @NoEscape */ $_item->getSku() ?>" action="<?= /* @NoEscape */ $widgetdata->action ?>" method="post">
+                                           <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $widgetdata->data->product ?>">
+                                           <!--<input type="hidden" name="<? //= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED   ?>" value="<? //= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]   ?>">-->
+                                          <?= $block->getBlockHtml('formkey') ?>
+                                          <button type="submit" title="<?= $block->escapeHtml(__('Add to Cart')) ?>" class="cart-2 carthome">
+                                              <span class="icon-carrito"></span>
+                                          </button>
+                                        </form>
+                                        
+                                        <a class="arrow buynowloultimo">
+                                        <i class="far fa-credit-card"></i>                                        
+                                        </a>
+
+                                     </div>
+
+                                      
+                                  <?php endif; ?>
+                              <?php else: ?>
+                                  <?php if ($_item->getIsSalable()): ?>
+                                      <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                  <?php else: ?>
+                                      <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                  <?php endif; ?>
+                              <?php endif; ?>
+                          
+                      <?php endif; ?>
+                    <?= $_item->getsocialshare($block->escapeUrl($block->getProductUrl($_item))); ?>
+                    <a  class="plus togglesocialnetworks"><i class="fas fa-share-alt"></i></a>
+               </div>
+            </div>
+            <?php $prs->removeItemByKey($_item->getId()); } ?>
+                       
+         </div>
+      </div>
+      <?php if ($contador >= 3) { ?>
+      <div class="col-sm-12 col-md-6 block-products">
+          <div class="col-sm-12 content_list " id="big-product">
+           <div class="list-product">
+                  <div class="name__info">
+                     <?php $_item = $prs->getFirstItem(); ?>
+                     <h3><b><?= $block->escapeHtml($_item->getName()); ?></b></h3>
+                     <h4><b></b><?= $block->getProductPriceHtml($_item, $type); ?></h4>
+                     
+                  </div>
+                  <a href="<?= $block->escapeUrl($block->getProductUrl($_item)); ?>">
+                            <?= $_item->getImageKaleaHtml(); ?>
+                    </a>
+
+                   <?php if ($showWishlist || $showCompare): ?>
+                      <div class="actions-secondary" data-role="add-to-links">
+                          <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                              <a href="#"
+                                 data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist favourite" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                  <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                  <i class="far fa-heart"></i>
+                              </a>
+                          <?php endif; ?>                                
+                      </div>
+                    <?php endif; ?>
+                    <div class="franja"> </div>
+                   <?php if ($showCart): ?>
+                          
+                              <?php if ($_item->isSaleable()): ?>
+                                  <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                      <button class="action tocart primary"
+                                              data-mage-init='{"redirectUrl":{"url":"<?= /* @escapeNotVerified */ $block->getAddToCartUrl($_item) ?>"}}'
+                                              type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+                                          <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                      </button>
+                                  <?php else: ?>
+                                      <?php
+                                          $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                          $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()]);
+                                          $widgetdata = json_decode($postData);
+                                      ?>
+                                      <div class="content__cart">  
+                                         <form data-role="tocart-form" data-product-sku="<?= /* @NoEscape */ $_item->getSku() ?>" action="<?= /* @NoEscape */ $widgetdata->action ?>" method="post">
+                                           <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $widgetdata->data->product ?>">
+                                           <!--<input type="hidden" name="<? //= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED   ?>" value="<? //= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]   ?>">-->
+                                          <?= $block->getBlockHtml('formkey') ?>
+                                          <button type="submit" title="<?= $block->escapeHtml(__('Add to Cart')) ?>" class="cart-2 carthome">
+                                              <span class="icon-carrito"></span>
+                                          </button>
+                                        </form>
+                                        
+                                        <a class="arrow buynowloultimo">
+                                        <i class="far fa-credit-card"></i>                                        
+                                        </a>
+
+                                     </div>
+
+                                      
+                                  <?php endif; ?>
+                              <?php else: ?>
+                                  <?php if ($_item->getIsSalable()): ?>
+                                      <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                  <?php else: ?>
+                                      <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                  <?php endif; ?>
+                              <?php endif; ?>
+                          
+                      <?php endif; ?>
+                    <?= $_item->getsocialshare($block->escapeUrl($block->getProductUrl($_item))); ?>
+                    <a  class="plus togglesocialnetworks"><i class="fas fa-share-alt"></i></a>
+               </div>
+         </div>
+      </div>
+      <?php $prs->removeItemByKey($_item->getId()); } ?>
+      <?php if ($contador >= 4) { ?>
+      <div class="col-sm-12 col-md-3 block-products">
+          <div class="row">
+            <div class="col-sm-12  list_product_pequeno der-product">
+               <div class="content_list_product_pequeno">
+                  <div class="name__info">
+                     <?php $_item = $prs->getFirstItem(); ?>
+                     <h3><b><?= $block->escapeHtml($_item->getName()); ?></b></h3>
+                     <h4><b></b><?= $block->getProductPriceHtml($_item, $type); ?></h4>
+                     
+                  </div>
+                  <a href="<?= $block->escapeUrl($block->getProductUrl($_item)); ?>">
+                            <?= $_item->getImageKaleaHtml(); ?>
+                    </a>
+
+                   <?php if ($showWishlist || $showCompare): ?>
+                      <div class="actions-secondary" data-role="add-to-links">
+                          <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                              <a href="#"
+                                 data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist favourite" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                  <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                  <i class="far fa-heart"></i>
+                              </a>
+                          <?php endif; ?>                                
+                      </div>
+                    <?php endif; ?>
+                    <div class="franja"> </div>
+                   <?php if ($showCart): ?>
+                          
+                              <?php if ($_item->isSaleable()): ?>
+                                  <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                      <button class="action tocart primary"
+                                              data-mage-init='{"redirectUrl":{"url":"<?= /* @escapeNotVerified */ $block->getAddToCartUrl($_item) ?>"}}'
+                                              type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+                                          <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                      </button>
+                                  <?php else: ?>
+                                      <?php
+                                          $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                          $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()]);
+                                          $widgetdata = json_decode($postData);
+                                      ?>
+                                      <div class="content__cart">  
+                                         <form data-role="tocart-form" data-product-sku="<?= /* @NoEscape */ $_item->getSku() ?>" action="<?= /* @NoEscape */ $widgetdata->action ?>" method="post">
+                                           <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $widgetdata->data->product ?>">
+                                           <!--<input type="hidden" name="<? //= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED   ?>" value="<? //= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]   ?>">-->
+                                          <?= $block->getBlockHtml('formkey') ?>
+                                          <button type="submit" title="<?= $block->escapeHtml(__('Add to Cart')) ?>" class="cart-2 carthome">
+                                              <span class="icon-carrito"></span>
+                                          </button>
+                                        </form>
+                                        
+                                        <a class="arrow buynowloultimo">
+                                        <i class="far fa-credit-card"></i>                                        
+                                        </a>
+
+                                     </div>
+
+                                      
+                                  <?php endif; ?>
+                              <?php else: ?>
+                                  <?php if ($_item->getIsSalable()): ?>
+                                      <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                  <?php else: ?>
+                                      <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                  <?php endif; ?>
+                              <?php endif; ?>
+                          
+                      <?php endif; ?>
+                    <?= $_item->getsocialshare($block->escapeUrl($block->getProductUrl($_item))); ?>
+                    <a  class="plus togglesocialnetworks"><i class="fas fa-share-alt"></i></a>
+               </div>
+            </div>
+            <?php $prs->removeItemByKey($_item->getId()); 
+            if ($contador >= 5) { ?>
+            <div class="col-sm-12  list_product_pequeno der-product">
+               <div class="content_list_product_pequeno">
+                  <div class="name__info">
+                     <?php $_item = $prs->getFirstItem(); ?>
+                     <h3><b><?= $block->escapeHtml($_item->getName()); ?></b></h3>
+                     <h4><b></b><?= $block->getProductPriceHtml($_item, $type); ?></h4>
+                     
+                  </div>
+                  <a href="<?= $block->escapeUrl($block->getProductUrl($_item)); ?>">
+                            <?= $_item->getImageKaleaHtml(); ?>
+                    </a>
+
+                   <?php if ($showWishlist || $showCompare): ?>
+                      <div class="actions-secondary" data-role="add-to-links">
+                          <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                              <a href="#"
+                                 data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist favourite" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                  <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                  <i class="far fa-heart"></i>
+                              </a>
+                          <?php endif; ?>                                
+                      </div>
+                    <?php endif; ?>
+                    <div class="franja"> </div>
+                   <?php if ($showCart): ?>
+                          
+                              <?php if ($_item->isSaleable()): ?>
+                                  <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                      <button class="action tocart primary"
+                                              data-mage-init='{"redirectUrl":{"url":"<?= /* @escapeNotVerified */ $block->getAddToCartUrl($_item) ?>"}}'
+                                              type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+                                          <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                      </button>
+                                  <?php else: ?>
+                                      <?php
+                                          $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                          $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()]);
+                                          $widgetdata = json_decode($postData);
+                                      ?>
+                                      <div class="content__cart">  
+                                         <form data-role="tocart-form" data-product-sku="<?= /* @NoEscape */ $_item->getSku() ?>" action="<?= /* @NoEscape */ $widgetdata->action ?>" method="post">
+                                           <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $widgetdata->data->product ?>">
+                                           <!--<input type="hidden" name="<? //= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED   ?>" value="<? //= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]   ?>">-->
+                                          <?= $block->getBlockHtml('formkey') ?>
+                                          <button type="submit" title="<?= $block->escapeHtml(__('Add to Cart')) ?>" class="cart-2 carthome">
+                                              <span class="icon-carrito"></span>
+                                          </button>
+                                        </form>
+                                        
+                                        <a class="arrow buynowloultimo">
+                                        <i class="far fa-credit-card"></i>                                        
+                                        </a>
+
+                                     </div>
+
+                                      
+                                  <?php endif; ?>
+                              <?php else: ?>
+                                  <?php if ($_item->getIsSalable()): ?>
+                                      <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                  <?php else: ?>
+                                      <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                  <?php endif; ?>
+                              <?php endif; ?>
+                          
+                      <?php endif; ?>
+                    <?= $_item->getsocialshare($block->escapeUrl($block->getProductUrl($_item))); ?>
+                    <a  class="plus togglesocialnetworks"><i class="fas fa-share-alt"></i></a>
+               </div>
+            </div>
+            <?php } ?>
+                       
+         </div>
+      </div>
+      <?php } ?>
+   </div>
+   <?php } else { ?>
+    <h1>NO HAY PRODUCTOS <?php echo $contador; ?></h1>
+    <?php } ?>
+
+</div>
+<a class="btn boton-read-more float-right" href="destacados.html">VER MÁS </a>
+
+<?php endif;?>

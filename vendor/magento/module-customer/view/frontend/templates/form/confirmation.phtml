@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Framework\View\Element\Template $block */
+?>
+<form action="" method="post" id="form-validate" class="form send confirmation" data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Campos Requeridos')) ?>">
+        <p class="field note"><?= $block->escapeHtml(__('
+Por favor ingrese su correo electrónico a continuación y le enviaremos el enlace de confirmación.')) ?></p>
+        <div class="field email required">
+            <label for="email_address" class="label"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+            <div class="control">
+                <input type="email" name="email" id="email_address" class="input-text" value="<?= $block->escapeHtmlAttr($block->getEmail()) ?>" data-validate="{required:true, 'validate-email':true}">
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action send primary"><span><?= $block->escapeHtml(__('
+Enviar enlace de confirmación')) ?></span></button>
+        </div>
+        <div class="secondary">
+            <a href="<?= $block->escapeUrl($block->getLoginUrl()) ?>" class="action back"><span><?= $block->escapeHtml(__('
+Volver a iniciar sesión')) ?></span></a>
+        </div>
+    </div>
+</form>

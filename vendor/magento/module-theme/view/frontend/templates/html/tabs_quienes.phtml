@@ -1,0 +1,73 @@
+<?php
+   /**
+    * Copyright © Magento, Inc. All rights reserved.
+    * See COPYING.txt for license details.
+    */
+   
+   // @codingStandardsIgnoreFile
+   
+   ?>
+<?php
+   /**
+    * Top menu for store
+    *
+    * @var $block \Magento\Theme\Block\Html\Topmenu
+    */
+   ?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<!-- <?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+   -->
+<div class="row">
+   <div id="nav-tabContent" class="tab-content">
+      <div id="bima" class="tab-pane fade show active">
+         <div class="row">
+            <div class="col-md-6"><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/bima.jpg " alt="" /></div>
+            <div class="col-md-6">Kalea inició actividades durante el año de 1998. Comenzó como una franquicia colombiana llamada Bima.123</div>
+         </div>
+      </div>
+      <div id="equipo" class="tab-pane fade">
+         <div class="row">
+            <div class="col-md-6"><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/equipo.jpg" width="817" height="387" /></div>
+            <div class="col-md-6">Este es nuestro primer equipo. Comenzamos siendo 20 personas, ¡hoy somos 80!</div>
+         </div>
+      </div>
+      <div id="inicios" class="tab-pane fade">
+         <div class="row">
+            <div class="col-md-6"><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg//nace-kalea.jpg" width="817" height="387" /></div>
+            <div class="col-md-6">En el año 2000, la empresa se independiza y se convierte en Kalea. La mayoría de sus productos vienen ahora de Dinamarca. El enfoque de vender muebles y accesorios modernos sigue igual, pero con Kalea nace un lugar que, más que vender muebles y accesorios, se dedica a promover un estilo de vida moderno.</div>
+         </div>
+      </div>
+      <div id="progreso" class="tab-pane fade">
+         <div class="row">
+            <div class="col-md-6"><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/inaguraciones.jpg" width="817" height="387" /></div>
+            <div class="col-md-6">En el año 2003, gracias al Éxito de su primera tienda, Kalea abre su segundo almacén en Paseo Miraflores. Los años entre 2004 y 2010 ven muchas inaguraciones: se abre un tercer almacén en Carretera a El Salvador,se abre un cuarto almacén adentro del Centro Comercial Miraflores, se amplía el primer almacén en zona 10 y se desarrolla la franquicia Kalea con un almacén en El Salvador. ¡Definitivamente el concepto es un Éxito!</div>
+         </div>
+      </div>
+      <div id="actualidad" class="tab-pane fade">
+         <div class="row">
+            <div class="col-md-6"><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/hoy.jpg" width="817" height="387" /></div>
+            <div class="col-md-6">Hoy, Kalea es sinónimo de estilo de vida moderno. Gracias a su visión, a sus productos, a sus empleados y a usted, el futuro de Kalea se ve brillante.</div>
+         </div>
+      </div>
+   </div>
+   <div class="w-100"></div>
+   <nav id="tabs-menu">
+      <div id="nav-tab" class="nav nav-tabs">
+         <a id="bima" class="nav-item nav-link active" href="#bima" data-toggle="tab">
+            <div><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/bima-min.jpg" alt="" /></div>
+         </a>
+         <a id="equipo" class="nav-item nav-link" href="#equipo" data-toggle="tab">
+            <div><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/equipo-min.jpg" alt="" /></div>
+         </a>
+         <a id="inicios" class="nav-item nav-link" href="#inicios" data-toggle="tab">
+            <div><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/nace-kalea-min.jpg" alt="" /></div>
+         </a>
+         <a id="progreso" class="nav-item nav-link" href="#progreso" data-toggle="tab">
+            <div><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/inaguraciones-min.jpg" alt="" /></div>
+         </a>
+         <a id="actualidad" class="nav-item nav-link" href="#actualidad" data-toggle="tab">
+            <div><img src="<?php echo $this->getUrl('') ?>pub/media/wysiwyg/hoy-min.jpg" alt="" /></div>
+         </a>
+      </div>
+   </nav>
+</div>

@@ -1,0 +1,23 @@
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJGZBZF');</script>
+<!-- End Google Tag Manager -->
+
+<style>
+	form#co-payment-form > fieldset.fieldset > .no-quotes-block > span {
+		font-size: 20px !important;
+		font-weight: 700;
+		color: red;
+	}
+</style>
+<script>
+	$(document).ready(function() {
+		$("form#co-payment-form > fieldset.fieldset > .no-quotes-block > span").text("No hay un método de pago disponible temporalmente");
+	});
+	$(window).load(function() {
+		$("form#co-payment-form > fieldset.fieldset > .no-quotes-block > span").text("No hay un método de pago disponible temporalmente");
+	});
+</script>

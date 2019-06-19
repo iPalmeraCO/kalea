@@ -5,6 +5,7 @@ Activar modulos
 php bin/magento module:enable Inchoo_Helloworld
 php bin/magento module:disable Magestore_Bannerslider
 sudo -u daemon php bin/magento setup:upgrade
+<<<<<<< HEAD
 sudo -u daemon php bin/magento indexer:reindex 
 sudo -u daemon php magento setup:upgrade
 sudo -u apache php magento setup:di:compile
@@ -18,6 +19,21 @@ sudo -u daemon php bin/magento deploy:mode:set developer
 sudo -u daemon php bin/magento info:adminuri
 sudo -u daemon php bin/magento setup:static-content:deploy -f
 sudo -u daemon php bin/magento setup:static-content:deploy es_MX -f
+=======
+
+sudo -u daemon php magento setup:upgrade
+sudo -u apache php magento setup:di:compile
+
+sudo -u daemon php bin/magento cache:clean
+sudo -u daemon php bin/magento setup:di:compile
+udo -u daemon php bin/magento deploy:mode:show
+
+sudo -u daemon php bin/magento deploy:mode:set developer
+
+sudo -u daemon php bin/magento setup:static-content:deploy -f
+
+php bin/magento setup:static-content:deploy es_MX -f
+>>>>>>> ec3d097b2f40b199fda3287ffaa7f062cfefff20
 
 deshabilitar version en url 
 update core_config_data set value = 0 where path ='dev/static/sign'
@@ -31,6 +47,7 @@ sudo -u daemon php bin/magento  catalog:images:resize
 copia servidor 
  sudo tar -zcvf magentooct11_2018.tar.gz htdocs/
 
+<<<<<<< HEAD
 sudo mysqldump -u bn_magento -p bitnami_magento > /tmp/kaleaenero9_2019.sql
 password 24831a824d
 
@@ -154,8 +171,10 @@ show error magento payment
 
 /var/www/html/vendor/magento/module-checkout/Model/GuestPaymentInformationManagement.php
 
+Carrito de compras
 add to cart product 
 /var/www/html/vendor/magento/module-checkout/Model/Cart 
+/var/www/html/vendor/magento/module-quote/Model/Quote
 add product
 
 Carpetas a copiar despues de compilar
@@ -182,3 +201,65 @@ Modificacion para ciudad en checkout
 
 Filtro para lo ultimo 
 /var/www/html/vendor/magento/theme-frontend-luma/Magento_LayeredNavigation/templates/layer/view.html
+
+Ajuste ciudad en blanco checkout "Enviar a "
+pub/static/frontend/Magento/luma/es_MX/Magento_Checkout/js/view/shipping-information/list.js
+
+Agregar nuevas variales plantilla email 
+/var/www/html/vendor/magento/module-sales/Model/Order/Email/Sender/OrderSender.php
+
+Crear nuevas variables para orden ncuotas y vcuotas
+/var/www/html/vendor/magento/module-sales/Model/Order.php
+
+
+Crear Cliente en kalea
+/var/www/html/vendor/magento/module-customer/Controller/Account/CreatePost.php
+html
+/var/www/html/vendor/magento/module-customer/view/frontend/templates/form/register.phtml
+
+Limpiar carrito 
+/vendor/magento/module-quote/Model/Quote
+
+Cambiar placeholder Dirección
+
+/var/www/html/vendor/magento/module-checkout/Block/Checkout/AttributeMerger
+https://www.rltsquare.com/blog/add-placeholder-billing-address-checkout-page-magento-2-website/
+
+
+SELECT d.id, d.nombre, n.default_name FROM departamentoskalea d, directory_country_region n where n.country_id = 'GT' and LOWER(d.nombre) = LOWER(n.default_name)
+
+Ruta texto contraseña 
+/var/www/html/pub/static/frontend/Magento/luma/es_MX/mage/validation.js
+
+
+Resultados de busqueda
+/var/www/html/vendor/magento/module-layered-navigation/view/frontend/templates/layer
+
+Desplegar Items carrito de compras
+/var/www/html/vendor/magento/module-checkout/view/frontend/web/js/view/summary/cart-items.js
+
+Ajuste Vu carrito de compras
+/vendor/magento/module-weee/view/frontend/templates/checkout/cart/item/price/sidebar.phtml
+
+zoom imagenes
+/var/www/html/pub/static/frontend/Magento/luma/es_MX/magnifier/magnifer.js
+
+imagen url carrito de compras
+/var/www/html/vendor/magento/module-wishlist/CustomerData/Wishlist.php
+
+
+Ruta configuración de web services 
+/var/www/html/app/code/Inchoo/Helloworld/Model/Apikalea.php
+
+Ocultar informacio de pago en mi cuenta
+/var/www/html/vendor/magento/module-vault/view/frontend/layout/customer_acount.xml
+
+productos random 
+/var/www/html/vendor/magento/module-catalog/view/frontend/layout/catalog_category_view.xml
+
+desactivar cache en una pagina en archivo xml 
+ cacheable="false"
+=======
+sudo mysqldump -u bn_magento -p bitnami_magento > /tmp/kaleaoct11_2018.sql
+password 24831a824d
+>>>>>>> ec3d097b2f40b199fda3287ffaa7f062cfefff20

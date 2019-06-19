@@ -1,0 +1,49 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Form\Login\Info $block */
+?>
+<?php if ($block->getRegistration()->isAllowed()): ?>
+<div class="block block-new-customer">
+    <div class="block-title">
+        <div id="block-new-customer-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('REGISTRO')) ?></div>
+    </div>
+    <div class="block-content" aria-labelledby="block-new-customer-heading">
+        <p><?= $block->escapeHtml(__('
+Crear una cuenta tiene muchos beneficios: revisa más rápido, crea más de una dirección, rastrea pedidos y más.')) ?></p>
+        <div class="actions-toolbar">
+            <div class="btnContent">  
+            <div class="primary">
+                <a href="<?= $block->escapeUrl($block->getCreateAccountUrl()) ?>" class="btn-sigin"><span><?= $block->escapeHtml(__('CREA UNA CUENTA')) ?></span></a>
+                 <!--<div class="block social-login-authentication-channel account-social-login">
+                        <div class="block-content">
+                            <div class="actions-toolbar social-btn social-btn-actions-toolbar facebook-login">
+                                <a class="btn btn-block btn-social btn-facebook customlogueofacebook">
+                                    <span class="fa fa-facebook"></span>
+                                    Iniciar Sesión con Facebook    
+                                </a>
+                            </div>
+                        </div>
+                    </div>-->
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+ <div class="block social-login-authentication-channel account-social-login customfacebook">
+                        <div class="block-content">
+                            <div class="actions-toolbar social-btn social-btn-actions-toolbar facebook-login">
+                                <a class="btn btn-block btn-social btn-facebook customlogueofacebook">
+                                    <span class="fa fa-facebook"></span>
+                                    Seguir con facebook
+                                </a>
+                            </div>
+                        </div>
+                    </div>

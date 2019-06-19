@@ -1,0 +1,8 @@
+<?php 
+$product = Mage::getModel('catalog/product')->load($_item['product_id']);
+$cats = $product->getCategoryIds();
+foreach ($cats as $category_id) {
+    $_cat = Mage::getModel('catalog/category')->setStoreId(Mage::app()->getStore()->getId())->load($category_id);
+        echo $_cat->getName();             
+    }
+?>

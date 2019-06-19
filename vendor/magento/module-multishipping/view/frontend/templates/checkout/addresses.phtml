@@ -1,0 +1,113 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Ship to multiple address template
+ *
+ * @var $block \Magento\Multishipping\Block\Checkout\Addresses
+ */
+?>
+<div class="containerbreadcrumbs arriba" style="padding: 0px; margin-top: 15px;">
+    <div class="breadcrumbs-dos container" style="padding: 0px;">
+    <ul class="items">
+            <li class="item home">
+                    <a href="<?php echo $this->getUrl('') ?>" title="Ir a la Página de Inicio">Inicio</a>
+                </li>
+                <li class="item category60">
+                    <span class="clarito-label">Carrito de compras</span>
+                </li>
+            <li class="item category21">
+                    <p class="clarito-label">Otras direcciones</p>
+                </li>
+    </ul>
+    </div>
+</div>
+<div class="container" style="padding: 0;"> 
+<form id="checkout_multishipping_form" data-mage-init='{"multiShipping":{}, "validation":{}}' action="<?= /* @escapeNotVerified */ $block->getPostActionUrl() ?>" method="post" class="multicheckout address form">
+    <div class="title-dire">
+        <div><?= /* @escapeNotVerified */ __('Please select a shipping address for applicable items.') ?></div>
+    </div>
+    <input type="hidden" name="continue" value="0" id="can_continue_flag"/>
+    <input type="hidden" name="new_address" value="0" id="add_new_address_flag"/>
+    <div class="table-wrapper">
+        <table class="items data table" id="multiship-addresses-table">
+            <caption class="table-caption"><?= /* @escapeNotVerified */ __('Please select a shipping address for applicable items.') ?></caption>
+            <div class="ca-product">
+            <div class="container-cart-2">
+                <div class="col product" scope="col"><?= /* @escapeNotVerified */ __('Product') ?></div>
+                <div class="col qty canti" scope="col"><?= /* @escapeNotVerified */ __('Qty') ?></div>
+                <div class="col address" scope="col"><?= /* @escapeNotVerified */ __('Send To') ?></div>
+                <div class="col actions" scope="col">&nbsp;</div>
+            </div>
+            <div class="line-colors statico">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+            </div>
+            <div class="li-item-2">
+            <?php foreach ($block->getItems() as $_index => $_item): ?>
+                <?php if ($_item->getQuoteItem()) : ?>
+                    <div class="cart item">
+                        <div class="col product" data-th="<?= $block->escapeHtml(__('Product')) ?>"><?= $block->getItemHtml($_item->getQuoteItem()) ?></div>
+                        <div class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+                            <div class="field qty">
+                                <label for="ship-<?= /* @escapeNotVerified */ $_index ?>-<?= /* @escapeNotVerified */ $_item->getQuoteItemId() ?>-qty" class="label">
+                                    <span><?= /* @escapeNotVerified */ __('Qty') ?></span>
+                                </label>
+                
+                                <div class="control number-input">
+                                    <a onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></a>
+                                    <input type="number" data-multiship-item-id="<?= /* @escapeNotVerified */ $_item->getSku() ?>" id="ship-<?= /* @escapeNotVerified */ $_index ?>-<?= /* @escapeNotVerified */ $_item->getQuoteItemId() ?>-qty" name="ship[<?= /* @escapeNotVerified */ $_index ?>][<?= /* @escapeNotVerified */ $_item->getQuoteItemId() ?>][qty]" value="<?= $block->escapeHtml($_item->getQty()) ?>" size="2" class="input-text qty" data-validate="{number: true}"/>
+                                    <a onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="agregar"></a> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col address" data-th="<?= $block->escapeHtml(__('Send To')) ?>">
+                            <?php if ($_item->getProduct()->getIsVirtual()): ?>
+                                <div class="applicable"><?= /* @escapeNotVerified */ __('A shipping selection is not applicable.') ?></div>
+                            <?php else: ?>
+                                <div class="field address">
+                                    <label for="ship_<?= /* @escapeNotVerified */ $_index ?>_<?= /* @escapeNotVerified */ $_item->getQuoteItemId() ?>_address" class="label">
+                                        <span><?= /* @escapeNotVerified */ __('Send To') ?></span>
+                                    </label>
+                                    <div class="control">                                        
+                                        <?= $block->getAddressesHtmlSelect($_item, $_index) ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col actions" data-th="<?= $block->escapeHtml(__('Actions')) ?>">
+                            <a href="<?= /* @escapeNotVerified */ $block->getItemDeleteUrl($_item) ?>" title="<?= /* @escapeNotVerified */ __('Remove Item') ?>" class="action action-delete dos" data-multiship-item-update="">
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+        </table>
+    </div>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" title="<?= /* @escapeNotVerified */ __('Go to Shipping Information') ?>" class="action primary continue<?php if ($block->isContinueDisabled()):?> disabled<?php endif; ?>" data-role="can-continue" data-flag="1"<?php if ($block->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><?= /* @escapeNotVerified */ __('Go to Shipping Information') ?></span></button>
+        </div>
+        <div class="secondary">         
+            <button type="submit" data-multiship-item-update="" class="action update" data-role="can-continue" data-flag="0"><span><?= /* @escapeNotVerified */ __('Update Qty &amp; Addresses') ?></span></button>
+            <?php if  (count($block->getAddressOptions()) < 5) { ?>
+            <button type="button" title="<?= /* @escapeNotVerified */ __('Enter a New Address') ?>" class="action add" data-role="add-new-address"><span><?= /* @escapeNotVerified */ __('Enter a New Address') ?></span></button>
+            <?php } ?>            
+            <a href="<?= /* @escapeNotVerified */ $block->getBackUrl() ?>" class="action back"><span><?= /* @escapeNotVerified */ __('Back to Shopping Cart') ?></span></a>
+        </div>
+    </div>
+</form>
+</div>

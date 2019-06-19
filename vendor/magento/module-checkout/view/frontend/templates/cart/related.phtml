@@ -1,0 +1,15 @@
+<div class="title-refe">
+<h3 class="referidos-d">Productos Referidos</h3>
+</div>
+
+<div class="blockcontent related-container">
+
+<?php $productsBlock = $this->getLayout()->createBlock(\Magento\CatalogWidget\Block\Product\ProductsList::class);
+$productsBlock->setTitle("My products");
+$productsBlock->setProductsCount(5);
+$productsBlock->setTemplate("product/widget/content/gridofertas.phtml");
+$productsBlock->setConditionsEncoded("^[`1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Combine`,`aggregator`:`all`,`value`:`1`,`new_child`:``^],`1--1`:^[`type`:`Magento||CatalogWidget||Model||Rule||Condition||Product`,`attribute`:`category_ids`,`operator`:`==`,`value`:`24`^]^]");
+
+echo $productsBlock->toHtml();
+?>
+</div>

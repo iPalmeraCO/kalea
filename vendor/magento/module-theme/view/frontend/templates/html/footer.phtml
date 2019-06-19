@@ -1,0 +1,351 @@
+<?php
+
+/*use \Inchoo\Helloworld\Model\ApiKalea;
+
+$apiKalea = new ApiKalea();
+$factura = $apiKalea->crear_factura(12891901215);*/
+
+
+
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<a href="#" id="js_up" class="boton-subir">
+  <!-- link del icono http://fontawesome.io/icon/rocket/ -->
+  <i class="fa fa-rocket" aria-hidden="true"></i>
+</a>
+
+<div class="footer-container container">
+    <div class="footer row">
+        <div class="col-lg-8 col-md-6 col-sm-12">
+            <div class="img-kalea">
+                <img src="<?php echo $this->getUrl('') ?>pub/static/frontend/Magento/luma/es_MX/images/logo-blanco.svg" alt="logo kalea">
+            </div>
+            <div class="descripcion-kalea">
+                Mueblería en Guatemala<br>
+            Absolutamente moderno
+            </div>
+            <div class="datos-contacto-kalea">
+                <div><i class="fa fa-phone" aria-hidden="true"></i>
+Teléfono: (502)2490-0000</div>
+                <div><i class="fas fa-envelope"></i>facilitadordeservicio@kalea.com.gt</div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-12 col-md-6">
+            <div class="row main">
+                <div class="col-lg-8 col-sm-12 col-md-8 ">
+                    <div class="menus-footer">
+                        <div class="row">
+                            <div class="menus-foo">
+                                <ul>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>" class="link_home">Inicio</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>lo-ultimo.html" class="link_home">Lo último</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>ofertas.html" class="link_home">Ofertas</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>te-inspiramos" class="link_home">Te inspiramos</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>servicios" class="link_home">Servicios</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>contacto.html" class="link_home">Contacto</a></li>
+                                </ul>
+                            </div>
+                            <div class="menus-foo">
+                                <ul>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>salas.html" class="link_home">Salas</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>dormitorio.html" class="link_home">Dormitorio</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>oficina.html" class="link_home">Oficina</a></li>
+                                    <li class="menu-links-principal"><a href="<?php echo $this->getUrl('') ?>comedor.html" class="link_home">Comedor</a></li>
+                                    <li class="menu-links-principal"><a href="#" class="link_home">Preferidos</a></li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 img-soporte-dos"><img src="<?php echo $this->getUrl('') ?>pub/static/frontend/Magento/luma/es_MX/images/soporte.svg" alt="Soporte Total"></div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+<?php 
+$objectManagerCms = \Magento\Framework\App\ObjectManager::getInstance();
+$cmsPage = $objectManagerCms->get('\Magento\Cms\Model\Page');   
+
+if  ($cmsPage->getIdentifier() == "servicios" ) { ?>
+<script type="text/javascript">
+  require(['jquery'],function($){
+
+  console.log("ENTRO");
+ 
+
+    $( "#nav-tab a" ).click(function(event) {
+      event.preventDefault();
+    var tab = $(this).attr("href");    
+    $(".tab-pane").removeClass("show active");
+    $(tab).addClass("show active");
+    $(".nav-item").removeClass("active");
+    $(this).addClass("active");
+  });
+
+    $("#accordion button").click(function(event) {
+      event.preventDefault();
+    var tab = $(this).attr("data-target");  
+    if ($(tab).hasClass( "show" ))  {
+      $(tab).removeClass("show");
+      $(this).find("i").removeClass("fa-sort-up");
+      $(this).find("i").addClass("fa-sort-down");  
+
+    }else{
+      $(tab).addClass("show");
+      $(this).find("i").removeClass("fa-sort-down");
+      $(this).find("i").addClass("fa-sort-up");
+    }
+    
+    
+    
+  });
+
+  });
+</script>
+
+<!--<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>-->
+   <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
+
+
+<?php } ?>
+
+<?php 
+/*
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$a = new \Inchoo\Helloworld\Model\ApiKalea();
+echo $a->consulta_existencias('AA0828');
+//echo \Inchoo\Helloworld\Model\ApiKalea::consulta_existencias('AA0828');
+//echo \Inchoo\Helloworld\Model\ApiKalea::getexis();*/
+
+
+ ?>
+
+<script type="text/javascript">
+    
+    require(['jquery'],function($){
+
+      function setcity(){
+        console.log("LOGRADO");
+      }
+
+/*     $("select[name='city_id']").change(function(event) {     
+        console.log($(this).val());
+       });*/
+
+/*
+      $(window).load(function() {
+    $('#preloader').fadeOut('slow');
+    $('body').css({'overflow':'visible'});
+    });*/
+
+    $(document).ready(function(){
+
+      /*Cerrar opciones de compra mobile */
+      $(".filter .filter-subtitle").click(function(event) {            
+         if ($("body").hasClass("filter-active")){
+          $("body").removeClass("filter-active");          
+          $("#layered-filter-block").removeClass("active");
+          $(".filter-title strong").attr("aria-selected","false");
+          $(".filter-title strong").attr("aria-expanded","false");
+          
+        }
+      }); 
+      /* end */
+      setTimeout(function(){ 
+        $("select[name='city_id']").change(function(event) {     
+        $("input[name='city']").val($("select[name='city_id'] option:selected").text());
+       });
+         }, 10000);
+      
+
+      
+      setTimeout('jQuery(".opc-wrapper").insertAfter(".opc-summary-wrapper");', 10000);       
+
+      $(".togglesocialnetworks" ).click(function(event) {            
+        $(this).prev().toggle();
+      }); 
+
+      //Expandir filtros
+     if ($(".filter-options-content").length > 0){
+       setTimeout('jQuery(".filter-options-content").show()', 1000);       
+     }
+      
+
+       if (window.location.hash == "#payment"){
+             $(".steps .row div").removeClass("active");
+             $(".steps .row .steppaso3").addClass("active");
+        }
+        
+
+      $(".masopcionesmobile").click(function(event) {
+      jQuery(".customer-welcome").toggle();      
+    });
+      
+      /*setTimeout(function(){ 
+      $('#loadingMask').fadeOut();
+      }, 2000 ); */
+       
+       $(".breadcrumbs-dos").appendTo(".containerbreadcrumbs");
+
+       if(!window.location.hash) {
+       $("html, body").animate({ scrollTop: 0 }, 600); 
+        }else {            
+        $("html, body").delay(1000).animate({scrollTop: $(window.location.hash).offset().top-200 }, 1500);
+        }
+       
+        //$("html, body").animate({ scrollTop: 0 }, "slow");
+        console.log( "ready!" );
+        var string = window.location.href;
+
+       $("nav li a").each(function(i) {
+            if (string ==$(this).attr("href") ){
+               $(this).parent().addClass("active");            
+            }
+        
+        });
+
+       $("ul li a").each(function(i) {
+            if (string ==$(this).attr("href") ){
+               $(this).parent().addClass("active");            
+            }
+        
+        });
+
+        
+       $( ".nav-toggle" ).click(function(e) {
+          e.preventDefault(); 
+            $(".navresponsive").toggle();
+            if ($('.navresponsive').is(':hidden')){
+                   $(this).removeClass("actmenu");
+            }   else{
+                    $(this).addClass("actmenu");    
+            } 
+           
+        });
+
+          $( ".actmenu" ).click(function() {
+            $(".navresponsive").hide();
+            $(".nav-toggle").removeClass("actmenu");
+        });
+
+       $( ".closemenu" ).click(function() {
+            $(".navresponsive").hide();
+            $(".nav-toggle").removeClass("actmenu");
+        });
+       
+      $(".field.search .label").click(function() {
+           $(".field.search .control").toggle();
+        });
+         
+         /*Cerrar menu*/
+        var $menu = $('.navresponsive');
+        $(document).mouseup(function (e) {
+            
+            if (e.target.className != "action nav-toggle actmenu"){
+           if (!$menu.is(e.target) // if the target of the click isn't the container...
+           && $menu.has(e.target).length === 0) // ... nor a descendant of the container
+           {            
+             $menu.hide();
+             $(".nav-toggle").removeClass("actmenu");
+          }
+            }
+         });
+        /**/
+
+        /*Boton up */
+        $(window).scroll(function(){
+          if($(this).scrollTop() > 300){ //condición a cumplirse cuando el usuario aya bajado 301px a más.
+            $("#js_up").slideDown(300); //se muestra el botón en 300 mili segundos
+          }else{ // si no
+            $("#js_up").slideUp(300); //se oculta el botón en 300 mili segundos
+          }
+        });
+
+        //creamos una función accediendo a la etiqueta i en su evento click
+        $("#js_up i").on('click', function (e) { 
+          e.preventDefault(); //evita que se ejecute el tag ancla (<a href="#">valor</a>).
+          $("body,html").animate({ // aplicamos la función animate a los tags body y html
+            scrollTop: 0 //al colocar el valor 0 a scrollTop me volverá a la parte inicial de la página
+          },700); //el valor 700 indica que lo ara en 700 mili segundos
+          return false; //rompe el bucle
+        });
+
+        /**/
+
+
+    });
+
+});
+
+   
+   
+
+
+  
+</script>
+<script type="text/javascript"> 
+
+/*
+Reference: http://jsfiddle.net/BB3JK/47/
+*/
+/*
+$('select').each(function(){
+    var $this = $(this), numberOfOptions = $(this).children('option').length;
+  
+    $this.addClass('select-hidden'); 
+    $this.wrap('<div class="select"></div>');
+    $this.after('<div class="select-styled"></div>');
+
+    var $styledSelect = $this.next('div.select-styled');
+    $styledSelect.text($this.children('option').eq(0).text());
+  
+    var $list = $('<ul />', {
+        'class': 'select-options'
+    }).insertAfter($styledSelect);
+  
+    for (var i = 0; i < numberOfOptions; i++) {
+        $('<li />', {
+            text: $this.children('option').eq(i).text(),
+            rel: $this.children('option').eq(i).val()
+        }).appendTo($list);
+    }
+  
+    var $listItems = $list.children('li');
+  
+    $styledSelect.click(function(e) {
+        e.stopPropagation();
+        $('div.select-styled.active').not(this).each(function(){
+            $(this).removeClass('active-2').next('ul.select-options').hide();
+        });
+        $(this).toggleClass('active-2').next('ul.select-options').toggle();
+    });
+  
+    $listItems.click(function(e) {
+        e.stopPropagation();
+        $styledSelect.text($(this).text()).removeClass('active-2');
+        $this.val($(this).attr('rel'));
+        $list.hide();
+        //console.log($this.val());
+    });
+  
+    $(document).click(function() {
+        $styledSelect.removeClass('active-2');
+        $list.hide();
+    });
+
+});*/
+ </script>

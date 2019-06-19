@@ -1,0 +1,67 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Account\Dashboard\Address $block */
+?>
+<div class="block block-dashboard-addresses">
+    <div class="block-title-profile">
+        <div class="seccion_secuencia_circulos">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+        <?= $block->escapeHtml(__('Directorio')) ?>
+       
+    </div>
+    <!--  <a class="action edit" href="<?= $block->escapeUrl($block->getAddressBookUrl()) ?>"><span><?= $block->escapeHtml(__('Manage Addresses')) ?></span></a> -->
+    <div class="block-content">
+        <div class="box box-billing-address">
+            <strong class="box-title">
+                <span><?= $block->escapeHtml(__('Dirección de facturación')) ?></span>
+            </strong>
+            <div class="line-colors-static">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+            <div class="box-content">
+                <address>
+                    <?= $block->getPrimaryBillingAddressHtml() ?>
+                </address>
+            </div>
+            <div class="box-actions">
+                <a class="action edit" href="<?= $block->escapeUrl($block->getPrimaryBillingAddressEditUrl()) ?>" data-ui-id="default-billing-edit-link"><span><?= $block->escapeHtml(__('Editar Dirección')) ?></span></a>
+            </div>
+        </div>
+        <div class="box box-shipping-address">
+            <strong class="box-title">
+                <span><?= $block->escapeHtml(__('
+Dirección de entrega ')) ?></span>
+            </strong>
+            <div class="line-colors-static">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+            <div class="box-content">
+                <address>
+                    <?= $block->getPrimaryShippingAddressHtml() ?>
+                </address>
+            </div>
+            <div class="box-actions">
+                <a class="action edit" href="<?= $block->escapeUrl($block->getPrimaryShippingAddressEditUrl()) ?>" data-ui-id="default-shipping-edit-link"><span><?= $block->escapeHtml(__('Editar Dirección')) ?></span></a>
+            </div>
+        </div>
+    </div>
+</div>

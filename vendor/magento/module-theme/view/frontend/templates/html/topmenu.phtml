@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @var $block \Magento\Theme\Block\Html\Topmenu
+ */
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<!-- <?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+ -->	
+
+<nav class="navigation" data-action="navigation">
+    <ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>" class="link_home" id="ini">Inicio</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>lo-ultimo.html" class="link_home" id="lou">Lo último</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>ofertas.html" class="link_home" id="ofe">Ofertas</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>productos.html" class="link_home" id="pro">Productos</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>te-inspiramos" class="link_home" id="tei">Te inspiramos</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>servicios" class="link_home" id="serv">Servicios</a></li>
+    	<li class="level0 nav-1 first level-top"><a href="<?php echo $this->getUrl('') ?>contacto.html" class="link_home" id="con">Contacto</a></li>
+        
+    </ul>
+</nav>

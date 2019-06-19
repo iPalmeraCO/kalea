@@ -1,0 +1,59 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- <ul class="opc-progress-bar">
+    ko foreach: { data: steps().sort(sortItems), as: 'item' }
+        <li class="opc-progress-bar-item" data-bind="css: item.isVisible() ? '_active' : ($parent.isProcessed(item) ? '_complete' : '')">
+            <span data-bind="i18n: item.title, click: $parent.navigateTo"></span>
+        </li>
+    /ko
+</ul>
+ -->
+ <div class="container steps">
+    <div class="row sub-container">
+        <div class="icon paso1">
+            <span class="icon-step-1"></span>
+            <div class="text-line">
+                <p>Paso <b>1</b></p>
+                <div class="line-colors statico width-peque gris">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="line-dotted"></div>
+        <div class="icon paso2 active steppaso2">
+            <span class="icon-step-2"></span>
+            <div class="text-line">
+                <p>Paso <b>2</b></p>
+                <div class="line-colors statico width-peque gris">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="line-dotted"></div>
+        <div class="icon paso2 steppaso3">
+            <span class="icon-step-3"></span>
+            <div class="text-line">
+                <p>Paso <b>3</b></p>
+                <div class="line-colors statico width-peque gris">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

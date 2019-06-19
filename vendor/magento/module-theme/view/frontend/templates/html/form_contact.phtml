@@ -1,0 +1,42 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Top menu for store
+ *
+ * @var $block \Magento\Theme\Block\Html\Topmenu
+ */
+?>
+<?php $columnsLimit = $block->getColumnsLimit() ?: 0; ?>
+<!-- <?php $_menu = $block->getHtml('level-top', 'submenu', $columnsLimit) ?>
+ -->
+<form id="form-contact">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      
+      <input type="text" class="form-control" id="inputEmail4" placeholder="Nombre *">
+    </div>
+    <div class="form-group col-md-6">
+      <input type="email" class="form-control" id="inputPassword4" placeholder="Correo * 
+      ">
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="inputAddress" placeholder="Número de factura (si aplica)">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Asunto *">
+  </div>
+  <div class="form-group">
+    <textarea placeholder="Mensaje *"></textarea> 
+  </div>
+  
+  <button type="submit" class="btn btn-enviar">ENVIAR <i class="far fa-paper-plane"></i></button>
+</form>
