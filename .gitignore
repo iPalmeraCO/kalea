@@ -60,6 +60,7 @@ atlassian*
 !/pub/media/tmp/.htaccess
 /pub/media/captcha/*
 /pub/static/*
+!/pub/static/frontend/
 /pub-old/*
 /pub-olda/*
 /pub/back/*

@@ -1,0 +1,19 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="opc-block-summary" data-bind="blockLoader: isLoading">
+    <div data-bind="i18n: 'Order Summary'" class="title"></div>
+    <div class="line-colors statico">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+    <!-- ko foreach: elems() -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+</div>
