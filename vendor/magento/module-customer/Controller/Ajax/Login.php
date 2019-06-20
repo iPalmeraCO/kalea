@@ -15,6 +15,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\CookieManagerInterface;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use \Inchoo\Helloworld\Model\ApiKalea;
 
 /**
  * Login controller
@@ -165,6 +166,16 @@ class Login extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+
+       /* $resultJson = $this->resultJsonFactory->create();
+         $response = [
+            'errors' => false,
+            'message' => __('Login successful.')
+        ];
+        print_r($response);
+        die();
+        return $resultJson->setData($response);*/
+
         $credentials = null;
         $httpBadRequestCode = 400;
 
@@ -200,6 +211,9 @@ class Login extends \Magento\Framework\App\Action\Action
                 $response['redirectUrl'] = $this->_redirect->success($redirectRoute);
                 $this->getAccountRedirect()->clearRedirectCookie();
             }
+             $a = new \Inchoo\Helloworld\Model\ApiKalea();
+             $a->actualizarcarrito();
+             
         } catch (EmailNotConfirmedException $e) {
             $response = [
                 'errors' => true,
@@ -221,6 +235,8 @@ class Login extends \Magento\Framework\App\Action\Action
                 'message' => __('Invalid login or password.')
             ];
         }
+       
+
         /** @var \Magento\Framework\Controller\Result\Json $resultJson */
         $resultJson = $this->resultJsonFactory->create();
         return $resultJson->setData($response);

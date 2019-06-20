@@ -356,8 +356,13 @@ class Cart extends DataObject implements CartInterface
     {
         /* Si se va a agregar un producto y no existe cotizacion se elimina el carrito actual */
         
-        if (self::getItemsCount() > 0){
-            self::checkcotizacion();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+       
+        if($customerSession->isLoggedIn()) {
+            if (self::getItemsCount() > 0){
+                self::checkcotizacion();
+            }
         }
 
         /* Establecer existencias */
@@ -380,12 +385,13 @@ class Cart extends DataObject implements CartInterface
         );
         $productaux->save();       
 
+        
         /* Usuario logueado */
         
         
-         $product = $this->_getProduct($productInfo);         
-         $request = $this->_getProductRequest($requestInfo);
-         $no_transa_mov = $this->getQuote()->crear_cotizacion(); 
+       
+
+         /*
          if ($no_transa_mov == -1) {
             //url donde estaba el producto
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -400,29 +406,12 @@ class Cart extends DataObject implements CartInterface
 
             throw new \Magento\Framework\Exception\LocalizedException(__('Debe estar logueado para poder continuar.'));
          } 
-      
+        */
+               
         
-        
-        
-
-    
-
         /* Crear detalle */
-         /*if (isset($request["qty"])){
-            $cantidad = $request["qty"];
-        } else {
-            $cantidad = 1;
-        }
-        $consultar = $a->consultar_detallebd($no_transa_mov, $productaux->getSku());        
-
-        $precio = number_format($productaux->getFinalPrice(),0, '.', '');
-        $detalle = $a->crear_detalle($no_transa_mov,$productaux->getSku(),$cantidad,$precio,0,$precio,$cantidad);        
-        
-        if (!$detalle["respuesta"]){
-            throw new \Magento\Framework\Exception\LocalizedException(__('Error al agregar al carrito.')); 
-        }*/
-        /* Crear detalle */
-
+        $product = $this->_getProduct($productInfo);         
+        $request = $this->_getProductRequest($requestInfo);
         $productId = $product->getId();
 
         if ($productId) {           
@@ -448,13 +437,17 @@ class Cart extends DataObject implements CartInterface
                 } else {
                     $cantidad = 1;
                 }
-                $consultar = $a->consultar_detallebd($no_transa_mov, $productaux->getSku());        
 
-                $precio = number_format($productaux->getFinalPrice(),0, '.', '');
-                $detalle = $a->crear_detalle($no_transa_mov,$productaux->getSku(),$cantidad,$precio,0,$precio,$cantidad);        
-                
-                if (!$detalle["respuesta"]){
-                    throw new \Magento\Framework\Exception\LocalizedException("Error al agregar el carrito"); 
+                if($customerSession->isLoggedIn()) {
+                    
+                    $no_transa_mov = $this->getQuote()->crear_cotizacion(); 
+                    $consultar = $a->consultar_detallebd($no_transa_mov, $productaux->getSku());  
+                    $precio = number_format($productaux->getFinalPrice(),0, '.', '');
+                    $detalle = $a->crear_detalle($no_transa_mov,$productaux->getSku(),$cantidad,$precio,0,$precio,$cantidad);        
+                    
+                    if (!$detalle["respuesta"]){
+                        throw new \Magento\Framework\Exception\LocalizedException("Error al agregar el carrito"); 
+                    }                
                 }
                 /* End Detalle*/ 
 
@@ -583,13 +576,19 @@ class Cart extends DataObject implements CartInterface
      */
     public function updateItems($data)
     {   
-        self::checkcotizacion();
-        $a = new \Inchoo\Helloworld\Model\ApiKalea();               
-        $no_transa_mov = $this->getQuote()->get_no_cotizacion();   
-        if ($no_transa_mov == -1) {
-            $this->_checkoutSession->setRedirectUrl("/customer/account/login");    
-            throw new \Magento\Framework\Exception\LocalizedException(__('Debe estar logueado para poder continuar.')); 
-        }   
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+
+        if($customerSession->isLoggedIn()) {
+            self::checkcotizacion();
+            $a = new \Inchoo\Helloworld\Model\ApiKalea();               
+            $no_transa_mov = $this->getQuote()->get_no_cotizacion();   
+            if ($no_transa_mov == -1) {
+                $this->_checkoutSession->setRedirectUrl("/customer/account/login");    
+                throw new \Magento\Framework\Exception\LocalizedException(__('Debe estar logueado para poder continuar.')); 
+            }   
+        }
         
 
 
@@ -614,16 +613,18 @@ class Cart extends DataObject implements CartInterface
 
             $qty = isset($itemInfo['qty']) ? (double)$itemInfo['qty'] : false;
             if ($qty > 0) {
-                $id = $a->consultar_detallebd($no_transa_mov , $item->getSku()); //Consultar si articulo ya existe 
 
-            if ($id == -1){
-                throw new \Magento\Framework\Exception\LocalizedException(__("Error al actualizar el carrito"));
-            } else {
-                $id = $id[0];                     
-                $precio = number_format($item->getPrice(),0, '.', '');
-                $a->actualizar_detalle($id["id"], $no_transa_mov, $id["linea"],$qty, $precio, 0, $precio, $qty);
-            }
+                if($customerSession->isLoggedIn()) {
+                    $id = $a->consultar_detallebd($no_transa_mov , $item->getSku()); //Consultar si articulo ya existe 
 
+                    if ($id == -1){
+                        throw new \Magento\Framework\Exception\LocalizedException(__("Error al actualizar el carrito"));
+                    } else {
+                        $id = $id[0];                     
+                        $precio = number_format($item->getPrice(),0, '.', '');
+                        $a->actualizar_detalle($id["id"], $no_transa_mov, $id["linea"],$qty, $precio, 0, $precio, $qty);
+                    }
+                }
        
                 $item->setQty($qty);
 
@@ -665,27 +666,31 @@ class Cart extends DataObject implements CartInterface
      */
     public function removeItem($itemId)
     {   
-        
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 
-        self::checkcotizacion();
-        $item = $this->getQuote()->getItemById($itemId); 
-        $a = new \Inchoo\Helloworld\Model\ApiKalea();      
-        $no_transa_mov = $this->getQuote()->get_no_cotizacion();
-        if ($no_transa_mov == -1) {
-            $this->_checkoutSession->setRedirectUrl("/customer/account/login");    
-            throw new \Magento\Framework\Exception\LocalizedException(__('Debe estar logueado para poder continuar.')); 
-        }   
-      
-        $id = $a->consultar_detallebd($no_transa_mov , $item->getSku()); //Consultar si articulo ya existe 
+        if($customerSession->isLoggedIn()) {
+            self::checkcotizacion();
+            $item = $this->getQuote()->getItemById($itemId); 
+            $a = new \Inchoo\Helloworld\Model\ApiKalea();      
+            $no_transa_mov = $this->getQuote()->get_no_cotizacion();
+            if ($no_transa_mov == -1) {
+                $this->_checkoutSession->setRedirectUrl("/customer/account/login");    
+                throw new \Magento\Framework\Exception\LocalizedException(__('Debe estar logueado para poder continuar.')); 
+            }   
+          
+            $id = $a->consultar_detallebd($no_transa_mov , $item->getSku()); //Consultar si articulo ya existe 
 
-            if ($id == -1){
-                throw new \Magento\Framework\Exception\LocalizedException(__("Error al eliminar el producto "));
-            } else {
-                $id = $id[0];                     
-                $precio = number_format($item->getPrice(),0, '.', '');
-                $a->eliminar_detalle($id["id"], $no_transa_mov, $id["linea"]);
-            }
+                if ($id == -1){
+                    throw new \Magento\Framework\Exception\LocalizedException(__("Error al eliminar el producto "));
+                } else {
+                    $id = $id[0];                     
+                    $precio = number_format($item->getPrice(),0, '.', '');
+                    $a->eliminar_detalle($id["id"], $no_transa_mov, $id["linea"]);
+                }
+        }
         $this->getQuote()->removeItem($itemId);
+
         return $this;
     }
 

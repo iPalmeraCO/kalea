@@ -16,6 +16,7 @@ use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\State\UserLockedException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use \Inchoo\Helloworld\Model\ApiKalea;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -201,40 +202,9 @@ class LoginPost extends \Magento\Customer\Controller\AbstractAccount
 
         
           /*Agregar al carrito si esta pendiente */
-                        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
-                        $checkoutSession = $objectManager->get('\Magento\Checkout\Model\Session');
-                        $producto = $checkoutSession->getProductinsert();
-                        $cantidad = $checkoutSession->getCantidadinsert();
-                        if ($cantidad == ""){
-                                $cantidad = 1;
-                            }
-                        
-
-                        if ($producto != null && $cantidad != null){
-                            $producto = base64_decode($producto);
-                            $cantidad = base64_decode($cantidad);
-
-                            
-
-                                
-                                $obj = \Magento\Framework\App\ObjectManager::getInstance();
-                                $product = $obj->create('\Magento\Catalog\Model\Product')->load($producto);
-
-                                $cart = $obj->create('Magento\Checkout\Model\Cart');    
-                                $params = array();      
-                                $options = array();
-                                $params['qty'] = $cantidad;
-                                $params['product'] = $producto;
-
-
-                                $cart->addProduct($product, $params);
-                                $cart->save();
-                        }
-                       
-
-                        
-                      
-                        /* */
+            $a = new \Inchoo\Helloworld\Model\ApiKalea();
+            $a->actualizarcarrito();         
+            /* */
 
         return $this->accountRedirect->getRedirect();
     }

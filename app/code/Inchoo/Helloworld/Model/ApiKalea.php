@@ -193,8 +193,6 @@
             $prove = self::formatzerokalea($prove);
             $ce    = self::formatzerokalea($ce);
 
-            /*self::enviarfacturaerror(print_r(array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$nomov, 'cotizacion'=> array('ind_cod_cliente'=>$indcod,'moneda'=>$mon,'nombre_cliente'=>$nomb,'total'=>$total,'fecha'=>$fecha,'direccion_entrega'=>$dire,'pais_entrega'=>$paise,'provincia_entrega'=>$prove,'canton_entrega'=>$ce,'colonia_entrega'=>$colent,'calle_entrega'=>$cllen,'casa_entrega'=>$casaen)),true),'julian.escobar@ipalmera.co');*/
-
              return self::getservice('/servicios/v1/ventas_online/cotizaciones/actualizar',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$nomov, 'cotizacion'=> array('ind_cod_cliente'=>$indcod,'moneda'=>$mon,'nombre_cliente'=>$nomb,'total'=>$total,'fecha'=>$fecha,'direccion_entrega'=>$dire,'pais_entrega'=>$paise,'provincia_entrega'=>$prove,'canton_entrega'=>$ce,'colonia_entrega'=>$colent,'calle_entrega'=>$cllen,'casa_entrega'=>$casaen)));
           }
 
@@ -202,7 +200,7 @@
             return self::getservice('/servicios/v1/ventas_online/cotizaciones/ver',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$mov));
           }
 
-          public function formatzerokalea($valor){
+           public function formatzerokalea($valor){
             if (strlen($valor) == 1){
               $newvalor="00".$valor;
             }
@@ -304,8 +302,14 @@
           $cia    = $this->cia;
           $cend   = $this->centrod;
           $cenf   = $this->centrof;
+          $var = self::getservice('/servicios/v1/ventas_online/pedidos/crear',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$mov));
 
-         return self::getservice('/servicios/v1/ventas_online/pedidos/crear',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$mov));
+          if ($var["descripcion"]["mensaje"] == "Cantidad inexistente"){
+                self::enviarfacturaerror(print_r($var,true),'julian.escobar@ipalmera.co');        
+                throw new \Magento\Framework\Exception\LocalizedException(__('Sorry, but seems to be a problem with this product, please try again later.'));                
+            }
+        
+         return $var;
         }
 
       public function consultar_pedido($mov){
@@ -373,18 +377,20 @@
               {
                 foreach ($consulta as $row) {
                   $existencia = self::consultar_detalle_pedido($nomov,$row["linea"]);
-
+                 
                   if ($existencia["respuesta"]){ //Comprobar si existe
                         $eli= self::eliminar_detalle_pedido($nomov,$row["linea"]);
                         if (!$eli["respuesta"]){
                           $return = -1;
                           break;
                         }
+
                   } 
                   
                   $det= self::crear_detalle_pedido($nomov, $row["no_arti"], $row["cantidad"], $row["linea"], $row["precio"],0,$row["precio"],$row["cantidad"]);                      
                   
                     if (!$det["respuesta"]){
+                      self::enviarfacturaerror(print_r($det,true),'julian.escobar@ipalmera.co');
                       //$return= $nomov. "- ". $row["no_arti"]. "- ". $row["cantidad"]. "- ". $row["linea"]. "- ". $row["precio"]. "- 0 - ".$row["precio"]. "- ".$row["cantidad"];
                       $return = -1;                       
                       break;
@@ -406,16 +412,18 @@
          $serv = self::getservice('/servicios/v1/ventas_online/pedidos/factura',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$mov));
          if ($serv["respuesta"]){ //Si genera factura
             $fact = $serv["descripcion"]["factura"];
-             if (!file_put_contents('/var/www/html/fact/'.$mov.'.pdf', base64_decode($fact))){
-              self::enviarfacturaerror($mov,"sistemas@kalea.com.gt");
+             if (!file_put_contents('/var/www/html/fact/'.$mov.'.pdf', base64_decode($fact))){              
              }else {
               //Se creo el archivo se envia archivo
               self::enviarfactura($mov,$email,$nombrecliente);
+              return 1;
              }
 
-         }else {
-          self::enviarfacturaerror($mov,"sistemas@kalea.com.gt");
-          //self::enviarfacturaerror(print_r($serv["descripcion"],true),"julian.escobar@ipalmera.co");
+         }else {         
+          $var= print_r($serv["descripcion"],true);
+          $var = $mov." - ".$var;
+          self::enviarfacturaerror($var,"julian.escobar@ipalmera.co");
+          return -1;
          }
       }
 
@@ -505,13 +513,11 @@
                     $file
                 )
                 //->addTo(['julian.escobar@ipalmera.co'])
-                ->addTo([$email])
-                ->addTo(['sistemas@kalea.com.gt'])
+                ->addTo([$email])                
                 ->getTransport();
 
             $data->sendMessage();
-          } catch(\Exception $e){
-            $this->enviarfacturaerror($mov, 'sistemas@kalea.com.gt');
+          } catch(\Exception $e){            
           }
         }
 
@@ -534,40 +540,99 @@
                   ->getTransport();
 
               $data->sendMessage();
-            } catch(\Exception $e){
-            $this->enviarfacturaerror($mov, 'sistemas@kalea.com.gt');
+            } catch(\Exception $e){            
           }
         }
 
           public function enviarcopiatransaccion($response, $monto, $email, $codusuario, $nombusuario){
-            $monto = number_format($monto, 0, ".", ",");
-            $doc = new \DOMDocument;
-            $doc->loadXML($response);
-            date_default_timezone_set('America/Guatemala');
-            $magentoDate = date('m/d/Y h:i:s a');
+            try {
+              $monto = number_format($monto, 0, ".", ",");       
+              date_default_timezone_set('America/Guatemala');
+              $magentoDate = date('m/d/Y h:i:s a');
 
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
-            $transport = $objectManager->create('Magento\Framework\Mail\Template\TransportBuilder'); 
-            $templateVars = [
-                    'subject'    => 1, 
-                    'fecha'  => $magentoDate,
-                    'codusuario' => $codusuario,
-                    'nombusuario' => $nombusuario,
-                    'monto'  => $monto,
-                    'nreferencia' => $doc->getElementsByTagName('referenceNumber')->item(0)->nodeValue,
-                    'nautorizacion' => $doc->getElementsByTagName('authorizationCode')->item(0)->nodeValue,                                 
-                ];          
-            $data = $transport
-                ->setTemplateIdentifier(20)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
-                ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
-                ->setTemplateVars($templateVars)
-                ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'magento_back@pa-phone.com'])                       
-                ->addTo(['ventasenlinea@kalea.com.gt'])                 
-                ->addTo(['sistemas@kalea.com.gt'])                 
-                ->getTransport();
+              $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+              $transport = $objectManager->create('Magento\Framework\Mail\Template\TransportBuilder'); 
+              $templateVars = [
+                      'subject'    => 1, 
+                      'fecha'  => $magentoDate,
+                      'codusuario' => $codusuario,
+                      'nombusuario' => $nombusuario,
+                      'monto'  => $monto,
+                      'nreferencia' => $response["nreferencia"],
+                      'nautorizacion' => $response["nautorizacion"],                                 
+                  ];          
+              $data = $transport
+                  ->setTemplateIdentifier(20)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
+                  ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
+                  ->setTemplateVars($templateVars)
+                  ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'magento_back@pa-phone.com'])                       
+                  ->addTo(['julian.escobar@ipalmera.co'])            
+                  /*->addTo(['ventasenlinea@kalea.com.gt'])                 */                
+                  ->getTransport();
 
-            $data->sendMessage();
+              $data->sendMessage();
+             } catch (\Exception $e) {
+              self::enviarfacturaerror($e->getMessage(),'julian.escobar@ipalmera.co');
+            }
         }    
+
+        /* Registrar el pago en base de datos */
+        public function registrarpago($no_transa_mov,$tipo_pago,$total,$n_cuotas,$valor_cuotas,$n_referencia,$n_autorizacion,$nombre,$email){
+              $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+              $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+              $connection = $resource->getConnection();
+              $tableName = $resource->getTableName('ws_ctrl_facturas');
+              $sql = "Insert Into " . $tableName . " (no_transa_mov, tipo_pago, total, n_cuotas, valor_cuotas, n_referencia, n_autorizacion, nombre, email, envio_factura) Values ('".$no_transa_mov."','".$tipo_pago."','".$total."','".$n_cuotas."','".$valor_cuotas."','".$n_referencia."','".$n_autorizacion."','".$nombre."','".$email."',0)";     
+              $connection->query($sql);  
+              return array("respuesta" => true);
+        }
+
+        /*Consultar si un pago ya se encuentra registrado en base de datos */
+        public function getpago($no_transa_mov){
+              $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+              $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+              $connection = $resource->getConnection();
+              $tableName = $resource->getTableName('ws_ctrl_facturas');              
+              $sql = "SELECT no_transa_mov FROM " . $tableName . " WHERE no_transa_mov ='".$no_transa_mov."'";  
+              
+              $consulta = $connection->fetchAll($sql);
+              if (count($consulta))
+              {
+                return 1;
+              } else{
+                return -1;
+              }
+
+        }
+
+
+        /* Agregar los productos a la cotización que se han agregado estando deslogueado */
+        public function actualizarcarrito(){
+
+          $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+            $itemsCollection = $cart->getQuote()->getItemsCollection();
+            $itemsVisible = $cart->getQuote()->getAllVisibleItems();
+            $items = $cart->getQuote()->getAllItems();
+            $no_transa_mov = $cart->getQuote()->crear_cotizacion();             
+
+            foreach($items as $item) {    
+                $cantidad = $item->getQty();
+                $consultar = self::consultar_detallebd($no_transa_mov, $item->getSku());  
+                $precio = number_format($item->getFinalPrice(),0, '.', '');
+
+                if ($consultar != -1){
+                  self::actualizar_detallebd($consultar[0]["id"],0,$precio);
+                }
+                
+                $detalle = self::crear_detalle($no_transa_mov,$item->getSku(),$cantidad,$precio,0,$precio,$cantidad);        
+                            
+                if (!$detalle["respuesta"]){
+                                throw new \Magento\Framework\Exception\LocalizedException("Error al agregar el carrito"); 
+                }
+            }
+
+        }
 
 
 

@@ -90,7 +90,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
        
          try {
             
-            $apikalea = new ApiKalea(); 
+            $apikalea = new ApiKalea();                         
             $order = $payment->getOrder();            
             $datosdireccion = $order->getBillingAddress()->getData();                
 
@@ -111,7 +111,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
             $shipping   = $order->getShippingAddress();  
             $departamento = $apikalea->getdepartamento($shipping->getregion_id(), $shipping->getcity());             
-            
+
 
             if ($departamento != -1){ //Busca el id del departamento de kalea
 
@@ -193,30 +193,21 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
     {
         //$response = ['transactionId' => 0]; //todo implement API call for auth request.
         $apikalea = new ApiKalea();
+        $res= $apikalea->crearpedidocontroller($request["no_transa_mov"]);   
+        if ($res == -1){
+            self::send_email("aca", 'julian.escobar@ipalmera.co' );
+            throw new \Magento\Framework\Exception\LocalizedException(__('Error al crear el pedido v.'));  
+        }              
+
         $response = self::methodpayment($request);
 
         if(!$response) {
             throw new \Magento\Framework\Exception\LocalizedException(__('Error al procesar el pago.'));
         } else {
-            $res= $apikalea->crearpedidocontroller($request["no_transa_mov"]);
-            self::send_email(print_r("Error con el pedido", true), 'julian.escobar@ipalmera.co' );
-            /*throw new \Magento\Framework\Exception\LocalizedException(__($res));  
-            die();    */        
-            if ($res == -1){
-              throw new \Magento\Framework\Exception\LocalizedException(__('Error al crear el pedido v.'));  
-          } else {
-            $apikalea->limpiarno_transa_mov();
-            $apikalea->crear_factura($request["no_transa_mov"],$request["email"],$request["nombrecliente"]);
-           /* $fa = self::crearfactura($request["no_transa_mov"]);
-            if (!$fa["respuesta"]){
-            //LLamar factura y borrar cotizacion
-                throw new \Magento\Framework\Exception\LocalizedException(__('Error al crear factura.'));  
-            }*/
-            
-          }
+             $apikalea->limpiarno_transa_mov();
         }
 
-        return $response;
+        return $response;;
     }
 
     /**
@@ -272,80 +263,87 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     public function methodpayment($request){   
-  
-
-    $month     = $request["cc_exp_month"];
-    $cc_number = $request["cc_number"];
-    $year      = $request["cc_exp_year"];
-    $cvv       = $request["cc_cid"];
-    //$vc  //numero cuotas
-    $firstName = $request["vname"];
-    $lastname  = $request["lastname"];
-    $monto     = $request["amount"];    
-    $ciudad    = $request["ciudad"];
-    $region    = $request["region"];
-    $direccion = $request["direccion"];
-    $postal    = $request["codpostal"];
-    $email     = $request["email"];    
-    $vcc       = $request["vcc"]; 
-    $idkalea   = $request["idkalea"];   
-    $nombrecliente = $request["nombrecliente"];   
-    $url = 'https://ws.shopshop.com.gt/CyberSource/VisaNET/GT/AuthorizationRequest/index.php?wsdl'; 
-    //$url = 'https://ws.shopshop.com.gt/CyberSource/VisaNET/GT/Test/AuthorizationRequest/index.php?wsdl'; 
-    try {
-    $client = new \SoapClient($url, array("trace" => 1, "exception" => 0));
-    } catch (Exception $ex) {
-    //echo 'error conexion ' . $ex->getMessage(); die();
-        return false;
-    }
-
-    $datos['terminal'] = '99526388';
-    $datos['merchant'] = '020001011';
-    $datos['user'] = 'E48316433D476EA8CC61BD0F9BDE5CE50C09F0FDF72A15C9B395BBCF57CE7BCD';
-    $datos['pass'] = 'D11F57F931813DBF256BEA1C9463D90D6FE40A64F8ECC84A9D6D2093CB5EF6A5';
-    $datos['customerID'] = $idkalea; // NUEVO
-    /*$datos['merchant_id'] = 'visanetgt_bimagua';
-    $datos['Token'] = 'illJUkUJKzVwJ7eRWQn1ljbeqwXRrARmkiP+fECvzZt4o56YaWYOe05r3GeDUMFRN8eOUdBY7osS/zxK+jqlzWlxOGJLrvs0QH5UPHSv0nqXAWF+7cSSxuZZ46VypYIls8a1rCvPi+1CAokMAgnp+mm5q+f9uGu7xYaBjhxPMbEtquFShEKbuZ8rzSy6ENjVtarHUJIptsjltA3FDimbSIyn9YKNvUeWm5o1ixpyHi91Amuewi18rN6iEDGjiDaEsLx1TsvAgITkDxA3fGdaNotLdEpTfXufBRR03fRjiNqSHLqPsJMGGpuOvAbAjAOxQbkQtixlBo6jJSjnWpWRwA==';*/
-    $datos['merchant_id'] = 'visanetgt_kalea';
-    $datos['Token'] = "U+dvnLRwAzURZh6LXETkf0qiT8ibGzEMyKexbgHA62+fzJkFEtC9CREEK0FMivmeyyVRElwiXHp4Ubej5bwiIFpuBfzZqVC3aBwLuTgO8QhMJHa+4q27yg8WyJfFwu5VbidXO7qGMkMpd5Gl1TRdaxFcJ2ahBXzjfMDLMlvbUSWA1PZJZ9MduNKmYDSpf07K56K5KYjMY9Z/ydfbnvvc24WdJOrCPygekmMCZPk7z8DlF2S0uD/2q8c2SUc67eOyyzOv0uY0wVXXPzQPvmLTjWnGmasy7Bx/hQfKs8P7GY8x648I+8q5972vpBDabsmuNHpkItyIr8yh3WR+V7jmVA==";
-    $datos['CybsEpay'] = 'cybersoure';
-    $datos['expirationMonth'] = self::getmes($month);
-    $datos['expirationYear'] = substr($year,-2);
-    $datos['accountNumber'] = $cc_number;
-    $datos['cvv'] = $cvv;
-    $datos['monto'] = $monto;
-    $datos['vc'] = $vcc;
-    $datos['firstName'] = self::quitaracentos($firstName);
-    $datos['lastName'] = self::quitaracentos($lastname);
-    $datos['merchantReferenceCode'] = '0003';
-    $datos['currency'] = 'GTQ';
-    $datos['field10'] = 'WEB';
-    $datos['country'] = 'GT';
-    $datos['city'] = self::quitaracentos($ciudad);
-    $datos['state'] = self::quitaracentos($region);
-    $datos['street'] = self::quitaracentos($direccion);
-    $datos['postalCode'] = $postal;
-    $datos['email'] = self::quitaracentos($email);
-    self::send_email(print_r($datos, true), 'julian.escobar@ipalmera.co' );
-    
-    try {
-    $response = $client->Authorization($datos);
-    } catch (Exception $ex) {
-    //echo 'error consumno ' . $ex->getMessage(); die();
-    //self::send_email(print_r($ex->getMessage(), true), 'julian.escobar@ipalmera.co' );
-    return false;
-    }
-    $doc = new \DOMDocument;
-    $doc->loadXML($client->__getLastResponse());
-    if ($doc->getElementsByTagName('responseCode')->item(0)->nodeValue == 100){        
-        self::send_emailvisanet($client->__getLastResponse(), $monto,  $email);
         $apikalea = new ApiKalea();
-        $apikalea->enviarcopiatransaccion($client->__getLastResponse(), $monto,  $email, $idkalea, $nombrecliente);
-        return ['transactionId' => 0];
-    } else {
-        self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );
-        return false;
-    }    
+        
+        //Consultar si ya tiene pago registrado
+        if ($apikalea->getpago($request["no_transa_mov"]) == -1)
+            { 
+                $month     = $request["cc_exp_month"];
+                $cc_number = $request["cc_number"];
+                $year      = $request["cc_exp_year"];
+                $cvv       = $request["cc_cid"];
+                //$vc  //numero cuotas
+                $firstName = $request["vname"];
+                $lastname  = $request["lastname"];
+                $monto     = $request["amount"];    
+                $ciudad    = $request["ciudad"];
+                $region    = $request["region"];
+                $direccion = $request["direccion"];
+                $postal    = $request["codpostal"];
+                $email     = $request["email"];    
+                $vcc       = $request["vcc"]; 
+                $idkalea   = $request["idkalea"];   
+                $nombrecliente = $request["nombrecliente"];   
+                //$url = 'https://ws.shopshop.com.gt/CyberSource/VisaNET/GT/AuthorizationRequest/index.php?wsdl'; 
+                $url = "https://ws.shopshop.com.gt/CyberSource/VisaNET/GT/Test/AuthorizationRequest/index.php?wsdl";
+                try {
+                $client = new \SoapClient($url, array("trace" => 1, "exception" => 0));
+                } catch (Exception $ex) {
+                //echo 'error conexion ' . $ex->getMessage(); die();
+                    return false;
+                }
+
+                $datos['terminal'] = '99526388';
+                $datos['merchant'] = '020001011';
+                $datos['user'] = 'E48316433D476EA8CC61BD0F9BDE5CE50C09F0FDF72A15C9B395BBCF57CE7BCD';
+                $datos['pass'] = 'D11F57F931813DBF256BEA1C9463D90D6FE40A64F8ECC84A9D6D2093CB5EF6A5';
+                $datos['customerID'] = $idkalea; // NUEVO
+                /*$datos['merchant_id'] = 'visanetgt_bimagua';
+                $datos['Token'] = 'illJUkUJKzVwJ7eRWQn1ljbeqwXRrARmkiP+fECvzZt4o56YaWYOe05r3GeDUMFRN8eOUdBY7osS/zxK+jqlzWlxOGJLrvs0QH5UPHSv0nqXAWF+7cSSxuZZ46VypYIls8a1rCvPi+1CAokMAgnp+mm5q+f9uGu7xYaBjhxPMbEtquFShEKbuZ8rzSy6ENjVtarHUJIptsjltA3FDimbSIyn9YKNvUeWm5o1ixpyHi91Amuewi18rN6iEDGjiDaEsLx1TsvAgITkDxA3fGdaNotLdEpTfXufBRR03fRjiNqSHLqPsJMGGpuOvAbAjAOxQbkQtixlBo6jJSjnWpWRwA==';*/
+                $datos['merchant_id'] = 'visanetgt_kalea';
+                $datos['Token'] = "U+dvnLRwAzURZh6LXETkf0qiT8ibGzEMyKexbgHA62+fzJkFEtC9CREEK0FMivmeyyVRElwiXHp4Ubej5bwiIFpuBfzZqVC3aBwLuTgO8QhMJHa+4q27yg8WyJfFwu5VbidXO7qGMkMpd5Gl1TRdaxFcJ2ahBXzjfMDLMlvbUSWA1PZJZ9MduNKmYDSpf07K56K5KYjMY9Z/ydfbnvvc24WdJOrCPygekmMCZPk7z8DlF2S0uD/2q8c2SUc67eOyyzOv0uY0wVXXPzQPvmLTjWnGmasy7Bx/hQfKs8P7GY8x648I+8q5972vpBDabsmuNHpkItyIr8yh3WR+V7jmVA==";
+                $datos['CybsEpay'] = 'cybersoure';
+                $datos['expirationMonth'] = self::getmes($month);
+                $datos['expirationYear'] = substr($year,-2);
+                $datos['accountNumber'] = $cc_number;
+                $datos['cvv'] = $cvv;
+                $datos['monto'] = $monto;
+                $datos['vc'] = $vcc;
+                $datos['firstName'] = self::quitaracentos($firstName);
+                $datos['lastName'] = self::quitaracentos($lastname);
+                $datos['merchantReferenceCode'] = '0003';
+                $datos['currency'] = 'GTQ';
+                $datos['field10'] = 'WEB';
+                $datos['country'] = 'GT';
+                $datos['city'] = self::quitaracentos($ciudad);
+                $datos['state'] = self::quitaracentos($region);
+                $datos['street'] = self::quitaracentos($direccion);
+                $datos['postalCode'] = $postal;
+                $datos['email'] = self::quitaracentos($email);
+                self::send_email(print_r($datos, true), 'julian.escobar@ipalmera.co' );
+                
+                try {
+                $response = $client->Authorization($datos);
+                } catch (Exception $ex) {
+                //echo 'error consumno ' . $ex->getMessage(); die();
+                //self::send_email(print_r($ex->getMessage(), true), 'julian.escobar@ipalmera.co' );
+                return false;
+                }
+                $doc = new \DOMDocument;
+                $doc->loadXML($client->__getLastResponse());
+                if ($doc->getElementsByTagName('responseCode')->item(0)->nodeValue == "100"){        
+                    $response = self::getresponsevisanet($client->__getLastResponse());
+                    self::send_emailvisanet($response, $monto,  $email);                
+                    $apikalea->registrarpago($request["no_transa_mov"],1,$monto,1,$monto,$response['nreferencia'],$response['nautorizacion'],$nombrecliente, $email);
+                    $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $nombrecliente);
+                    return ['transactionId' => 0];
+                } else {
+                    self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );
+                    return false;
+                } 
+            } else {
+                return ['transactionId' => 0];
+            }   
     }
 
      public function send_email($datos, $email){
@@ -376,9 +374,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
         return $mes;
     }
     public function send_emailvisanet($response, $monto, $email){
-        $monto = number_format($monto, 0, ".", ",");
-        $doc = new \DOMDocument;
-        $doc->loadXML($response);
+        $monto = number_format($monto, 0, ".", ",");      
         date_default_timezone_set('America/Guatemala');
         $magentoDate = date('m/d/Y h:i:s a');
 
@@ -388,8 +384,8 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                     'subject'    => 1, 
                     'fecha'  => $magentoDate,
                     'monto'  => $monto,
-                    'nreferencia' => $doc->getElementsByTagName('referenceNumber')->item(0)->nodeValue,
-                    'nautorizacion' => $doc->getElementsByTagName('authorizationCode')->item(0)->nodeValue,             
+                    'nreferencia' => $response["nreferencia"],
+                    'nautorizacion' => $response["nautorizacion"],             
                 ];     
         $data = $transport
             ->setTemplateIdentifier(12)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
@@ -401,6 +397,14 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
             ->getTransport();
 
         $data->sendMessage();
+    }
+
+    /*Retornar el nreferencia y el nautorizacion de visanet*/
+    public function getresponsevisanet($response){
+         $doc = new \DOMDocument;
+         $doc->loadXML($response);
+         return array('nreferencia' => $doc->getElementsByTagName('referenceNumber')->item(0)->nodeValue,
+                'nautorizacion' => $doc->getElementsByTagName('authorizationCode')->item(0)->nodeValue);
     }
 
     public function quitaracentos($cadena){        
