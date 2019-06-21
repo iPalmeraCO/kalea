@@ -350,6 +350,7 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
             $customer = $this->accountManagement
                 ->createAccount($customer, $password, $redirectUrl);
 
+             
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->subscriberFactory->create()->subscribeCustomerById($customer->getId());
             }
@@ -372,10 +373,14 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
                 // @codingStandardsIgnoreEnd
                 $url = $this->urlModel->getUrl('*/*/index', ['_secure' => true]);
                 $resultRedirect->setUrl($this->_redirect->success($url));
+                $a = new \Inchoo\Helloworld\Model\ApiKalea();
+                $a->actualizarcarrito();
             } else {
                 $this->session->setCustomerDataAsLoggedIn($customer);
                 $this->messageManager->addSuccess($this->getSuccessMessage());
                 $requestedRedirect = $this->accountRedirect->getRedirectCookie();
+                $a = new \Inchoo\Helloworld\Model\ApiKalea();
+                $a->actualizarcarrito();
                 if (!$this->scopeConfig->getValue('customer/startup/redirect_dashboard') && $requestedRedirect) {
                     $resultRedirect->setUrl($this->_redirect->success($requestedRedirect));
                     $this->accountRedirect->clearRedirectCookie();
@@ -388,7 +393,7 @@ class CreatePost extends \Magento\Customer\Controller\AbstractAccount
                 $metadata->setPath('/');
                 $this->getCookieManager()->deleteCookie('mage-cache-sessid', $metadata);
             }
-
+           
             return $resultRedirect;
         } catch (StateException $e) {
             $url = $this->urlModel->getUrl('customer/account/forgotpassword');
