@@ -32,20 +32,39 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
+       /* $apikalea = new ApiKalea();    
 
-       /* $order = $payment->getOrder();
-            $payment->setSkipTransactionCreation(true);
-                 
-            $state = 'pending_payment';
-            $status = 'pending_payment';
-            $comment = 'Charge was declined. Please, contact you bank for more information or use a different card.';
-            $isNotified = false;
-            $order->setState($state);
-            $order->setStatus($status);
-            $order->addStatusToHistory($order->getStatus(), $comment);
-            $order->save(); 
-            $payment->setIsTransactionPending(true); 
-            $payment->setIsFraudDetected(true);*/
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+        if($customerSession->isLoggedIn()) {                
+                $customerFactory = $objectManager->get('\Magento\Customer\Model\CustomerFactory')->create();
+                $customer = $customerFactory->load($customerSession->getCustomer()->getId());  
+        }
+
+         $ncoti = $customer->getData('cotizacion');
+            if ($ncoti == ""){
+
+
+                //throw new \Magento\Framework\Exception\LocalizedException(__('Error al cargar la cotización')); 
+                //$apikalea->limpiarcarrito();
+                die();
+
+                
+                //No tiene cargada cotización
+            }else {
+                $coti = $apikalea->ver_cotizacion($ncoti);
+                if (!$coti["respuesta"]){
+                    //No se encontro la cotización asociada
+                    $ped = $apikalea->consultar_pedido($ncoti);
+                    if (!$ped["respuesta"]){  
+                        die();
+                        throw new \Magento\Framework\Exception\LocalizedException(__('Error al cargar la cotización')); 
+                    }
+                    die();
+                }
+            }*/
+
+         //throw new \Magento\Framework\Exception\LocalizedException(__('Error al buscar departamento'));
 
         try {
             //check if payment has been authorized
@@ -109,6 +128,26 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                $order->setCedula($payment->getAdditionalInformation('cedula'));
             }    
 
+            /*$ncoti = $customer->getData('cotizacion');
+            if ($ncoti == ""){
+                 
+                //$apikalea->limpiarcarrito();
+                die();
+
+                
+                //No tiene cargada cotización
+            }else {
+                $coti = $apikalea->ver_cotizacion($coti);
+                if (!$coti["respuesta"]){
+                    //No se encontro la cotización asociada
+                    $ped = $apikalea->consultar_pedido($ncoti);
+                    if (!$ped["respuesta"]){  
+                        //No tiene pedido asociado
+                    }
+                }
+            }*/
+
+            
             $shipping   = $order->getShippingAddress();  
             $departamento = $apikalea->getdepartamento($shipping->getregion_id(), $shipping->getcity());             
 
@@ -116,11 +155,15 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
             if ($departamento != -1){ //Busca el id del departamento de kalea
 
             //Actualizar cotizacion en kalea
-           $actualizar_cotizacion = $apikalea->actualizar_cotizacioncontroller($customer->getData('cotizacion'), $customer->getData('idkalea'),  $order->getCedula(), $datosdireccion["telephone"], $datosdireccion["firstname"], $datosdireccion["lastname"], $valor, $shipping->getregion_id(), $departamento, $datosdireccion["street"], $order->getAllItems());   
+
+            //Buscar si esta en cotización
+            $apikalea = new ApiKalea();           
+            $actualizar_cotizacion = $apikalea->actualizar_cotizacioncontroller($customer->getData('cotizacion'), $customer->getData('idkalea'),  $order->getCedula(), $datosdireccion["telephone"], $datosdireccion["firstname"], $datosdireccion["lastname"], $valor, $shipping->getregion_id(), $departamento, $datosdireccion["street"], $order->getAllItems());   
+
 
 
            
-           if ($actualizar_cotizacion != -1){           
+           if ($actualizar_cotizacion == 1){           
 
             ///build array of payment data for API request.
             $request = [
@@ -143,7 +186,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
             ];        
 
             $response = $this->makeAuthRequest($request);
-
+            
             
             }else {            
              throw new \Magento\Framework\Exception\LocalizedException(__('Error al generar la cotización'));
@@ -190,21 +233,15 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function makeAuthRequest($request)
-    {
-        //$response = ['transactionId' => 0]; //todo implement API call for auth request.
-        $apikalea = new ApiKalea();
-        $res= $apikalea->crearpedidocontroller($request["no_transa_mov"]);   
-        if ($res == -1){
-            self::send_email("aca", 'julian.escobar@ipalmera.co' );
-            throw new \Magento\Framework\Exception\LocalizedException(__('Error al crear el pedido v.'));  
-        }              
-
+    {        
+        $apikalea = new ApiKalea();   
         $response = self::methodpayment($request);
+        //self::send_email(print_r($response,true),"julian.escobar@ipalmera.co");
 
-        if(!$response) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('Error al procesar el pago.'));
+        if(is_array($response)) {
+            $apikalea->limpiarno_transa_mov();
         } else {
-             $apikalea->limpiarno_transa_mov();
+            throw new \Magento\Framework\Exception\LocalizedException(__('Error al procesar el pago.'));
         }
 
         return $response;;
@@ -336,13 +373,13 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                     self::send_emailvisanet($response, $monto,  $email);                
                     $apikalea->registrarpago($request["no_transa_mov"],1,$monto,1,$monto,$response['nreferencia'],$response['nautorizacion'],$nombrecliente, $email);
                     $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $nombrecliente);
-                    return ['transactionId' => 0];
+                    return ['transactionId' => $request["no_transa_mov"]];
                 } else {
                     self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );
                     return false;
                 } 
             } else {
-                return ['transactionId' => 0];
+                return ['transactionId' => $request["no_transa_mov"]];
             }   
     }
 

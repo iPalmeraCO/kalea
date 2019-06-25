@@ -196,7 +196,30 @@
              return self::getservice('/servicios/v1/ventas_online/cotizaciones/actualizar',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$nomov, 'cotizacion'=> array('ind_cod_cliente'=>$indcod,'moneda'=>$mon,'nombre_cliente'=>$nomb,'total'=>$total,'fecha'=>$fecha,'direccion_entrega'=>$dire,'pais_entrega'=>$paise,'provincia_entrega'=>$prove,'canton_entrega'=>$ce,'colonia_entrega'=>$colent,'calle_entrega'=>$cllen,'casa_entrega'=>$casaen)));
           }
 
-          public function ver_cotizacion($cia,$cend,$cenf,$mov){
+          public function actualizar_pedido($nomov, $nomb, $total, $dire,$paise,$prove,$ce,$colent,$cllen,$casaen){
+
+            $cia    = $this->cia;
+            $cend   = $this->centrod;
+            $cenf   = $this->centrof;                        
+            $mon    = $this->moneda;
+            $indcod = $this->ind_cod_cliente; 
+            $tc     = $this->tipo_cambio;
+            $tcc    = $this->tipo_cambio;
+            $tcv    = $this->tipo_cambio;
+            $fecha  = date("d-m-Y");
+
+            $prove = self::formatzerokalea($prove);
+            $ce    = self::formatzerokalea($ce);
+
+             return self::getservice('/servicios/v1/ventas_online/pedidos/actualizar',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$nomov, 'pedido'=> array('ind_cod_cliente'=>$indcod,'moneda'=>$mon,'nombre_cliente'=>$nomb,'total_bruto'=>$total,'total'=>$total, 'total_descuento'=>0.0, 'tipo_cambio'=>7.40, 'tipo_cambio_c'=>7.40, 'tipo_cambio_v'=>7.40,  'fecha'=>$fecha,'direccion_entrega'=>$dire,'pais_entrega'=>$paise,'provincia_entrega'=>$prove,'canton_entrega'=>$ce,'colonia_entrega'=>$colent,'calle_entrega'=>$cllen,'casa_entrega'=>$casaen)));
+          }
+
+          public function ver_cotizacion($mov){
+
+            $cia    = $this->cia;
+            $cend   = $this->centrod;
+            $cenf   = $this->centrof;
+             
             return self::getservice('/servicios/v1/ventas_online/cotizaciones/ver',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$mov));
           }
 
@@ -433,14 +456,36 @@
       public function actualizar_cotizacioncontroller($no_transa_mov, $codcliente, $cedula, $telefono, $nombre, $apellido, $monto, $region, $ciudad, $direccion, $productos){
         
         
-        $nombres = $nombre." ".$apellido;               
-        $success = $this->actualizar_cotizacion($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);
+        $nombres = $nombre." ".$apellido;     
+        $cotizacion = self::ver_cotizacion($no_transa_mov);
+        $success["respuesta"] = true;
 
-        if ($success["respuesta"]){
-            $response = $success;
+        if ($cotizacion["respuesta"]) {
+          $success = $this->actualizar_cotizacion($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);           
+        } 
+
+        if ($success["respuesta"]) {
+               
+            $validpedido = $this->crearpedidocontroller($no_transa_mov);
+            
+            if ($validpedido == 1){              
+              $success["respuesta"] = true;
+              //$success = $this->actualizar_pedido($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);    
+            } else {
+              $success["respuesta"] = false;
+            }         
+
+        }
+          
+          
+    
+                
+        // self::enviarfacturaerror(print_r($success,true),"julian.escobar@ipalmera.co");
+        if ($success["respuesta"]){          
+            $response = 1;
             //$response = $no_transa_mov." - " $codcliente." - " $nombres." - " $monto." - " $direccion." - " "Guatemala" ." - " $region." - "$ciudad." - ";
         }else {
-            $response = $success;
+            $response = -1;
         }  
         
         return $response;
@@ -449,6 +494,7 @@
 
         public function crearpedidocontroller ($no_transa_mov){        
           $ped = $this->consultar_pedido($no_transa_mov);
+          //self::enviarfacturaerror(print_r($ped,true),"julian.escobar@ipalmera.co");
           if (!$ped["respuesta"]){            
                   $this->crear_pedido($no_transa_mov);                       
           }                      
@@ -614,7 +660,10 @@
             $itemsCollection = $cart->getQuote()->getItemsCollection();
             $itemsVisible = $cart->getQuote()->getAllVisibleItems();
             $items = $cart->getQuote()->getAllItems();
+
+            if (count($items) > 0 ){
             $no_transa_mov = $cart->getQuote()->crear_cotizacion();             
+            }
 
             foreach($items as $item) {    
                 $cantidad = $item->getQty();
@@ -628,9 +677,51 @@
                 $detalle = self::crear_detalle($no_transa_mov,$item->getSku(),$cantidad,$precio,0,$precio,$cantidad);        
                             
                 if (!$detalle["respuesta"]){
+                            self::enviarfacturaerror(print_r($detalle,true),'julian.escobar@ipalmera.co');
                                 throw new \Magento\Framework\Exception\LocalizedException("Error al agregar el carrito"); 
                 }
             }
+
+        }
+
+        public function limpiarcarrito(){
+          
+          
+          try {
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+            $cartObject = $objectManager->create('Magento\Checkout\Model\Cart')->eliminar(); 
+            $cartObject->saveQuote();
+          } catch (Exception $e) {
+            
+          }
+        }
+
+        //Comprueba si existe cotización y si es válida 
+        public function checkcotizacionvalida(){
+          $return = 1;
+          $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+          $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+          if($customerSession->isLoggedIn()) {                
+                $customerFactory = $objectManager->get('\Magento\Customer\Model\CustomerFactory')->create();
+                $customer = $customerFactory->load($customerSession->getCustomer()->getId());  
+          }
+
+         $ncoti = $customer->getData('cotizacion');
+            if ($ncoti == ""){
+                self::limpiarcarrito();
+                $return = -1;
+            }else {
+                $coti = self::ver_cotizacion($ncoti);
+                if (!$coti["respuesta"]){
+                    //No se encontro la cotización asociada
+                    $ped = self::consultar_pedido($ncoti);
+                    if (!$ped["respuesta"]){  
+                        $return = -1;
+                    }
+                }
+            }
+
+            return $return;
 
         }
 
