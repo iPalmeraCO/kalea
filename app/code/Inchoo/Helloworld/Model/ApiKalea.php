@@ -470,7 +470,7 @@
             
             if ($validpedido == 1){              
               $success["respuesta"] = true;
-              //$success = $this->actualizar_pedido($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);    
+              $success = $this->actualizar_pedido($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);    
             } else {
               $success["respuesta"] = false;
             }         
@@ -590,7 +590,7 @@
           }
         }
 
-          public function enviarcopiatransaccion($response, $monto, $email, $codusuario, $nombusuario){
+          public function enviarcopiatransaccion($response, $monto, $email, $codusuario, $order,$nit, $direccion, $tipopago,$ncuotas,$vcuotas){
             try {
               $monto = number_format($monto, 0, ".", ",");       
               date_default_timezone_set('America/Guatemala');
@@ -602,8 +602,14 @@
                       'subject'    => 1, 
                       'fecha'  => $magentoDate,
                       'codusuario' => $codusuario,
-                      'nombusuario' => $nombusuario,
-                      'monto'  => $monto,
+                      'order'  => $order,
+                      'nit' => $nit,
+                      'direccion' => $direccion,
+                      'tipopago' => $tipopago,
+                      'ncuotas'  => $ncuotas,
+                      'vcuotas'  => $vcuotas,
+                      'monto'  => $monto,                      
+                      'email'  => $email,
                       'nreferencia' => $response["nreferencia"],
                       'nautorizacion' => $response["nautorizacion"],                                 
                   ];          

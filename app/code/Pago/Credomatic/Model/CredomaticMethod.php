@@ -182,7 +182,9 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 'email'     => $datosdireccion["email"],
                 'no_transa_mov' => $customer->getData('cotizacion'),    
                 'idkalea'   => $customer->getData('idkalea'),
-                'nombrecliente' => $customer->getName()                  
+                'nombrecliente' => $customer->getName(),
+                'nit' => $customer->getData('nit'),
+                'order' => $order                  
             ];        
 
             $response = $this->makeAuthRequest($request);
@@ -371,8 +373,8 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 if ($doc->getElementsByTagName('responseCode')->item(0)->nodeValue == "100"){        
                     $response = self::getresponsevisanet($client->__getLastResponse());
                     self::send_emailvisanet($response, $monto,  $email);                
-                    $apikalea->registrarpago($request["no_transa_mov"],1,$monto,1,$monto,$response['nreferencia'],$response['nautorizacion'],$nombrecliente, $email);
-                    $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $nombrecliente);
+                    $apikalea->registrarpago($request["no_transa_mov"],1,$monto,1,$monto,$response['nreferencia'],$response['nautorizacion'],$nombrecliente, $email);                   
+                    $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $request["order"], $request["nit"], $direccion, "Contado", "-", "-");                    
                     return ['transactionId' => $request["no_transa_mov"]];
                 } else {
                     self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );

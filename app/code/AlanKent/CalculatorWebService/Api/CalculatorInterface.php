@@ -29,5 +29,9 @@ interface CalculatorInterface
     
     public function get_products($valor1, $valor2, $llave, $products);
 
-    /*public function test($num1, $num2);*/
+    /**
+    * @api
+    * @return json send invoices pending
+    */
+    public function invoices();    
 }

@@ -21,8 +21,12 @@ $_order = $_item->getOrder();
 <?php if ($block->displayPriceExclTax() || $block->displayBothPrices()): ?>
     <?php if ($block->displayBothPrices()): ?>
         <span class="label"><?= /* @escapeNotVerified */  __('Excl. Tax') ?>:</span>
-    <?php endif; ?>
-    <?= /* @escapeNotVerified */  $_order->formatPrice($block->getRowDisplayPriceExclTax()) ?>
+    <?php endif; ?>    
+    <?php
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+        $priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data'); 
+        $formattedPrice = $priceHelper->currency($block->getRowDisplayPriceExclTax(), true, false);
+        echo $formattedPrice; ?>
 
     <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
         <br />

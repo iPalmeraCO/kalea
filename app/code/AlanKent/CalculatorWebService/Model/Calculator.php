@@ -8,6 +8,7 @@
 namespace AlanKent\CalculatorWebService\Model;
 
 use AlanKent\CalculatorWebService\Api\CalculatorInterface;
+use \Inchoo\Helloworld\Model\ApiKalea;
 
 /**
  * Defines the implementaiton class of the calculator service contract.
@@ -642,4 +643,39 @@ class Calculator implements CalculatorInterface
     }
 }
 
+    public function invoices(){        
+           /*$apikalea = new ApiKalea(); 
+           $apikalea->enviarfacturaerror("test","julian.escobar@ipalmera.co");*/
+
+          $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+          $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+          $connection = $resource->getConnection();
+          $tableName = $resource->getTableName('ws_ctrl_facturas');
+          $sql = "SELECT no_transa_mov, nombre, email from " . $tableName . " WHERE  envio_factura =0 LIMIT 10";     
+
+          $consulta = $connection->fetchAll($sql);
+          $return = -1;  
+          $logs = "";      
+          $apikalea = new ApiKalea(); 
+          if (count($consulta))
+          {
+            foreach ($consulta as $row) {
+              $r= $apikalea->crear_factura($row["no_transa_mov"], $row["email"], $row["nombre"]);
+              if ($r == 1){
+                self::update_enviofactura($row["no_transa_mov"]);
+              }
+              
+            }
+        }
+    }
+
+    public function update_enviofactura($no_transa_mov){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+        $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $connection = $resource->getConnection();
+        $tableName = $resource->getTableName('ws_ctrl_facturas');
+        $sql = "UPDATE " . $tableName . " SET  envio_factura = '1' WHERE no_transa_mov = '".$no_transa_mov."'";     
+        $connection->query($sql);
+        return 1;
+    }
 }
