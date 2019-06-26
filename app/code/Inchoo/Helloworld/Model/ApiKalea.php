@@ -608,7 +608,7 @@
                       'tipopago' => $tipopago,
                       'ncuotas'  => $ncuotas,
                       'vcuotas'  => $vcuotas,
-                      'monto'  => $monto,                      
+                      'monto'  => "Q. ".$monto,                      
                       'email'  => $email,
                       'nreferencia' => $response["nreferencia"],
                       'nautorizacion' => $response["nautorizacion"],                                 
@@ -710,7 +710,7 @@
           if($customerSession->isLoggedIn()) {                
                 $customerFactory = $objectManager->get('\Magento\Customer\Model\CustomerFactory')->create();
                 $customer = $customerFactory->load($customerSession->getCustomer()->getId());  
-          }
+          
 
          $ncoti = $customer->getData('cotizacion');
             if ($ncoti == ""){
@@ -726,9 +726,45 @@
                     }
                 }
             }
+          }
 
             return $return;
 
+        }
+
+        /*Registrar los logs  Webservice*/
+        public function registrarlogws($datos){
+
+          
+          $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+          $directory = $objectManager->get('\Magento\Framework\Filesystem\DirectoryList');
+          $rootPath  =  $directory->getRoot();
+          $writer = new \Zend\Log\Writer\Stream($rootPath . '/var/log/wskalea.log');
+          $logger = new \Zend\Log\Logger();
+          $logger->addWriter($writer);
+          if (is_array($datos)){
+            $logger->err(print_r($datos,true));
+          }else {
+            $logger->err($datos);  
+          }
+          
+        }
+
+        /*Registrar los logs  Métodos de pago*/
+         public function registrarlogpayment($datos){
+          
+          $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+          $directory = $objectManager->get('\Magento\Framework\Filesystem\DirectoryList');
+          $rootPath  =  $directory->getRoot();
+          $writer = new \Zend\Log\Writer\Stream($rootPath . '/var/log/payment.log');
+          $logger = new \Zend\Log\Logger();
+          $logger->addWriter($writer);
+          if (is_array($datos)){
+            $logger->err(print_r($datos,true));
+          }else {
+            $logger->err($datos);  
+          }
+          
         }
 
 

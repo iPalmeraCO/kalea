@@ -29,6 +29,8 @@ class BeforeOrderPaymentSaveObserver implements ObserverInterface
         $payment = $observer->getEvent()->getPayment();        
         $order = $payment->getOrder();  
         $datosdireccion = $order->getBillingAddress()->getData();  
+        $shipping   = $order->getShippingAddress();  
+
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         if($customerSession->isLoggedIn()) {                
@@ -45,21 +47,24 @@ class BeforeOrderPaymentSaveObserver implements ObserverInterface
         $valor = intval(str_replace(".", "", $valor));
 
         $apikalea = new ApiKalea(); 
-
-         $actualizar_cotizacion = $apikalea->actualizar_cotizacion($customer->getData('cotizacion'), $customer->getData('idkalea'),  $order->getCedula(), $datosdireccion["telephone"], $datosdireccion["firstname"], $datosdireccion["lastname"], $valor, $datosdireccion["region"], $datosdireccion["city"], $datosdireccion["street"], $order->getAllItems());         
-           
     
-           if ($actualizar_cotizacion != -1){  
-                $res= $apikalea->crearpedidocontroller($customer->getData('cotizacion'));            
-                    if ($res == -1){
-                        throw new \Magento\Framework\Exception\LocalizedException(__('Error al crear el pedido.'.$payment->getMethod()));  
-                    } else {
-                        $apikalea->limpiarno_transa_mov();
-                    }
+        $departamento = $apikalea->getdepartamento($shipping->getregion_id(), $shipping->getcity());             
 
-           } else {
-                throw new \Magento\Framework\Exception\LocalizedException(__('Error al actualizar la cotización.'));  
-           }
+
+         if ($departamento != -1){
+             $actualizar_cotizacion = $apikalea->actualizar_cotizacioncontroller($customer->getData('cotizacion'), $customer->getData('idkalea'),  $order->getCedula(), $datosdireccion["telephone"], $datosdireccion["firstname"], $datosdireccion["lastname"], $valor, $shipping->getregion_id(), $departamento, $datosdireccion["street"], $order->getAllItems()); 
+
+               if ($actualizar_cotizacion == 1){                 
+                    $apikalea->limpiarno_transa_mov();
+                    $response["nreferencia"] = " - ";
+                    $response["nautorizacion"] = " - ";
+                    $apikalea->enviarcopiatransaccion($response, $amount,  $datosdireccion["email"], $customer->getData('idkalea'), $order, $customer->getData('nit') , $datosdireccion["street"], "Transferencia Bancaria", "-", "-"); 
+               } else {                    
+                    throw new \Magento\Framework\Exception\LocalizedException(__('Error al actualizar la cotización'));  
+               }
+            }else{
+                throw new \Magento\Framework\Exception\LocalizedException(__('Error al Encontrar el departamento.'));  
+            }
        }
 
         $instructionMethods = [

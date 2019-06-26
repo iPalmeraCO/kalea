@@ -172,7 +172,7 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
 
            
-           if ($actualizar_cotizacion != -1){           
+           if ($actualizar_cotizacion == 1){           
 
             ///build array of payment data for API request.
             $request = [
@@ -192,29 +192,11 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 'no_transa_mov' => $customer->getData('cotizacion'),
                 'idkalea'   => $customer->getData('idkalea'),
                 'nombrecliente' => $customer->getName(),
-                'vcuotas' =>  $valorcuotas          
+                'vcuotas' =>  $valorcuotas,
+                'ncuotas' =>  $cuotas, 
+                'nit' => $customer->getData('nit'),
+                'order' => $order            
             ];
-            
-            /*
-            Ver request */
-            //self::send_email(print_r($request, true), 'julian.escobar@ipalmera.co' );
-            /**/
-            
-           /* $order = $payment->getOrder();
-            $nombrecliente  = $order->getCustomerName(); 
-            $datosdireccion = $order->getBillingAddress()->getData();            
-            $productos      = $order->getAllItems();
-
-            foreach ($order->getAllItems() as $item) {
-                $productos = $item->getData();
-                }
-
-            $info = $this->getInfoInstance();
-            self::send_email(print_r($datosdireccion, true) );
-            die();*/
-
-            //check if payment has been authorized
-
 
             $response = $this->makeAuthRequest($request);
 
@@ -265,23 +247,17 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function makeAuthRequest($request)
     {
-        //$response = ['transactionId' => 0]; //todo implement API call for auth request.
-        $apikalea = new ApiKalea();
-        $res= $apikalea->crearpedidocontroller($request["no_transa_mov"]);   
-        if ($res == -1){
-            self::send_email("aca", 'julian.escobar@ipalmera.co' );
-            throw new \Magento\Framework\Exception\LocalizedException(__('Error al crear el pedido v.'));  
-        }              
-
+        $apikalea = new ApiKalea();   
         $response = self::methodpayment($request);
+        //self::send_email(print_r($response,true),"julian.escobar@ipalmera.co");
 
-        if(!$response) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('Error al procesar el pago.'));
+        if(is_array($response)) {
+            $apikalea->limpiarno_transa_mov();
         } else {
-             $apikalea->limpiarno_transa_mov();
+            throw new \Magento\Framework\Exception\LocalizedException(__('Error al procesar el pago.'));
         }
 
-        return $response;
+        return $response;;
     }
 
     /**
@@ -394,13 +370,15 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 $datos['street'] = self::quitaracentos($direccion);
                 $datos['postalCode'] = $postal;
                 $datos['email'] = self::quitaracentos($email);
-                self::send_email(print_r($datos, true), 'julian.escobar@ipalmera.co' );
+
+                /*$reqlog = "Ped #".$request["order"]->getIncrementId(). " - " .print_r($datos, true);
+                $apikalea->registrarlogpayment($reqlog);*/
+                //self::send_email(print_r($datos, true), 'julian.escobar@ipalmera.co' );
                 
                 try {       
                     $response = $client->Authorization($datos);
                 } catch (Exception $ex) {
-                //echo 'error consumno ' . $ex->getMessage(); die();
-                //self::send_email(print_r($ex->getMessage(), true), 'julian.escobar@ipalmera.co' );
+                    $apikalea->registrarlogpayment("Error en el webservice visanet".print_r($ex->getMessage(), true));                
                 return false;
                 }
                 
@@ -411,11 +389,12 @@ class PaymentMethod extends \Magento\Payment\Model\Method\AbstractMethod
                     $response = self::getresponsevisanet($client->__getLastResponse());                           
                     self::send_emailvisanet($response, $monto,  $email);                    
                     $apikalea->registrarpago($request["no_transa_mov"],2,$monto,$vcc,$request["vcuotas"],$response['nreferencia'],$response['nautorizacion'],$nombrecliente, $email);                          
-                    $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $nombrecliente);   
-                    self::send_email(2, 'julian.escobar@ipalmera.co' );                 
+                    $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $request["order"], $request["nit"], $direccion, "Cuotas", $request["ncuotas"], $request["vcuotas"]);                       
                     return ['transactionId' => 0];
                 } else {
-                    self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );
+                    //self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );                    
+                    $reqlog = "Ped #".$request["order"]->getIncrementId(). " - Request - " .print_r($datos, true). "- Response -".$doc->getElementsByTagName('responseCode')->item(0)->nodeValue;
+                    $apikalea->registrarlogpayment($reqlog);
                     return false;
                 }  
             }  

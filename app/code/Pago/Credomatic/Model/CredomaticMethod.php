@@ -341,7 +341,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 $datos['Token'] = 'illJUkUJKzVwJ7eRWQn1ljbeqwXRrARmkiP+fECvzZt4o56YaWYOe05r3GeDUMFRN8eOUdBY7osS/zxK+jqlzWlxOGJLrvs0QH5UPHSv0nqXAWF+7cSSxuZZ46VypYIls8a1rCvPi+1CAokMAgnp+mm5q+f9uGu7xYaBjhxPMbEtquFShEKbuZ8rzSy6ENjVtarHUJIptsjltA3FDimbSIyn9YKNvUeWm5o1ixpyHi91Amuewi18rN6iEDGjiDaEsLx1TsvAgITkDxA3fGdaNotLdEpTfXufBRR03fRjiNqSHLqPsJMGGpuOvAbAjAOxQbkQtixlBo6jJSjnWpWRwA==';*/
                 $datos['merchant_id'] = 'visanetgt_kalea';
                 $datos['Token'] = "U+dvnLRwAzURZh6LXETkf0qiT8ibGzEMyKexbgHA62+fzJkFEtC9CREEK0FMivmeyyVRElwiXHp4Ubej5bwiIFpuBfzZqVC3aBwLuTgO8QhMJHa+4q27yg8WyJfFwu5VbidXO7qGMkMpd5Gl1TRdaxFcJ2ahBXzjfMDLMlvbUSWA1PZJZ9MduNKmYDSpf07K56K5KYjMY9Z/ydfbnvvc24WdJOrCPygekmMCZPk7z8DlF2S0uD/2q8c2SUc67eOyyzOv0uY0wVXXPzQPvmLTjWnGmasy7Bx/hQfKs8P7GY8x648I+8q5972vpBDabsmuNHpkItyIr8yh3WR+V7jmVA==";
-                $datos['CybsEpay'] = 'cybersoure';
+                $datos['CybsEpay'] = 'cybersource';
                 $datos['expirationMonth'] = self::getmes($month);
                 $datos['expirationYear'] = substr($year,-2);
                 $datos['accountNumber'] = $cc_number;
@@ -359,13 +359,12 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 $datos['street'] = self::quitaracentos($direccion);
                 $datos['postalCode'] = $postal;
                 $datos['email'] = self::quitaracentos($email);
-                self::send_email(print_r($datos, true), 'julian.escobar@ipalmera.co' );
+                //self::send_email(print_r($datos, true), 'julian.escobar@ipalmera.co' );
                 
                 try {
                 $response = $client->Authorization($datos);
                 } catch (Exception $ex) {
-                //echo 'error consumno ' . $ex->getMessage(); die();
-                //self::send_email(print_r($ex->getMessage(), true), 'julian.escobar@ipalmera.co' );
+                    $apikalea->registrarlogpayment("Error en el webservice visanet ".print_r($ex->getMessage(), true));
                 return false;
                 }
                 $doc = new \DOMDocument;
@@ -377,7 +376,9 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                     $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $request["order"], $request["nit"], $direccion, "Contado", "-", "-");                    
                     return ['transactionId' => $request["no_transa_mov"]];
                 } else {
-                    self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );
+                    //self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );
+                    $reqlog = "Ped #".$request["order"]->getIncrementId(). " - Request - " .print_r($datos, true). "- Response -".$doc->getElementsByTagName('responseCode')->item(0)->nodeValue;
+                    $apikalea->registrarlogpayment($reqlog);
                     return false;
                 } 
             } else {
