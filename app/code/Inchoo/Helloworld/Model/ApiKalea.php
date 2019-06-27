@@ -5,7 +5,7 @@
 
     class ApiKalea 
     {
-        public $urlapi = "http://200.6.255.18:3002";
+        public $urlapi = "http://200.6.255.18:3004";
         public $cia = "01";
         public $centrod_crea = "01";
         public $ind_nacional = "S";
@@ -284,6 +284,7 @@
 
           }
 
+           
           public function consultar_detallebd($mov, $articulo){
 
               $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
@@ -328,7 +329,11 @@
           $var = self::getservice('/servicios/v1/ventas_online/pedidos/crear',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$mov));
 
           if ($var["descripcion"]["mensaje"] == "Cantidad inexistente"){
-                self::enviarfacturaerror(print_r($var,true),'julian.escobar@ipalmera.co');        
+                //self::enviarfacturaerror(print_r($var,true),'julian.escobar@ipalmera.co');       
+              foreach ($var["descripcion"]["productos_inexistentes"]  as $pr) {               
+                self::registrarlogws($pr["no_arti"]); 
+              }
+                self::registrarlogws("Pedido # ".$mov." - ".print_r($var,true)); 
                 throw new \Magento\Framework\Exception\LocalizedException(__('Sorry, but seems to be a problem with this product, please try again later.'));                
             }
         
@@ -413,7 +418,8 @@
                   $det= self::crear_detalle_pedido($nomov, $row["no_arti"], $row["cantidad"], $row["linea"], $row["precio"],0,$row["precio"],$row["cantidad"]);                      
                   
                     if (!$det["respuesta"]){
-                      self::enviarfacturaerror(print_r($det,true),'julian.escobar@ipalmera.co');
+                      self::registrarlogws("Pedido # ".$nomov." ".print_r($det,true));
+                      //self::enviarfacturaerror(print_r($det,true),'julian.escobar@ipalmera.co');
                       //$return= $nomov. "- ". $row["no_arti"]. "- ". $row["cantidad"]. "- ". $row["linea"]. "- ". $row["precio"]. "- 0 - ".$row["precio"]. "- ".$row["cantidad"];
                       $return = -1;                       
                       break;
@@ -464,16 +470,18 @@
           $success = $this->actualizar_cotizacion($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);           
         } 
 
-        if ($success["respuesta"]) {
-               
-            $validpedido = $this->crearpedidocontroller($no_transa_mov);
-            
-            if ($validpedido == 1){              
-              $success["respuesta"] = true;
-              $success = $this->actualizar_pedido($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);    
-            } else {
+        if ($success["respuesta"]) {            
+            if (self::validarexistencias()){
+              $validpedido = $this->crearpedidocontroller($no_transa_mov);              
+              if ($validpedido == 1){              
+                $success["respuesta"] = true;
+                $success = $this->actualizar_pedido($no_transa_mov, $nombres, $monto, $direccion, "01" , $region,$ciudad, 0,0,0);    
+              } else {
+                $success["respuesta"] = false;
+              }         
+            }else {
               $success["respuesta"] = false;
-            }         
+            }
 
         }
           
@@ -624,7 +632,7 @@
 
               $data->sendMessage();
              } catch (\Exception $e) {
-              self::enviarfacturaerror($e->getMessage(),'julian.escobar@ipalmera.co');
+              self::registrarlogws($e->getMessage());              
             }
         }    
 
@@ -683,10 +691,40 @@
                 $detalle = self::crear_detalle($no_transa_mov,$item->getSku(),$cantidad,$precio,0,$precio,$cantidad);        
                             
                 if (!$detalle["respuesta"]){
-                            self::enviarfacturaerror(print_r($detalle,true),'julian.escobar@ipalmera.co');
-                                throw new \Magento\Framework\Exception\LocalizedException("Error al agregar el carrito"); 
+                            self::registrarlogws("Pedido #".$no_transa_mov." - ".print_r($detalle,true));                             
+                            throw new \Magento\Framework\Exception\LocalizedException("Error al agregar el carrito"); 
                 }
             }
+
+        }
+
+        /* valida que hallan existencias antes de hacer el pedido */
+        public function validarexistencias(){
+            $valid = true;
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+            $itemsCollection = $cart->getQuote()->getItemsCollection();
+            $itemsVisible = $cart->getQuote()->getAllVisibleItems();
+            $items = $cart->getQuote()->getAllItems();
+            foreach($items as $item) {    
+                $cantidad = $item->getQty();
+                $existencias = self::consulta_existencias($item->getSku());  
+                $existencias = floatval($existencias["descripcion"]["total_inmediatas"]);
+                if ($existencias < $cantidad){
+                  $valid = false;
+                }
+                $item->getProduct()->setStockData(
+                    array(
+                        'use_config_manage_stock' => 0,
+                        'manage_stock' => 1,
+                        'is_in_stock' => 1,
+                        'qty' => $existencias,
+                         )
+                );
+                $item->getProduct()->save(); 
+            }
+
+            return $valid;
 
         }
 

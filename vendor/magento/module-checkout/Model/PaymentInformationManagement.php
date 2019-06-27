@@ -117,8 +117,7 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
             $quote->removeAddress($quote->getBillingAddress()->getId());
             $quote->setBillingAddress($billingAddress);
             $quote->setDataChanges(true);
-            $shippingAddress = $quote->getShippingAddress();
-            $this->getLogger()->critical("ANTES");
+            $shippingAddress = $quote->getShippingAddress();            
             if ($shippingAddress && $shippingAddress->getShippingMethod()) {
                 $shippingDataArray = explode('_', $shippingAddress->getShippingMethod());
                 $shippingCarrier = array_shift($shippingDataArray);

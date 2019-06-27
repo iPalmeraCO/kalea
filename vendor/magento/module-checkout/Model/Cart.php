@@ -577,12 +577,13 @@ class Cart extends DataObject implements CartInterface
     public function updateItems($data)
     {   
 
+        $a = new \Inchoo\Helloworld\Model\ApiKalea();
+      
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 
         if($customerSession->isLoggedIn()) {
-            self::checkcotizacion();
-            $a = new \Inchoo\Helloworld\Model\ApiKalea();               
+            self::checkcotizacion();                        
             $no_transa_mov = $this->getQuote()->get_no_cotizacion();   
             if ($no_transa_mov == -1) {
                 $this->_checkoutSession->setRedirectUrl("/customer/account/login");    
@@ -611,36 +612,54 @@ class Cart extends DataObject implements CartInterface
                 continue;
             }
 
-            $qty = isset($itemInfo['qty']) ? (double)$itemInfo['qty'] : false;
-            if ($qty > 0) {
-
-                if($customerSession->isLoggedIn()) {
-                    $id = $a->consultar_detallebd($no_transa_mov , $item->getSku()); //Consultar si articulo ya existe 
-
-                    if ($id == -1){
-                        throw new \Magento\Framework\Exception\LocalizedException(__("Error al actualizar el carrito"));
-                    } else {
-                        $id = $id[0];                     
-                        $precio = number_format($item->getPrice(),0, '.', '');
-                        $a->actualizar_detalle($id["id"], $no_transa_mov, $id["linea"],$qty, $precio, 0, $precio, $qty);
-                    }
+                $qty = isset($itemInfo['qty']) ? (double)$itemInfo['qty'] : false;
+                $existencias = $a->consulta_existencias($item->getSku());  
+                $existencias = floatval($existencias["descripcion"]["total_inmediatas"]);
+                $item->getProduct()->setStockData(
+                    array(
+                        'use_config_manage_stock' => 0,
+                        'manage_stock' => 1,
+                        'is_in_stock' => 1,
+                        'qty' => $existencias,
+                         )
+                );
+                $item->getProduct()->save();   
+                
+                if ($existencias < $qty){                    
+                    throw new \Magento\Framework\Exception\LocalizedException(__("No tenemos tanto ".$item->getProduct()->getName()." como ha solicitado"));                    
                 }
-       
-                $item->setQty($qty);
+                else {
+                    if ($qty > 0 ) {
+
+                        if($customerSession->isLoggedIn()) {
+                            $id = $a->consultar_detallebd($no_transa_mov , $item->getSku()); //Consultar si articulo ya existe 
+
+                            if ($id == -1){
+                                throw new \Magento\Framework\Exception\LocalizedException(__("Error al actualizar el carrito"));
+                            } else {
+                                //throw new \Magento\Framework\Exception\LocalizedException(__("Error al actualizaar el carrito".$existencias." - ".$qty));
+                                $id = $id[0];                     
+                                $precio = number_format($item->getPrice(),0, '.', '');
+                                $a->actualizar_detalle($id["id"], $no_transa_mov, $id["linea"],$qty, $precio, 0, $precio, $qty);
+                            }
+                        }
+               
+                        $item->setQty($qty);
 
 
-                if ($item->getHasError()) {
-                    throw new \Magento\Framework\Exception\LocalizedException(__($item->getMessage()));
-                }
+                        if ($item->getHasError()) {
+                            throw new \Magento\Framework\Exception\LocalizedException(__($item->getMessage()));
+                        }
 
-                if (isset($itemInfo['before_suggest_qty']) && $itemInfo['before_suggest_qty'] != $qty) {
-                    $qtyRecalculatedFlag = true;
-                    $this->messageManager->addNotice(
-                        __('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty),
-                        'quote_item' . $item->getId()
-                    );
-                }
-            }
+                        if (isset($itemInfo['before_suggest_qty']) && $itemInfo['before_suggest_qty'] != $qty) {
+                            $qtyRecalculatedFlag = true;
+                            $this->messageManager->addNotice(
+                                __('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty),
+                                'quote_item' . $item->getId()
+                            );
+                        }
+                    }  
+                }          
         }
 
         if ($qtyRecalculatedFlag) {

@@ -2628,6 +2628,7 @@ class Quote extends AbstractExtensibleModel implements \Magento\Quote\Api\Data\C
                     $customer->updateData($customerData);     
                     $customer->save();              
                   } else {
+                    $a->registrarlogws("Error crear cotización idkalea".$customer->getData('idkalea')." - ".print_r($cotizacion,true));
                     throw new \Magento\Framework\Exception\LocalizedException(__('Error al crear la cotización'));
                     //throw new \Magento\Framework\Exception\LocalizedException(__(print_r($cotizacion,true)));
                   }
