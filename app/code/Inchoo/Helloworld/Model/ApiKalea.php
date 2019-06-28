@@ -81,7 +81,9 @@
             $response = $response->getBody();   
             $response =  json_decode($response,true); 
             }  catch(\Exception $e){
+              self::registrarlogws("Error de conexión webservices ".print_r($e->getMessage(),true));
               return $e;
+
             }
 
             return $response;
