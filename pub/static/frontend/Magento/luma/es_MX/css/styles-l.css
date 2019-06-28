@@ -4758,7 +4758,7 @@ body.customer-account-login.page-layout-1column,
 	position: relative
 }
 
-.block.block-customer-login:after {
+/*.block.block-customer-login:after {
 	content: '';
 	height: 230px;
 	width: 1px;
@@ -4768,7 +4768,7 @@ body.customer-account-login.page-layout-1column,
 	top: 15%;
 	bottom: 0;
 	z-index: 10
-}
+}*/
 
 .block.block-new-customer {
 	padding: 25px 35px
@@ -9035,3 +9035,67 @@ input#dob:-moz-placeholder {
 	display: none;
 }
 
+/* Modal Logueo */
+.modal-content .block-authentication{
+
+}
+
+.modal-content .block-authentication #send2, .block-authentication .actions-toolbar>.primary .action  {
+    padding: 8px 30px;
+    border-radius: 8px!important;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-family: 'Heebo', sans-serif;
+    font-weight: 500;
+    color: #ffffff!important;
+    box-shadow: none!important;
+    font-size: 14px;
+    background: #f9af00;
+    border: 1px solid #f9af00;
+}
+
+.modal-content .block-authentication #send2:hover, .block-authentication .actions-toolbar>.primary .action:hover{
+text-decoration: none;
+    color: #ffffff!important;
+    font-size: 14px;
+    background: #b9cd22;
+    border: 1px solid #b9cd22;
+    border-top-color: rgb(185, 205, 34);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgb(185, 205, 34);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgb(185, 205, 34);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(185, 205, 34);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+}
+
+.block-authentication .block-title strong {
+font-family: 'Roboto Condensed', sans-serif;
+    position: relative;
+    font-weight: 400!important;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.block-authentication .block-content p, .block-authentication ul li{
+	color: #494b50;
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+}
+.block-authentication .block-content p{
+	font-weight: bold;
+}
+
+ .block-authentication ul {
+ 	margin-top: 20px;
+ }

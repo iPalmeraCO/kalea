@@ -4,17 +4,16 @@
  * See COPYING.txt for license details.
  */
  -->
-
 <div class="block-authentication"
      data-bind="afterRender: setModalElement, blockLoader: isLoading"
      style="display: none">
     <div class="block block-new-customer"
-         data-bind="attr: {'data-label': $t('or')}">
+         data-bind="attr: {'data-label': $t('o')}">
         <div class="block-title">
             <strong id="block-new-customer-heading"
                     role="heading"
                     aria-level="2"
-                    data-bind="i18n: 'Checkout as a new customer'"></strong>
+                    data-bind="i18n: 'Registro'"></strong>
         </div>
         <div class="block-content" aria-labelledby="block-new-customer-heading">
             <p data-bind="i18n: 'Creating an account has many benefits:'"></p>
@@ -34,12 +33,12 @@
     </div>
 
     <div class="block block-customer-login"
-         data-bind="attr: {'data-label': $t('or')}">
+         data-bind="attr: {'data-label': $t('o')}">
         <div class="block-title">
             <strong id="block-customer-login-heading"
                     role="heading"
                     aria-level="2"
-                    data-bind="i18n: 'Checkout using your account'"></strong>
+                    data-bind="i18n: 'Ingreso'"></strong>
         </div>
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
@@ -53,26 +52,26 @@
                   data-bind="event: {submit: login }"
                   id="login-form">
                 <div class="fieldset login" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
-                    <div class="field email required">
-                        <label class="label" for="customer-email"><span data-bind="i18n: 'Email Address'"></span></label>
+                    <div class="field email required">                        
                         <div class="control">
+                            <i class="fas fa-envelope"></i>
                             <input name="username"
                                    id="customer-email"
                                    type="email"
                                    class="input-text"
                                    data-bind="attr: {autocomplete: autocomplete}"
-                                   data-validate="{required:true, 'validate-email':true}">
+                                   data-validate="{required:true, 'validate-email':true}" placeholder="Correo Electrónico *">
                         </div>
                     </div>
-                    <div class="field password required">
-                        <label for="pass" class="label"><span data-bind="i18n: 'Password'"></span></label>
+                    <div class="field password required">                        
                         <div class="control">
+                            <i class="fas fa-unlock-alt"></i>
                             <input name="password"
                                    type="password"
                                    class="input-text"
                                    id="pass"
                                    data-bind="attr: {autocomplete: autocomplete}"
-                                   data-validate="{required:true}">
+                                   data-validate="{required:true}" placeholder="Contraseña *">
                         </div>
                     </div>
                     <!-- ko foreach: getRegion('additional-login-form-fields') -->
@@ -94,5 +93,12 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="line-colors">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
 </div>
