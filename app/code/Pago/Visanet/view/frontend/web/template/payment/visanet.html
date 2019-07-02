@@ -1,7 +1,6 @@
 <div class="containerlogospayment">
             <label> Pagos Tarjeta de Crédito/Débito </label>
-          <img src="https://kalea.com.gt/pub/static/frontend/Magento/luma/es_MX/images/visanet2.png"   class="logospayment">
-          <img src="https://kalea.com.gt/pub/static/frontend/Magento/luma/es_MX/images/credomatic.png" class="logospayment">          
+          <img src="https://kalea.com.gt/pub/static/frontend/Magento/luma/es_MX/images/visanet2.png"   class="logospayment">          
 </div>
 <div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div class="payment-method-title field choice">
@@ -16,9 +15,7 @@
 
     </div>
     <div class="payment-method-content">
-        <!-- ko foreach: getRegion('messages') -->
-        <!-- ko template: getTemplate() --><!-- /ko -->
-        <!--/ko-->
+
 
         <div class="actions-toolbar">
 
@@ -56,31 +53,34 @@
             </div>
 
             <div class="field text required">
-               <label data-bind="attr: {for: getCode() + '_name'}" class="label">
+               <!-- <label data-bind="attr: {for: getCode() + '_name'}" class="label">
                     <span>Nombres Titular</span>
-                </label>         
+                </label>  -->        
                 <div class="control">
+                    <i class="fas fa-user"></i>
                     <input type="text" name="payment[vname]" class="input-text required" value=""
-                           id="visanet_vname" data-validate='{"required":true}'/>
+                           id="visanet_vname" placeholder="Nombres Titular" data-validate='{"required":true}'/>
                 </div>     
             </div>
 
              <div class="field text required">
-               <label data-bind="attr: {for: getCode() + '_lastname'}" class="label">
+               <!-- <label data-bind="attr: {for: getCode() + '_lastname'}" class="label">
                     <span>Apellidos Titular</span>
-                </label>         
+                </label>   -->       
                 <div class="control">
+                    <i class="fas fa-user"></i>
                     <input type="text" name="payment[lastname]" class="input-text" value=""
-                           id="visanet_lastname"/>
+                           id="visanet_lastname" placeholder="Apellidos Titular" />
                 </div>     
             </div>
 
             <div class="field number required">
-                <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
-                    <span><!-- ko i18n: 'Credit Card Number'--><!-- /ko --></span>
-                </label>
+                <!-- <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
+                    <span><!- - ko i18n: 'Credit Card Number'--><!-- /ko - -></span>
+                </label> -->
                 <div class="control">
-                    <input type="number" name="payment[cc_number]" class="input-text" value=""
+                  <i class="far fa-credit-card"></i>
+                    <input type="number" placeholder="Número de tarjeta" name="payment[cc_number]" class="input-text" value=""
                            data-bind="attr: {
                                             autocomplete: off,
                                             id: getCode() + '_cc_number',
@@ -93,13 +93,11 @@
                 </div>
             </div>
 
-            <div class="field text required">
-               <label data-bind="attr: {for: getCode() + '_vcc'}" class="label">
-                    <span>Número de Cuotas</span>
-                </label>         
+            <div class="field text required">               
                 <div class="control">
-                    <select name="payment[vcc]" class="input-text" id="visanet_vcc">
-                      <option value="" selected disabled hidden>Seleccione ...</option>
+                    <i class="far fa-credit-card"></i>
+                    <select style="padding-left: 34px;" name="payment[vcc]" class="input-text" id="visanet_vcc">
+                      <option value="" selected disabled hidden>Número de cuotas ...</option>
                       <option value="VC03">3 Cuotas</option>
                       <option value="VC06">6 Cuotas</option>
                       <option value="VC09">9 Cuotas</option>
@@ -111,14 +109,16 @@
             </div>
 
             <div class="field date required" data-bind="attr: {id: getCode() + '_cc_type_exp_div'}">
-                <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
-                    <span><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>
-                </label>
+                <!-- <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
+                    <span><!- - ko i18n: 'Expiration Date'--><!-- /ko - -></span>
+                </label> -->
                 <div class="control">
+                    
                     <div class="fields group group-2">
                         <div class="field no-label month">
                             <div class="control">
-                                <select  name="payment[cc_exp_month]"
+                                <i class="fas fa-calendar"></i>
+                                <select style="padding-left: 31px;"  name="payment[cc_exp_month]"
                                          class="select select-month"
                                          data-bind="attr: {id: getCode() + '_expiration', 'data-container': getCode() + '-cc-month', 'data-validate': JSON.stringify({required:true, 'validate-cc-exp':'#' + getCode() + '_expiration_yr'})},
                                                     enable: isActive($parents),
@@ -132,7 +132,8 @@
                         </div>
                         <div class="field no-label year">
                             <div class="control">
-                                <select name="payment[cc_exp_year]"
+                                <i class="fas fa-calendar"></i>
+                                <select style="padding-left: 30px;" name="payment[cc_exp_year]"
                                         class="select select-year"
                                         data-bind="attr: {id: getCode() + '_expiration_yr', 'data-container': getCode() + '-cc-year', 'data-validate': JSON.stringify({required:true})},
                                                    enable: isActive($parents),
@@ -148,22 +149,24 @@
                 </div>
             </div>
             <!-- kio if: (hasVerification())-->
-            <div class="field cvv required" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
+            <!-- <div class="field cvv required" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
                 <label data-bind="attr: {for: getCode() + '_cc_cid'}" class="label">
-                    <span><!-- ko i18n: 'Card Verification Number'--><!-- /ko --></span>
-                </label>
-                <div class="control _with-tooltip">
+                    <span><!- - ko i18n: 'Card Verification Number'--><!-- /ko - -></span>
+                </label> -->
+                <div class="control _with-tooltip cvv" style="margin-bottom: 13px;">
+                    <i class="far fa-credit-card"></i>
                     <input type="number"
                            autocomplete="off"
                            class="input-text cvv"
                            name="payment[cc_cid]"
                            value=""
+                           placeholder= "Cvv"
                            data-bind="attr: {id: getCode() + '_cc_cid',
                                 title: $t('Card Verification Number'),
                                 'data-container': getCode() + '-cc-cvv',
                                 'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
                                 enable: isActive($parents),
-                                value: creditCardVerificationNumber" />
+                                value: creditCardVerificationNumber," />
                     <!--<div class="field-tooltip toggle">
                         <span class="field-tooltip-action action-cvv"
                               tabindex="0"
@@ -201,4 +204,8 @@
         </div>
     </div>
 </div>
-
+<div class="modalpayment">
+     <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+</div>

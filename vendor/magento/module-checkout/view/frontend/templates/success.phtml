@@ -5,17 +5,37 @@
  */
 
 // @codingStandardsIgnoreFile
+$tipopago = "";
+
+try {
+$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+$orderDatamodel = $objectManager->get('Magento\Sales\Model\Order')->getCollection()->getLastItem();
+$lid   =   $orderDatamodel->getId();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$order = $objectManager->create('Magento\Sales\Model\Order')->load($lid);
+$payment = $order->getPayment();
+$method = $payment->getMethodInstance();
+$pago = $method->getCode();
+$tipopago = "Su pago ha sido exitoso.";
+if ($pago == "banktransfer"){
+    $tipopago = "";
+}
+    
+
+} catch (Exception $e) {
+    $tipopago = "";
+}
 
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <div class="checkout-success">
     <?php if ($block->getOrderId()):?>
         <?php if ($block->getCanViewOrder()) :?>
-            <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+            <p><?= $tipopago; ?> <?= __('su número de orden es : %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
         <?php  else :?>
             <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
         <?php endif;?>
-            <p><?= /* @escapeNotVerified */ __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
+            <p><?= /* @escapeNotVerified */ __('Le enviaremos detalles con la confirmación de su orden, factura e informacion de rastreo en unos momentos') ?></p>
     <?php endif;?>
 
     <?= $block->getAdditionalInfoHtml() ?>
