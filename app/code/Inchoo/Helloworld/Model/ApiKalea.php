@@ -560,7 +560,7 @@
                 ->setTemplateIdentifier(18)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
                 ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
                 ->setTemplateVars($templateVars)
-                ->setFrom(['name' => 'Kalea','email' => 'magento_back@pa-phone.com'])
+                ->setFrom(['name' => 'Kalea','email' => 'ventasenlinea@kalea.com.gt'])
                 ->addAttachment(
                     $file2,
                     'text/plain',
@@ -591,7 +591,7 @@
                   ->setTemplateIdentifier(19)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
                   ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
                   ->setTemplateVars($templateVars)
-                  ->setFrom(['name' => 'Kalea','email' => 'magento_back@pa-phone.com'])                            
+                  ->setFrom(['name' => 'Kalea','email' => 'ventasenlinea@kalea.com.gt'])                            
                   ->addTo([$email])                
                   ->getTransport();
 
@@ -627,7 +627,7 @@
                   ->setTemplateIdentifier(20)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
                   ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
                   ->setTemplateVars($templateVars)
-                  ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'magento_back@pa-phone.com'])                       
+                  ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'ventasenlinea@kalea.com.gt'])                       
                   ->addTo(['julian.escobar@ipalmera.co'])            
                   /*->addTo(['ventasenlinea@kalea.com.gt'])                 */                
                   ->getTransport();
