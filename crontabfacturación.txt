@@ -1,0 +1,1 @@
+*/5 * * * * curl -X POST https://kalea.com.gt/index.php/rest/V1/kalea/invoices
