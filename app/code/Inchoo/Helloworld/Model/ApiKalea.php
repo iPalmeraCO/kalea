@@ -331,7 +331,7 @@
           $var = self::getservice('/servicios/v1/ventas_online/pedidos/crear',array('no_cia'=>$cia,'centrod'=>$cend,'centrof'=>$cenf,'no_transa_mov'=>$mov));
 
           if ($var["descripcion"]["mensaje"] == "Cantidad inexistente"){
-                //self::enviarfacturaerror(print_r($var,true),'julian.escobar@ipalmera.co');       
+                //self::enviarfacturaerror(print_r($var,true),'ventasenlinea@kalea.com.gt');       
               foreach ($var["descripcion"]["productos_inexistentes"]  as $pr) {               
                 self::registrarlogws($pr["no_arti"]); 
               }
@@ -421,7 +421,7 @@
                   
                     if (!$det["respuesta"]){
                       self::registrarlogws("Pedido # ".$nomov." ".print_r($det,true));
-                      //self::enviarfacturaerror(print_r($det,true),'julian.escobar@ipalmera.co');
+                      //self::enviarfacturaerror(print_r($det,true),'ventasenlinea@kalea.com.gt');
                       //$return= $nomov. "- ". $row["no_arti"]. "- ". $row["cantidad"]. "- ". $row["linea"]. "- ". $row["precio"]. "- 0 - ".$row["precio"]. "- ".$row["cantidad"];
                       $return = -1;                       
                       break;
@@ -453,7 +453,7 @@
          }else {         
           $var= print_r($serv["descripcion"],true);
           $var = $mov." - ".$var;
-          self::enviarfacturaerror($var,"julian.escobar@ipalmera.co");
+          self::enviarfacturaerror($var,"ventasenlinea@kalea.com.gt");
           return -1;
          }
       }
@@ -490,7 +490,7 @@
           
     
                 
-        // self::enviarfacturaerror(print_r($success,true),"julian.escobar@ipalmera.co");
+        // self::enviarfacturaerror(print_r($success,true),"ventasenlinea@kalea.com.gt");
         if ($success["respuesta"]){          
             $response = 1;
             //$response = $no_transa_mov." - " $codcliente." - " $nombres." - " $monto." - " $direccion." - " "Guatemala" ." - " $region." - "$ciudad." - ";
@@ -504,7 +504,7 @@
 
         public function crearpedidocontroller ($no_transa_mov){        
           $ped = $this->consultar_pedido($no_transa_mov);
-          //self::enviarfacturaerror(print_r($ped,true),"julian.escobar@ipalmera.co");
+          //self::enviarfacturaerror(print_r($ped,true),"ventasenlinea@kalea.com.gt");
           if (!$ped["respuesta"]){            
                   $this->crear_pedido($no_transa_mov);                       
           }                      
@@ -568,7 +568,8 @@
                     \Zend_Mime::ENCODING_BASE64,
                     $file
                 )
-                //->addTo(['julian.escobar@ipalmera.co'])
+                ->addBcc(['sistemas@kalea.com.gt'])
+                ->addBcc(['ventasenlinea@kalea.com.gt'])
                 ->addTo([$email])                
                 ->getTransport();
 
@@ -592,7 +593,8 @@
                   ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
                   ->setTemplateVars($templateVars)
                   ->setFrom(['name' => 'Kalea','email' => 'ventasenlinea@kalea.com.gt'])                            
-                  ->addTo([$email])                
+                  ->addTo([$email])   
+                  ->addBcc(['sistemas@kalea.com.gt'])                                 
                   ->getTransport();
 
               $data->sendMessage();
@@ -628,8 +630,8 @@
                   ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
                   ->setTemplateVars($templateVars)
                   ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'ventasenlinea@kalea.com.gt'])                       
-                  ->addTo(['julian.escobar@ipalmera.co'])            
-                  /*->addTo(['ventasenlinea@kalea.com.gt'])                 */                
+                  ->addBcc(['ventasenlinea@kalea.com.gt'])            
+                  ->addBcc(['sistemas@kalea.com.gt'])      /*           */                
                   ->getTransport();
 
               $data->sendMessage();
