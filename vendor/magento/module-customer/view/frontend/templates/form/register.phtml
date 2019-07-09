@@ -26,6 +26,13 @@ if ($this->getRequest()->getParam("usuario")){
 }
 ?>
 
+<style type="text/css">
+ .showpassword{   
+        right: 13px;
+        left: auto !important;
+}
+</style>
+
  <div class="block social-login-authentication-channel account-social-login customfacebookyayita">
                         <div class="block-content">
                             <div class="actions-toolbar social-btn social-btn-actions-toolbar facebook-login">
@@ -218,7 +225,7 @@ Registrarse para el boletín')) ?></span></label>
         <legend class="legend"><span><?= $block->escapeHtml(__('INFORMACIÓN DE REGISTRO')) ?></span></legend><br>
         <div class="field required">                
                 <div class="control">
-                	<i class="far fa-address-card"></i>
+                    <i class="far fa-address-card"></i>
                     <input type="text" placeholder="Nit*" name="nit" id="nit"title="<?= __('Nit') ?>" class="input-text requiredkalea" data-validate="{required:true, 'validate-integer':true}" value="<?= $block->escapeHtmlAttr($block->getFormData()->getnit()) ?>">
                 </div>
                 <div class="error"></div>
@@ -240,11 +247,12 @@ Registrarse para el boletín')) ?></span></label>
                 <i class="fas fa-unlock-alt"></i>
                 <input placeholder="Contraseña*" type="password" name="password" id="password"
                        title="<?= $block->escapeHtmlAttr(__('Contraseña')) ?>"
-                       class="input-text requiredkalea"
+                       class="input-text requiredkalea validpassword"
                        data-password-min-length="<?= $block->escapeHtmlAttr($block->getMinimumPasswordLength()) ?>"
                        data-password-min-character-sets="<?= $block->escapeHtmlAttr($block->getRequiredCharacterClassesNumber()) ?>"
                        data-validate="{required:true, 'validate-customer-password':true}"
                        autocomplete="off">
+                <i class="showpassword fas fa-eye"></i>       
                 <div id="password-strength-meter-container" data-role="password-strength-meter" aria-live="polite">
                     <div id="password-strength-meter" class="password-strength-meter">
                         <?= $block->escapeHtml(__('Seguridad de la contraseña')) ?>:
@@ -261,7 +269,8 @@ Registrarse para el boletín')) ?></span></label>
             <!-- <label for="password-confirmation" class="label"><span><?= $block->escapeHtml(__('Confirm Password')) ?></span></label> -->
             <div class="control">
                 <i class="fas fa-unlock-alt"></i>
-                <input placeholder="Confirmar Contraseña*" type="password" name="password_confirmation" title="<?= $block->escapeHtmlAttr(__('Confirm Password')) ?>" id="password-confirmation" class="input-text requiredkalea" data-validate="{required:true, equalTo:'#password'}" autocomplete="off">
+                <input placeholder="Confirmar Contraseña*" type="password" name="password_confirmation" title="<?= $block->escapeHtmlAttr(__('Confirm Password')) ?>" id="password-confirmation" class="input-text requiredkalea validpassword" data-validate="{required:true, equalTo:'#password'}" autocomplete="off">
+                <i class="showpassword fas fa-eye"></i>       
             </div>
             <div class="error"></div>
         </div>
@@ -351,6 +360,20 @@ require([
             $(el).parent().next().html(" ");
         }
 
+        if ($(el).hasClass("validpassword")){
+            if ($("#password").val() != $("#password-confirmation").val()){
+                  
+                $(el).css("border","1px solid red");            
+                $("#password").parent().next().html("Contraseñas no coinciden");
+                $("#password").parent().next().val("Contraseñas no coninciden");
+
+                return -1;
+            }else {
+                $(el).css("border","1px solid #949599");
+                $("#password").parent().next().html(" ");
+            }
+        }
+
         return validar;
        }
 
@@ -379,6 +402,15 @@ require([
             return;
           }
           event.preventDefault();
+        });
+
+       $( ".showpassword").click(function() {
+            if ($(this).prev().is("input")){
+                $(this).prev().attr('type', 'text');
+            }else {
+                $(this).prev().prev().attr('type', 'text');
+            }
+
         });
 
 });

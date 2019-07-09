@@ -5,9 +5,14 @@ define(
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
         'Magento_Payment/js/model/credit-card-validation/credit-card-number-validator',
         'mage/translate',
-         'jquery'
+         'jquery',
+         'Magento_Ui/js/modal/modal'
     ],
-    function (_, Component, creditCardData, cardNumberValidator, $t,$) {
+    function (_, Component, creditCardData, cardNumberValidator, $t,$,modalt) {
+
+
+            
+               
 
        /* $(document).on('change',"[name='payment[vcc]']",function(){
             var valor = $("#credomatic_vcc").val();
@@ -33,6 +38,25 @@ define(
 
 
         });*/
+ $( document ).ready(function() {    
+    $('form').on('focus', 'input[type=number]', function(e) {
+        $(this).on('wheel', function(e) {
+            e.preventDefault();
+        });
+    });
+ 
+    // Restore scroll on number inputs.
+    $('form').on('blur', 'input[type=number]', function(e) {
+        $(this).off('wheel');
+    });
+ 
+    // Disable up and down keys.
+    $('form').on('keydown', 'input[type=number]', function(e) {
+        if ( e.which == 38 || e.which == 40 )
+            e.preventDefault();
+    })
+});
+        
 
         return Component.extend({
             defaults: {

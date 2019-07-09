@@ -13,26 +13,44 @@ define(
             var valor = $("#visanet_vcc").val();
             var total = $(".price").html();
             var precio = total.split("Q.");            
-            precio = parseFloat(precio[1].trim().replace(',', '.'));            
+            precio = parseFloat(precio[1].trim().replace(',', ''));            
             var cuotas = valor.split("VC");            
             cuotas = parseInt(cuotas[1]);
            
             if (valor == "VC12" || valor == "VC15" || valor == "VC18"){
                 //Sumar 10% de recargo
                 precio = (precio * 0.07) + precio;
-                precio = precio.toFixed(3);
+                
             } 
-            var valorcuota = (precio/cuotas).toFixed(3);            
+            var valorcuota = (precio/cuotas);
             var cuotastring = $("#visanet_vcc option:selected").text(); 
             $("#ncuotas").html(cuotastring);
-            $("#vcuotas").html("Q. "+valorcuota.toString().replace(".", ','));
-            $("#tpagar").html("Q. "+precio.toString().replace(".", ','));
+            $("#vcuotas").html("Q. "+parseFloat(valorcuota.toFixed(2)).toLocaleString("es-GT",{minimumFractionDigits: 2, maximumFractionDigits: 2}));
+            $("#tpagar").html("Q. "+parseFloat(precio.toFixed(2)).toLocaleString("es-GT", {minimumFractionDigits: 2, maximumFractionDigits: 2}));
             $(".valorespago").show();
             //var html = "Número de cuotas :"+cuotastring+" \n Total a pagar:"+precio+" \n Valor cuotas: "+valorcuota;
             //alert(html);
 
 
         });
+ $( document ).ready(function() {    
+    $('form').on('focus', 'input[type=number]', function(e) {
+        $(this).on('wheel', function(e) {
+            e.preventDefault();
+        });
+    });
+ 
+    // Restore scroll on number inputs.
+    $('form').on('blur', 'input[type=number]', function(e) {
+        $(this).off('wheel');
+    });
+ 
+    // Disable up and down keys.
+    $('form').on('keydown', 'input[type=number]', function(e) {
+        if ( e.which == 38 || e.which == 40 )
+            e.preventDefault();
+    })
+});
 
         return Component.extend({
             defaults: {

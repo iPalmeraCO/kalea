@@ -94,7 +94,7 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
                     $e
                 );*/
             throw new CouldNotSaveException(
-                __('A Ocurrido un error, por favor verifica la información de pago e intente nuevamente.'),
+                __('Ha ocurrido un error, por favor verifica la información de pago e intente nuevamente.'),
                 $e
             );
         }
