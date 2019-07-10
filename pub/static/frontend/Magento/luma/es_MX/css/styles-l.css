@@ -161,8 +161,48 @@
 	.amazon-minicart-container .amazon-button-container {
 		width: auto
 	}
+
+
+}
+@media only screen and (max-width: 1200px) and (min-width: 960px) {
+	.content-banner-home.container div:last-child {
+		    font-size: 25px;
+	    	letter-spacing: .9px;
+	}
+	li.item.product.product-item.col-sm-12.col-md-6.col-lg-4:nth-child(1n+1) {
+	    flex: 0 0 50%;
+	    max-width: 50%;
+
+	}
 }
 
+@media only screen and (max-width: 1200px) and (min-width: 768px) {
+	ol.products.list.items.product-items li {
+		    padding-left: 0px !important;
+	    padding-right: 10px !important;
+	}
+}
+
+@media only screen and (max-width: 1000px) and (min-width: 768px) {
+	.product-info-main.detail-product {
+		margin-top: 7%;
+	}
+
+	.product-addto-links a.action.towishlist {
+		margin-left: 31% !important;
+	}
+}
+
+@media only screen and (max-width: 960px) and (min-width: 768px) {
+	.container.steps{
+		margin-top: 45px;
+	}
+	.page-layout-checkout .nav-toggle{
+		right: 360px;    
+    	top: 20px;
+	}
+
+}
 .multi-checkout-fields label {
 	display: block;
 	margin-bottom: 7px
@@ -4550,7 +4590,7 @@ ul.bxslider {
 	display: flex;
 	width: 100%;
 	justify-content: center;
-	height: 650px !important;
+	/*height: 650px !important;*/
 }
 
 .img-banner-2.container-fluid {
