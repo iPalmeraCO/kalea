@@ -9139,3 +9139,12 @@ font-family: 'Roboto Condensed', sans-serif;
  .block-authentication ul {
  	margin-top: 20px;
  }
+
+
+@media all and (max-width:1500px)
+{
+	.ui-datepicker .ui-datepicker-title .ui-datepicker-year {
+		width: 87px;
+	}
+}
+
