@@ -5,7 +5,7 @@
 
     class ApiKalea 
     {
-        public $urlapi = "http://200.6.255.18:3004";
+        public $urlapi = "http://200.6.255.18:3002";
         public $cia = "01";
         public $centrod_crea = "01";
         public $ind_nacional = "S";
@@ -686,7 +686,7 @@
             foreach($items as $item) {    
                 $cantidad = $item->getQty();
                 $consultar = self::consultar_detallebd($no_transa_mov, $item->getSku());  
-                $precio = number_format($item->getFinalPrice(),0, '.', '');
+                $precio = number_format($item->getPrice(),0, '.', ''); //
 
                 if ($consultar != -1){
                   self::actualizar_detallebd($consultar[0]["id"],0,$precio);
