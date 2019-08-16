@@ -1,8 +1,9 @@
 <?php
- 
+
 namespace Pago\Credomatic\Model;
 use \Magento\Payment\Model\Method\Cc;
 use \Inchoo\Helloworld\Model\ApiKalea;
+use \Pago\Credomatic\Model\Credomatic;
 /**
  * Pay In Store payment method model
  */
@@ -312,8 +313,8 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 $year      = $request["cc_exp_year"];
                 $cvv       = $request["cc_cid"];
                 //$vc  //numero cuotas
-                $firstName = $request["vname"];
-                $lastname  = $request["lastname"];
+                $firstName = self::quitaracentos($request["vname"]);
+                $lastname  = self::quitaracentos($request["lastname"]);
                 $monto     = $request["amount"];    
                 $ciudad    = $request["ciudad"];
                 $region    = $request["region"];
@@ -322,65 +323,31 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
                 $email     = $request["email"];    
                 $vcc       = $request["vcc"]; 
                 $idkalea   = $request["idkalea"];   
-                $nombrecliente = $request["nombrecliente"];   
-                //$url = 'https://ws.shopshop.com.gt/CyberSource/VisaNET/GT/AuthorizationRequest/index.php?wsdl'; 
-                $url = "https://ws.shopshop.com.gt/CyberSource/VisaNET/GT/Test/AuthorizationRequest/index.php?wsdl";
-                try {
-                $client = new \SoapClient($url, array("trace" => 1, "exception" => 0));
-                } catch (Exception $ex) {
-                //echo 'error conexion ' . $ex->getMessage(); die();
+                $nombrecliente = $request["nombrecliente"]; 
+                $mesano = self::getmes($month).substr($year,-2);  
+                
+                $pago = new Credomatic($request["no_transa_mov"], $cc_number, $cvv, $mesano, $firstName,$lastname, $monto);                
+                $respuesta = $pago->procesarpago();   
+                
+                if(!isset($respuesta["response"])){                    
+                    $apikalea->registrarlogpayment("No se pudo contactar la entidad Bancaria Credomatic");
                     return false;
                 }
 
-                $datos['terminal'] = '99526388';
-                $datos['merchant'] = '020001011';
-                $datos['user'] = 'E48316433D476EA8CC61BD0F9BDE5CE50C09F0FDF72A15C9B395BBCF57CE7BCD';
-                $datos['pass'] = 'D11F57F931813DBF256BEA1C9463D90D6FE40A64F8ECC84A9D6D2093CB5EF6A5';
-                $datos['customerID'] = $idkalea; // NUEVO
-                /*$datos['merchant_id'] = 'visanetgt_bimagua';
-                $datos['Token'] = 'illJUkUJKzVwJ7eRWQn1ljbeqwXRrARmkiP+fECvzZt4o56YaWYOe05r3GeDUMFRN8eOUdBY7osS/zxK+jqlzWlxOGJLrvs0QH5UPHSv0nqXAWF+7cSSxuZZ46VypYIls8a1rCvPi+1CAokMAgnp+mm5q+f9uGu7xYaBjhxPMbEtquFShEKbuZ8rzSy6ENjVtarHUJIptsjltA3FDimbSIyn9YKNvUeWm5o1ixpyHi91Amuewi18rN6iEDGjiDaEsLx1TsvAgITkDxA3fGdaNotLdEpTfXufBRR03fRjiNqSHLqPsJMGGpuOvAbAjAOxQbkQtixlBo6jJSjnWpWRwA==';*/
-                $datos['merchant_id'] = 'visanetgt_kalea';
-                $datos['Token'] = "U+dvnLRwAzURZh6LXETkf0qiT8ibGzEMyKexbgHA62+fzJkFEtC9CREEK0FMivmeyyVRElwiXHp4Ubej5bwiIFpuBfzZqVC3aBwLuTgO8QhMJHa+4q27yg8WyJfFwu5VbidXO7qGMkMpd5Gl1TRdaxFcJ2ahBXzjfMDLMlvbUSWA1PZJZ9MduNKmYDSpf07K56K5KYjMY9Z/ydfbnvvc24WdJOrCPygekmMCZPk7z8DlF2S0uD/2q8c2SUc67eOyyzOv0uY0wVXXPzQPvmLTjWnGmasy7Bx/hQfKs8P7GY8x648I+8q5972vpBDabsmuNHpkItyIr8yh3WR+V7jmVA==";
-                $datos['CybsEpay'] = 'cybersource';
-                $datos['expirationMonth'] = self::getmes($month);
-                $datos['expirationYear'] = substr($year,-2);
-                $datos['accountNumber'] = $cc_number;
-                $datos['cvv'] = $cvv;
-                $datos['monto'] = $monto;
-                $datos['vc'] = $vcc;
-                $datos['firstName'] = self::quitaracentos($firstName);
-                $datos['lastName'] = self::quitaracentos($lastname);
-                $datos['merchantReferenceCode'] = '0003';
-                $datos['currency'] = 'GTQ';
-                $datos['field10'] = 'WEB';
-                $datos['country'] = 'GT';
-                $datos['city'] = self::quitaracentos($ciudad);
-                $datos['state'] = self::quitaracentos($region);
-                $datos['street'] = self::quitaracentos($direccion);
-                $datos['postalCode'] = $postal;
-                $datos['email'] = self::quitaracentos($email);
-                //self::send_email(print_r($datos, true), 'julian.escobar@ipalmera.co' );
-                
-                try {
-                $response = $client->Authorization($datos);
-                } catch (Exception $ex) {
-                    $apikalea->registrarlogpayment("Error en el webservice visanet ".print_r($ex->getMessage(), true));
-                return false;
-                }
-                $doc = new \DOMDocument;
-                $doc->loadXML($client->__getLastResponse());
-                if ($doc->getElementsByTagName('responseCode')->item(0)->nodeValue == "100"){        
-                    $response = self::getresponsevisanet($client->__getLastResponse());
-                    self::send_emailvisanet($response, $monto,  $email);                
+
+                if($respuesta["response"]==1 && $respuesta["responsetext"]=="SUCCESS" && $respuesta["response_code"]==100){ 
+                    
+                    $response = array('nreferencia'=>$respuesta['transactionid'], 'nautorizacion'=>$respuesta['authcode']);                    
+                    self::send_emailcredomatic($response, $monto,  $email);                                           
                     $apikalea->registrarpago($request["no_transa_mov"],1,$monto,1,$monto,$response['nreferencia'],$response['nautorizacion'],$nombrecliente, $email);                   
                     $apikalea->enviarcopiatransaccion($response, $monto,  $email, $idkalea, $request["order"], $request["nit"], $direccion, "Contado", "-", "-");                    
-                    return ['transactionId' => $request["no_transa_mov"]];
-                } else {
-                    //self::send_email(print_r($client->__getLastResponse(), true), 'julian.escobar@ipalmera.co' );
-                    $reqlog = "Ped #".$request["order"]->getIncrementId(). " - Request - " .print_r($datos, true). "- Response -".$doc->getElementsByTagName('responseCode')->item(0)->nodeValue;
-                    $apikalea->registrarlogpayment($reqlog);
-                    return false;
-                } 
+                    return ['transactionId' => $request["no_transa_mov"]];            
+                }
+                else{
+                    $resp = isset($respuesta["responsetext"]) ? $respuesta["responsetext"] : "Error Desconocido";                    
+                    $apikalea->registrarlogpayment("Error en el webservice Credomatic Ped #".$request["order"]->getIncrementId()." - ".print_r($resp, true));
+                }             
+                
             } else {
                 return ['transactionId' => $request["no_transa_mov"]];
             }   
@@ -397,7 +364,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
             ->setTemplateIdentifier(12)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
             ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
             ->setTemplateVars($templateVars)
-            ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'magento_back@pa-phone.com'])           
+            ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'ventasenlinea@kalea.com.gt'])           
             ->addTo([$email])
             //->addTo(['sistemas@kalea.com.gt'])
             ->getTransport();
@@ -413,7 +380,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
         return $mes;
     }
-    public function send_emailvisanet($response, $monto, $email){
+    public function send_emailcredomatic($response, $monto, $email){
         $monto = number_format($monto, 0, ".", ",");      
         date_default_timezone_set('America/Guatemala');
         $magentoDate = date('m/d/Y h:i:s a');
@@ -431,7 +398,7 @@ class CredomaticMethod extends \Magento\Payment\Model\Method\AbstractMethod
             ->setTemplateIdentifier(12)//get temptate id in your create in backend to use variable in backend you should use this tpye format etc . {{var message}} for message  {{var order_no}} for order id
             ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1])
             ->setTemplateVars($templateVars)
-            ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'magento_back@pa-phone.com'])           
+            ->setFrom(['name' => 'Notificación Pago Éxitoso','email' => 'ventasenlinea@kalea.com.gt'])           
             ->addTo([$email])
             //->addTo(['sistemas@kalea.com.gt'])
             ->getTransport();
